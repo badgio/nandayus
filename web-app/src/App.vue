@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <!--
     <v-app-bar
       app
       color="primary"
@@ -36,21 +37,30 @@
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
     </v-app-bar>
-
-    <v-main>
-      <HelloWorld/>
-    </v-main>
+    -->
+    <Navbar />
+  	<v-container>
+      <router-view
+        class = "router"
+      >
+      </router-view>
+  	</v-container>
+    <Footer/>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import Navbar from './components/Navbar';
+import Home from './components/Home';
+import Footer from './components/Footer';
 
 export default {
   name: 'App',
 
   components: {
-    HelloWorld,
+    Navbar,
+    Home,
+    Footer
   },
 
   data: () => ({
@@ -58,3 +68,11 @@ export default {
   }),
 };
 </script>
+
+<style scoped>
+
+.router {
+  margin: 50px;
+}
+
+</style>
