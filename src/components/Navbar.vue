@@ -59,38 +59,30 @@
         <v-toolbar-title
         color = "dark"
         >
-            <router-link
-            to="/"
-            tag="span"
-            style="cursor: pointer"
-            >
-                <span
-                color = "#546E7A"
-                >
-                    HL7 Sender
-                </span>
-            </router-link>
+            <v-btn @click="signOut">Sign out</v-btn>
         </v-toolbar-title>
     </v-toolbar>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import firebase from "firebase";
 export default {
-    name : "Navbar",
+  name : "Navbar",
     data :() => ({
         menu : [
             {
-                title : "Registar Episódio",
-                link : "/episode"
+                title : "Sign-up",
+                link : "/signup"
             },
             {
-                title : "Efetuar Pedido",
-                link : "/request"
+                title : "Sign-in",
+                link : "/signin"
             },
             {
-                title : "Consultar Pedido",
-                link : "/consult"
+                title : "Consultar perfil",
+                link : "/profile"
             },
             {
                 title : "Alterar Pedido",
@@ -102,8 +94,29 @@ export default {
             }
         ]
     }),
-}
+  computed: {
+    ...mapGetters({
+// map `this.user` to `this.$store.getters.user`
+      user: "user"
+    })
+  },
+  methods: {
+    signOut() {
+      console.log("signouttt")
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.replace({
+            name: "Home"
+          });
+        });
+    }
+  }
+};
+
 </script>
+
 
 <style scoped>
 
