@@ -6,7 +6,7 @@
       class="footer white--text"
     >
         <span>
-            EC - Interoperabilidade Semântica
+            Badgio
         </span>
         <v-spacer />
         <span>
