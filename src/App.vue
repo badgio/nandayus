@@ -43,14 +43,16 @@ export default {
 }
 
 .router {
-  margin: 0px 50px 150px 50px;
-  width: max;
+  margin: 0px auto 50px;
+  width: 85%;
+  background-color: #fff;
 }
 
 .container {
-  max-width: 95%;
+  max-width: 100%;
   padding: 0;
   align-self: center;
+  background-color: #f9f9f9;
 }
 
 </style>

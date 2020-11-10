@@ -26,6 +26,7 @@
                                 type="text"
                                 id="name_input"
                                 name="name_input"
+                                v-model="place.name"
                             >
                         </div>
                     </div>
@@ -33,7 +34,7 @@
                         class = "grid-container-2"
                     >
                         <label
-                            for="postal_code_select"
+                            for="address_select"
                         >
                             Morada do Local:
                         </label>
@@ -41,8 +42,9 @@
                             <input
                                 class="input_textfield"
                                 type="text"
-                                id="postal_code_select"
-                                name="postal_code_select"
+                                id="address_select"
+                                name="address_select"
+                                v-model="place.address"
                             >
                         </div>
                     </div>
@@ -57,6 +59,7 @@
                         <select
                             name="type_select"
                             id="type_select"
+                            v-model="place.type"
                         >
                             <option
                                 v-for="type in types"
@@ -80,6 +83,7 @@
                             type="text"
                             id="postal_code_select"
                             name="postal_code_select"
+                            v-model="place.postal_code"
                         >
                     </div>
                     <div
@@ -95,6 +99,7 @@
                             type="text"
                             id="district_select"
                             name="district_select"
+                            v-model="place.district"
                         >
                     </div>
                     <div
@@ -108,6 +113,7 @@
                         <select
                             name="country_select"
                             id="country_select"
+                            v-model="place.country"
                         >
                             <option
                                 value=""
@@ -138,6 +144,7 @@
                             class = "desc_textarea"
                             :cols = "60"
                             :rows = "5"
+                            v-model="place.description"
                         ></textarea>
                     </div>
                     <br>
@@ -168,6 +175,7 @@
                                 type="url"
                                 id="site_name_input"
                                 name="site_name"
+                                v-model="place.website"
                             >
                         </div>
                     </div>
@@ -189,6 +197,7 @@
                                 type="url"
                                 id="fb_input"
                                 name="fb"
+                                v-model="place.social_networks.facebook"
                             >
                         </div>
                         <br>
@@ -206,6 +215,7 @@
                                     type="url"
                                     id="tw_input"
                                     name="tw"
+                                    v-model="place.social_networks.twitter"
                                 >
                             </div>
                         </div>
@@ -224,6 +234,7 @@
                                     type="url"
                                     id="insta_input"
                                     name="insta"
+                                    v-model="place.social_networks.instagram"
                                 >
                             </div>
                         </div>
@@ -253,6 +264,23 @@
         data: () => {
             return {
                 pageTitle: "New Location",
+                place_name: '',
+                place: {
+                    name: '',
+                    address: '',
+                    type: '',
+                    postal_code: '',
+                    district: '',
+                    country: '',
+                    description: '',
+                    image: '',
+                    website: '',
+                    social_networks: {
+                        facebook: '',
+                        instagram: '',
+                        twitter: '',
+                    }
+                },
                 types: [
                     {
                         name: 'Atração Turística'
@@ -283,7 +311,103 @@
                     },
                     {
                         name: 'Espanha'
-                    }
+                    },
+                    {
+                        name: 'Portugal'
+                    },
+                    {
+                        name: 'Espanha'
+                    },
+                    {
+                        name: 'Portugal'
+                    },
+                    {
+                        name: 'Espanha'
+                    },
+                    {
+                        name: 'Portugal'
+                    },
+                    {
+                        name: 'Espanha'
+                    },
+                    {
+                        name: 'Portugal'
+                    },
+                    {
+                        name: 'Espanha'
+                    },
+                    {
+                        name: 'Portugal'
+                    },
+                    {
+                        name: 'Espanha'
+                    },
+                    {
+                        name: 'Portugal'
+                    },
+                    {
+                        name: 'Espanha'
+                    },
+                    {
+                        name: 'Portugal'
+                    },
+                    {
+                        name: 'Espanha'
+                    },
+                    {
+                        name: 'Portugal'
+                    },
+                    {
+                        name: 'Espanha'
+                    },
+                    {
+                        name: 'Portugal'
+                    },
+                    {
+                        name: 'Espanha'
+                    },
+                    {
+                        name: 'Portugal'
+                    },
+                    {
+                        name: 'Espanha'
+                    },
+                    {
+                        name: 'Portugal'
+                    },
+                    {
+                        name: 'Espanha'
+                    },
+                    {
+                        name: 'Portugal'
+                    },
+                    {
+                        name: 'Espanha'
+                    },
+                    {
+                        name: 'Portugal'
+                    },
+                    {
+                        name: 'Espanha'
+                    },
+                    {
+                        name: 'Portugal'
+                    },
+                    {
+                        name: 'Espanha'
+                    },
+                    {
+                        name: 'Portugal'
+                    },
+                    {
+                        name: 'Espanha'
+                    },
+                    {
+                        name: 'Portugal'
+                    },
+                    {
+                        name: 'Espanha'
+                    },
                 ]
             }
         }
@@ -306,7 +430,7 @@ h1 {
     border: 1px solid #999;
     border-radius: 5px;
     font-size: 18px;
-    margin: 0 auto;
+    margin: 15px auto 0px;
 }
 
 .form_button {
@@ -336,6 +460,7 @@ select {
     color: black;
     box-shadow: 4px 4px #ccc;
     font-size: 18px;
+    overflow: auto;
 }
 
 .grid-container {
