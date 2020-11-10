@@ -23,7 +23,11 @@ const routes = [
     name: 'profile',
     component: () => import('../components/Profile.vue')
   },
-
+  {
+    path: '/newlocation',
+    name: 'newlocation',
+    component: () => import('../components/NewLocation.vue')
+  }
 ]
 
 const router = new VueRouter({
