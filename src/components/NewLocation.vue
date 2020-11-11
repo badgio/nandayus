@@ -5,8 +5,10 @@
         <h1>
             {{pageTitle}}
         </h1>
-        <v-form
-            class = "form"
+        <form
+            class="form"
+            id="locationForm"
+            v-on:submit.prevent="submitForm"
         >
             <div
                 class="form_text"
@@ -17,7 +19,7 @@
                     <label
                         for="name_input"
                     >
-                        Nome do Local:
+                        Name*:
                     </label>
                     <div>
                         <input
@@ -25,7 +27,8 @@
                             type="text"
                             id="name_input"
                             name="name_input"
-                            v-model="place.name"
+                            required
+                            v-model="location.name"
                         >
                     </div>
                 </div>
@@ -35,7 +38,7 @@
                     <label
                         for="address_select"
                     >
-                        Morada do Local:
+                        Address*:
                     </label>
                     <div>
                         <input
@@ -43,7 +46,8 @@
                             type="text"
                             id="address_select"
                             name="address_select"
-                            v-model="place.address"
+                            required
+                            v-model="location.address"
                         >
                     </div>
                 </div>
@@ -53,19 +57,20 @@
                     <label
                         for="type_select"
                     >
-                        Escolha um Tipo de Local:
+                        Location Type*:
                     </label>
                     <select
                         name="type_select"
                         id="type_select"
-                        v-model="place.type"
+                        required
+                        v-model="location.type"
                     >
                         <option
                             value=""
                             selected
                             disabled
                         >
-                            Tipo de Local
+                            Location Type
                         </option>
                         <option
                             v-for="type in types"
@@ -82,14 +87,15 @@
                     <label
                         for="postal_code_select"
                     >
-                        Indique o Código Postal:
+                        Postal Code*:
                     </label>
                     <input
                         class="input_textfield"
                         type="text"
                         id="postal_code_select"
                         name="postal_code_select"
-                        v-model="place.postal_code"
+                        required
+                        v-model="location.postal_code"
                     >
                 </div>
                 <div
@@ -98,14 +104,15 @@
                     <label
                         for="district_select"
                     >
-                        Indique o Distrito:
+                        District*:
                     </label>
                     <input
                         class="input_textfield"
                         type="text"
                         id="district_select"
                         name="district_select"
-                        v-model="place.district"
+                        required
+                        v-model="location.district"
                     >
                 </div>
                 <div
@@ -114,19 +121,20 @@
                     <label
                         for="country_select"
                     >
-                        Escolha um País:
+                        Country*:
                     </label>
                     <select
                         name="country_select"
                         id="country_select"
-                        v-model="place.country"
+                        required
+                        v-model="location.country"
                     >
                         <option
                             value=""
                             selected
                             disabled
                         >
-                            País
+                            Country
                         </option>
                         <option
                             v-for="country in countries"
@@ -142,7 +150,7 @@
                     <label
                         for="description_1"
                     >
-                        Descrição:
+                        Description*:
                     </label>
                     <textarea
                         name="description"
@@ -150,7 +158,8 @@
                         class = "desc_textarea"
                         :cols = "60"
                         :rows = "5"
-                        v-model="place.description"
+                        required
+                        v-model="location.description"
                     ></textarea>
                 </div>
                 <br>
@@ -163,12 +172,12 @@
                         <label
                             for="myFile"
                         >
-                            Imagem:
+                            Image*:
                         </label>
                         <br>
                         <img
-                            v-if="this.place.image"
-                            :src="this.place.image"
+                            v-if="this.location.image"
+                            :src="this.location.image"
                             width=320px
                             height=270px
                         />
@@ -177,6 +186,7 @@
                             type="file"
                             id="myFile"
                             name="filename"
+                            required
                             v-on:change="onFileChange"
                         >
                     </div>
@@ -185,24 +195,25 @@
                 <div
                     class = "grid-container-2"
                 >
-                    <div>
-                        Site:
-                    </div>
+                    <h4>
+                        Website:
+                    </h4>
                     <div>
                         <input
                             class="input_textfield"
                             type="url"
                             id="site_name_input"
                             name="site_name"
-                            v-model="place.website"
+                            v-model="location.website"
                         >
                     </div>
                 </div>
                 <br>
                 <div>
-                    <p>
-                        Associar redes sociais:
-                    </p>
+                    <h4>
+                        Social Networks:
+                    </h4>
+                    <br>
                     <div
                         class = "grid-container-2"
                     >
@@ -216,7 +227,7 @@
                             type="url"
                             id="fb_input"
                             name="fb"
-                            v-model="place.social_networks.facebook"
+                            v-model="location.social_networks.facebook"
                         >
                     </div>
                     <br>
@@ -234,7 +245,7 @@
                                 type="url"
                                 id="tw_input"
                                 name="tw"
-                                v-model="place.social_networks.twitter"
+                                v-model="location.social_networks.twitter"
                             >
                         </div>
                     </div>
@@ -253,23 +264,26 @@
                                 type="url"
                                 id="insta_input"
                                 name="insta"
-                                v-model="place.social_networks.instagram"
+                                v-model="location.social_networks.instagram"
                             >
                         </div>
                     </div>
                 </div>
             </div>
+            <p>
+                {{obligatory_warning['en']}}
+            </p>
             <div
                 class="form_button"
             >
                 <button
                     class="submit_button"
-                    type="button"
+                    type="submit"
                 >
                     Submit Place
                 </button>
             </div>
-        </v-form>
+        </form>
     </div>
 </template>
 
@@ -282,8 +296,7 @@
         data: () => {
             return {
                 pageTitle: "New Location",
-                place_name: '',
-                place: {
+                location: {
                     name: '',
                     address: '',
                     type: '',
@@ -426,27 +439,20 @@
                     {
                         name: 'Espanha'
                     },
-                ]
+                ],
+                obligatory_warning: {
+                   pt: 'Todos os campos assinalados com * são de preenchimento obrigatório.',
+                   en: 'All fields signaled by * are required.'
+                },
             }
         },
         methods: {
-            readURL(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-                    
-                    reader.onload = function (e) {
-                        $('#imgPreview').attr('src', e.target.result);
-                    }
-                    
-                    reader.readAsDataURL(input.files[0]);
-                }
-            },
-            imgPreviewFunc(event) {
-                readUrl(event);
+            submitForm(e) {
+                console.log('All gucci')
             },
             onFileChange(e) {
                 const file = e.target.files[0];
-                this.place.image = URL.createObjectURL(file);
+                this.location.image = URL.createObjectURL(file);
             }
         }
     }
@@ -475,6 +481,7 @@ h1 {
 
 label {
     text-align: left;
+    font-weight: bold;
 }
 
 select {
