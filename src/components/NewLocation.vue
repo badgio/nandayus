@@ -19,7 +19,7 @@
                     <label
                         for="name_input"
                     >
-                        Nome do Local*:
+                        Name*:
                     </label>
                     <div>
                         <input
@@ -28,7 +28,7 @@
                             id="name_input"
                             name="name_input"
                             required
-                            v-model="place.name"
+                            v-model="location.name"
                         >
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                     <label
                         for="address_select"
                     >
-                        Morada do Local*:
+                        Address*:
                     </label>
                     <div>
                         <input
@@ -47,7 +47,7 @@
                             id="address_select"
                             name="address_select"
                             required
-                            v-model="place.address"
+                            v-model="location.address"
                         >
                     </div>
                 </div>
@@ -57,20 +57,20 @@
                     <label
                         for="type_select"
                     >
-                        Escolha um Tipo de Local*:
+                        Location Type*:
                     </label>
                     <select
                         name="type_select"
                         id="type_select"
                         required
-                        v-model="place.type"
+                        v-model="location.type"
                     >
                         <option
                             value=""
                             selected
                             disabled
                         >
-                            Tipo de Local
+                            Location Type
                         </option>
                         <option
                             v-for="type in types"
@@ -87,7 +87,7 @@
                     <label
                         for="postal_code_select"
                     >
-                        Indique o Código Postal*:
+                        Postal Code*:
                     </label>
                     <input
                         class="input_textfield"
@@ -95,7 +95,7 @@
                         id="postal_code_select"
                         name="postal_code_select"
                         required
-                        v-model="place.postal_code"
+                        v-model="location.postal_code"
                     >
                 </div>
                 <div
@@ -104,7 +104,7 @@
                     <label
                         for="district_select"
                     >
-                        Indique o Distrito*:
+                        District*:
                     </label>
                     <input
                         class="input_textfield"
@@ -112,7 +112,7 @@
                         id="district_select"
                         name="district_select"
                         required
-                        v-model="place.district"
+                        v-model="location.district"
                     >
                 </div>
                 <div
@@ -121,20 +121,20 @@
                     <label
                         for="country_select"
                     >
-                        Escolha um País*:
+                        Country*:
                     </label>
                     <select
                         name="country_select"
                         id="country_select"
                         required
-                        v-model="place.country"
+                        v-model="location.country"
                     >
                         <option
                             value=""
                             selected
                             disabled
                         >
-                            País
+                            Country
                         </option>
                         <option
                             v-for="country in countries"
@@ -150,7 +150,7 @@
                     <label
                         for="description_1"
                     >
-                        Descrição*:
+                        Description*:
                     </label>
                     <textarea
                         name="description"
@@ -159,7 +159,7 @@
                         :cols = "60"
                         :rows = "5"
                         required
-                        v-model="place.description"
+                        v-model="location.description"
                     ></textarea>
                 </div>
                 <br>
@@ -172,12 +172,12 @@
                         <label
                             for="myFile"
                         >
-                            Imagem*:
+                            Image*:
                         </label>
                         <br>
                         <img
-                            v-if="this.place.image"
-                            :src="this.place.image"
+                            v-if="this.location.image"
+                            :src="this.location.image"
                             width=320px
                             height=270px
                         />
@@ -196,7 +196,7 @@
                     class = "grid-container-2"
                 >
                     <h4>
-                        Site:
+                        Website:
                     </h4>
                     <div>
                         <input
@@ -204,14 +204,14 @@
                             type="url"
                             id="site_name_input"
                             name="site_name"
-                            v-model="place.website"
+                            v-model="location.website"
                         >
                     </div>
                 </div>
                 <br>
                 <div>
                     <h4>
-                        Associar redes sociais:
+                        Social Networks:
                     </h4>
                     <br>
                     <div
@@ -227,7 +227,7 @@
                             type="url"
                             id="fb_input"
                             name="fb"
-                            v-model="place.social_networks.facebook"
+                            v-model="location.social_networks.facebook"
                         >
                     </div>
                     <br>
@@ -245,7 +245,7 @@
                                 type="url"
                                 id="tw_input"
                                 name="tw"
-                                v-model="place.social_networks.twitter"
+                                v-model="location.social_networks.twitter"
                             >
                         </div>
                     </div>
@@ -264,14 +264,14 @@
                                 type="url"
                                 id="insta_input"
                                 name="insta"
-                                v-model="place.social_networks.instagram"
+                                v-model="location.social_networks.instagram"
                             >
                         </div>
                     </div>
                 </div>
             </div>
             <p>
-                {{obligatory_warning}}
+                {{obligatory_warning['en']}}
             </p>
             <div
                 class="form_button"
@@ -296,8 +296,7 @@
         data: () => {
             return {
                 pageTitle: "New Location",
-                place_name: '',
-                place: {
+                location: {
                     name: '',
                     address: '',
                     type: '',
@@ -441,7 +440,10 @@
                         name: 'Espanha'
                     },
                 ],
-                obligatory_warning: 'Todos os campos assinalados com * são de preenchimento obrigatório.'
+                obligatory_warning: {
+                   pt: 'Todos os campos assinalados com * são de preenchimento obrigatório.',
+                   en: 'All fields signaled by * are required.'
+                },
             }
         },
         methods: {
@@ -450,7 +452,7 @@
             },
             onFileChange(e) {
                 const file = e.target.files[0];
-                this.place.image = URL.createObjectURL(file);
+                this.location.image = URL.createObjectURL(file);
             }
         }
     }

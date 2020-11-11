@@ -73,24 +73,12 @@ export default {
     data :() => ({
         menu : [
             {
-                title : "Sign-up",
+                title : "Sign Up",
                 link : "/signup"
             },
             {
-                title : "Sign-in",
+                title : "Sign In",
                 link : "/signin"
-            },
-            {
-                title : "Consultar perfil",
-                link : "/profile"
-            },
-            {
-                title : "Alterar Pedido",
-                link : "/change"
-            },
-            {
-                title : "Cancelar Pedido",
-                link : "/cancel"
             },
             {
                 title : "Locations",
