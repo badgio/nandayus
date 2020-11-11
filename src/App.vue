@@ -1,7 +1,11 @@
 <template>
-  <v-app>
+  <v-app
+    class = "app"
+  >
     <Navbar />
-  	<v-container>
+  	<v-container
+      class = "container"
+    >
       <router-view
         class = "router"
       >
@@ -33,8 +37,22 @@ export default {
 
 <style scoped>
 
+.app {
+  align-items: center;
+  font-family: 'Roboto';
+}
+
 .router {
-  margin: 50px;
+  margin: 0px auto 50px;
+  width: 85%;
+  background-color: #fff;
+}
+
+.container {
+  max-width: 100%;
+  padding: 0;
+  align-self: center;
+  background-color: #f9f9f9;
 }
 
 </style>
