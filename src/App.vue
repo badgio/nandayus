@@ -43,12 +43,22 @@ export default {
 }
 
 .router {
-  margin: 0px auto 50px;
+  display: flex;
+  flex-flow: column;
+  flex: 1 1 auto;
+  margin: 15px auto 50px;
   width: 85%;
-  background-color: #fff;
+  background-color: #fafafa;
+  border: 1px solid #999;
+  border-radius: 5px;
+  font-size: 18px;
 }
 
 .container {
+  display: flex;
+  flex-flow: column;
+  flex: 1 1 auto;
+  height: 100%;
   max-width: 100%;
   padding: 0;
   align-self: center;

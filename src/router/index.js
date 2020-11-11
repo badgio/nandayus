@@ -27,6 +27,11 @@ const routes = [
     path: '/newlocation',
     name: 'newlocation',
     component: () => import('../components/NewLocation.vue')
+  },
+  {
+    path: '/locations',
+    name: 'locations',
+    component: () => import('../components/Locations.vue')
   }
 ]
 
