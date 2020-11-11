@@ -91,6 +91,14 @@ export default {
             {
                 title : "Cancelar Pedido",
                 link : "/cancel"
+            },
+            {
+                title : "Locations",
+                link : "/locations"
+            },
+            {
+                title : "Rewards",
+                link : "/rewards"
             }
         ]
     }),

@@ -61,6 +61,13 @@
                         v-model="place.type"
                     >
                         <option
+                            value=""
+                            selected
+                            disabled
+                        >
+                            Tipo de Local
+                        </option>
+                        <option
                             v-for="type in types"
                             :key=type.index
                             :value="type.name"
@@ -150,16 +157,29 @@
                 <div
                     class="grid-container-2"
                 >
-                    <label
-                        for="myFile"
+                    <div
+                        id="imgPreview"
                     >
-                        Imagem:
-                    </label>
-                    <input
-                        type="file"
-                        id="myFile"
-                        name="filename"
-                    >
+                        <label
+                            for="myFile"
+                        >
+                            Imagem:
+                        </label>
+                        <br>
+                        <img
+                            v-if="this.place.image"
+                            :src="this.place.image"
+                            width=320px
+                            height=270px
+                        />
+                        <br>
+                        <input
+                            type="file"
+                            id="myFile"
+                            name="filename"
+                            v-on:change="onFileChange"
+                        >
+                    </div>
                 </div>
                 <br>
                 <div
@@ -408,6 +428,26 @@
                     },
                 ]
             }
+        },
+        methods: {
+            readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    
+                    reader.onload = function (e) {
+                        $('#imgPreview').attr('src', e.target.result);
+                    }
+                    
+                    reader.readAsDataURL(input.files[0]);
+                }
+            },
+            imgPreviewFunc(event) {
+                readUrl(event);
+            },
+            onFileChange(e) {
+                const file = e.target.files[0];
+                this.place.image = URL.createObjectURL(file);
+            }
         }
     }
 </script>
@@ -448,6 +488,17 @@ select {
     box-shadow: 4px 4px #ccc;
     font-size: 18px;
     overflow: auto;
+}
+
+#imgPreview {
+    margin: 0 auto 0;
+    font-weight: bold;
+    text-align: center;
+}
+
+#imgPreview img {
+    border: 2px solid #0a4870;
+    border-radius: 5px;
 }
 
 .grid-container {
