@@ -5,8 +5,10 @@
         <h1>
             {{pageTitle}}
         </h1>
-        <v-form
-            class = "form"
+        <form
+            class="form"
+            id="locationForm"
+            v-on:submit.prevent="submitForm"
         >
             <div
                 class="form_text"
@@ -17,7 +19,7 @@
                     <label
                         for="name_input"
                     >
-                        Nome do Local:
+                        Nome do Local*:
                     </label>
                     <div>
                         <input
@@ -25,6 +27,7 @@
                             type="text"
                             id="name_input"
                             name="name_input"
+                            required
                             v-model="place.name"
                         >
                     </div>
@@ -35,7 +38,7 @@
                     <label
                         for="address_select"
                     >
-                        Morada do Local:
+                        Morada do Local*:
                     </label>
                     <div>
                         <input
@@ -43,6 +46,7 @@
                             type="text"
                             id="address_select"
                             name="address_select"
+                            required
                             v-model="place.address"
                         >
                     </div>
@@ -53,11 +57,12 @@
                     <label
                         for="type_select"
                     >
-                        Escolha um Tipo de Local:
+                        Escolha um Tipo de Local*:
                     </label>
                     <select
                         name="type_select"
                         id="type_select"
+                        required
                         v-model="place.type"
                     >
                         <option
@@ -82,13 +87,14 @@
                     <label
                         for="postal_code_select"
                     >
-                        Indique o Código Postal:
+                        Indique o Código Postal*:
                     </label>
                     <input
                         class="input_textfield"
                         type="text"
                         id="postal_code_select"
                         name="postal_code_select"
+                        required
                         v-model="place.postal_code"
                     >
                 </div>
@@ -98,13 +104,14 @@
                     <label
                         for="district_select"
                     >
-                        Indique o Distrito:
+                        Indique o Distrito*:
                     </label>
                     <input
                         class="input_textfield"
                         type="text"
                         id="district_select"
                         name="district_select"
+                        required
                         v-model="place.district"
                     >
                 </div>
@@ -114,11 +121,12 @@
                     <label
                         for="country_select"
                     >
-                        Escolha um País:
+                        Escolha um País*:
                     </label>
                     <select
                         name="country_select"
                         id="country_select"
+                        required
                         v-model="place.country"
                     >
                         <option
@@ -142,7 +150,7 @@
                     <label
                         for="description_1"
                     >
-                        Descrição:
+                        Descrição*:
                     </label>
                     <textarea
                         name="description"
@@ -150,6 +158,7 @@
                         class = "desc_textarea"
                         :cols = "60"
                         :rows = "5"
+                        required
                         v-model="place.description"
                     ></textarea>
                 </div>
@@ -163,7 +172,7 @@
                         <label
                             for="myFile"
                         >
-                            Imagem:
+                            Imagem*:
                         </label>
                         <br>
                         <img
@@ -177,6 +186,7 @@
                             type="file"
                             id="myFile"
                             name="filename"
+                            required
                             v-on:change="onFileChange"
                         >
                     </div>
@@ -185,9 +195,9 @@
                 <div
                     class = "grid-container-2"
                 >
-                    <div>
+                    <h4>
                         Site:
-                    </div>
+                    </h4>
                     <div>
                         <input
                             class="input_textfield"
@@ -200,9 +210,10 @@
                 </div>
                 <br>
                 <div>
-                    <p>
+                    <h4>
                         Associar redes sociais:
-                    </p>
+                    </h4>
+                    <br>
                     <div
                         class = "grid-container-2"
                     >
@@ -259,17 +270,20 @@
                     </div>
                 </div>
             </div>
+            <p>
+                {{obligatory_warning}}
+            </p>
             <div
                 class="form_button"
             >
                 <button
                     class="submit_button"
-                    type="button"
+                    type="submit"
                 >
                     Submit Place
                 </button>
             </div>
-        </v-form>
+        </form>
     </div>
 </template>
 
@@ -426,23 +440,13 @@
                     {
                         name: 'Espanha'
                     },
-                ]
+                ],
+                obligatory_warning: 'Todos os campos assinalados com * são de preenchimento obrigatório.'
             }
         },
         methods: {
-            readURL(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-                    
-                    reader.onload = function (e) {
-                        $('#imgPreview').attr('src', e.target.result);
-                    }
-                    
-                    reader.readAsDataURL(input.files[0]);
-                }
-            },
-            imgPreviewFunc(event) {
-                readUrl(event);
+            submitForm(e) {
+                console.log('All gucci')
             },
             onFileChange(e) {
                 const file = e.target.files[0];
@@ -475,6 +479,7 @@ h1 {
 
 label {
     text-align: left;
+    font-weight: bold;
 }
 
 select {
