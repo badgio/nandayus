@@ -174,14 +174,12 @@
                         >
                             Image*:
                         </label>
-                        <br>
                         <img
                             v-if="this.location.image"
                             :src="this.location.image"
                             width=320px
                             height=270px
                         />
-                        <br>
                         <input
                             type="file"
                             id="myFile"
