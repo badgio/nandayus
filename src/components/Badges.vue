@@ -1,0 +1,105 @@
+<template>
+    <div>
+        <h1>
+            {{pageTitle}}
+        </h1>
+        <router-link
+            class="router_link"
+            to="/newbadge"
+            tag="span"
+        >
+            <button
+                class="submit_button"
+            >
+                {{newButton}}
+            </button>
+        </router-link>
+        <hr>
+        <TemplateCard
+            :objects="this.badges"
+        />
+    </div>
+</template>
+
+<script>
+ 
+    import TemplateCard from './TemplateCard.vue';
+ 
+    export default {
+        name: 'Badge',
+        components: {
+            TemplateCard,
+        },
+        data: () => {
+            return {
+                pageTitle: 'Badges',
+                newButton: 'Create New Badge',
+                badges: [
+                    {
+                        name: 'Badge #1',
+                        url: '/newbadge',
+                        image_link: "https://media.istockphoto.com/photos/empty-coffee-shop-picture-id1154756901",
+                    },
+                    {
+                        name: 'Badge #2',
+                        url: '/newbadge',
+                        image_link: "https://media.istockphoto.com/photos/this-cafes-got-a-little-something-for-everyone-picture-id520497828",
+                    },
+                    {
+                        name: 'Badge #3',
+                        url: '/newbadge',
+                        image_link: "https://media.istockphoto.com/photos/old-church-picture-id816378880",
+                    },
+                    {
+                        name: 'Badge #4',
+                        url: '/newbadge',
+                        image_link: "https://images.pexels.com/photos/137038/pexels-photo-137038.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+                    },
+                    {
+                        name: 'Badge #5',
+                        url: '/newbadge',
+                        image_link: "https://i.redd.it/lefp60p4bky51.jpg",
+                    },
+                    {
+                        name: 'Badge Badge Badge Badge Badge #6',
+                        url: '/newbadge',
+                        image_link: "https://i.redd.it/8f8ync5fkhy51.jpg",
+                    },
+                ]
+            }
+        }
+    }
+</script>
+
+<style>
+
+template {
+    align-content: center;
+    text-align: left;
+}
+
+h1 {
+  padding-top : 25px;
+  margin : 0 auto 0;
+  color: #0a4870;
+  font-weight: bold;
+}
+
+.router_link {
+    text-align: center;
+}
+
+.submit_button {
+    border: 1px solid #0a4870;
+    border-radius: 5px;
+    background-color: #F0F8FF;
+    color: #0a4870;
+    text-decoration: none;
+    font-size: 16px;
+    width: 175px;
+    height: 50px;
+    margin: 10px auto 20px;
+    cursor: pointer;
+}
+
+</style>

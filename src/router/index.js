@@ -24,6 +24,16 @@ const routes = [
     component: () => import('../components/Profile.vue')
   },
   {
+    path: '/badges',
+    name: 'badges',
+    component: () => import('../components/Badges.vue')
+  },
+  {
+    path: '/newbadge',
+    name: 'newbadge',
+    component: () => import('../components/NewBadge.vue')
+  },
+  {
     path: '/newlocation',
     name: 'newlocation',
     component: () => import('../components/NewLocation.vue')
