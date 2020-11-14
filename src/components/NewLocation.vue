@@ -450,6 +450,7 @@
         },
         methods: {
             submitForm(e) {
+                var URL = '';
                 console.log('All gucci')
                 let data = new FormData();
                 data.append('image', this.location.image);
