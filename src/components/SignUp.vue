@@ -1,46 +1,96 @@
 <template>
-  <v-container>
-    <v-layout row>
-      <v-flex xs12 sm6 offset-sm3>
-        <v-card>
-          <v-card-text>
-            <v-container>
-              <form @submit.prevent="submit">
-                <v-layout row>
-                  <v-flex xs12>
-                    <v-text-field
-                      name="email"
-                      label="Mail"
-                      id="email"
-                      v-model="form.email"
-                      type="email"
-                      required></v-text-field>
-                  </v-flex>
-                </v-layout>
-                <v-layout row>
-                  <v-flex xs12>
-                    <v-text-field
-                      name="password"
-                      label="Password"
-                      id="password"
-                      v-model="form.password"
-                      type="password"
-                      required></v-text-field>
-                  </v-flex>
-                </v-layout>
-                <v-layout row>
-                  <v-flex xs12>
-                    <v-btn type="submit">Sign up</v-btn>
-                  </v-flex>
-                </v-layout>
-              </form>
-            </v-container>
-          </v-card-text>
-        </v-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
+  <div class="login-box">
+    <h2>Login</h2>
+    <form @submit.prevent="submit">
+      <div class="user-box">
+        <input type="text" name="email" required="" v-model="form.email">
+        <label>Email</label>
+      </div>
+      <div class="user-box">
+        <input type="password" name="password" required="" v-model="form.password">
+        <label>Password</label>
+      </div>
+      <div>
+        <button class="submit_button">
+                Sign Up</button>
+      </div>
+    </form>
+  </div>
 </template>
+
+<style>
+html {
+  height: 100%;
+}
+
+.login-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  padding: 40px;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+.login-box h2 {
+  margin: 0 0 30px;
+  padding: 0;
+  color: #0a4870;
+  text-align: center;
+}
+
+.login-box .user-box {
+  position: relative;
+}
+
+.login-box .user-box input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #0a4870;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #0a4870;
+  outline: none;
+  background: transparent;
+}
+.login-box .user-box label {
+  position: absolute;
+  top:0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #0a4870;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.login-box .user-box input:focus ~ label,
+.login-box .user-box input:valid ~ label {
+  top: -20px;
+  left: 0;
+  color: #03e9f4;
+  font-size: 12px;
+}
+
+
+.submit_button {
+    border: 1px solid #0a4870;
+    border-radius: 5px;
+    background-color: #F0F8FF;
+    color: #0a4870;
+    text-decoration: none;
+    font-size: 16px;
+    width: 175px;
+    height: 50px;
+    margin: 10px auto 20px;
+    cursor: pointer;
+    text-align: center;
+}
+
+</style>
 
 
 <script>
@@ -58,6 +108,7 @@ export default {
   },
   methods: {
     submit() {
+      console.log("signupppp")
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.form.email, this.form.password)

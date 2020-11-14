@@ -81,13 +81,13 @@ export default {
                 link : "/signin"
             },
             {
+                title : "Badges",
+                link : "/badges"
+            },
+            {
                 title : "Locations",
                 link : "/locations"
             },
-            {
-                title : "Rewards",
-                link : "/rewards"
-            }
         ]
     }),
   computed: {
@@ -98,11 +98,12 @@ export default {
   },
   methods: {
     signOut() {
-      console.log("signouttt")
+      console.log("acedendo firebase")
       firebase
         .auth()
         .signOut()
         .then(() => {
+          console.log("log out")
           this.$router.replace({
             name: "Home"
           });
