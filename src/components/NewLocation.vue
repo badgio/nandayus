@@ -38,12 +38,12 @@
                     Map*:
                 </label>
                 <p>
-                    Point your location on the map, double clicking it. Please, assure that you are as precise as possible, as that location defines where your location will be shown on Badgio.
+                    {{mapAdvisory['en']}}
                 </p>
                 <p
                     v-if="location.position.lattitude && location.position.longitude"
                 >
-                    Current location's Lattitude: {{location.position.lattitude.toFixed(3)}} and Longitude: {{location.position.longitude.toFixed(3)}}
+                    {{curr_lattitude['en']}} {{this.location.position.lattitude.toFixed(3)}} {{curr_longitude['en']}} {{this.location.position.longitude.toFixed(3)}}
                 </p>
                 <div
                     class="map_container"
@@ -347,6 +347,18 @@
         data: () => {
             return {
                 pageTitle: "New Location",
+                mapAdvisory: {
+                    en: 'Point your location on the map, double clicking it. Assure that you are as precise as possible, as that location defines where your location will be shown on Badgio.',
+                    pt: 'Assinale a localização no mapa, através de um duplo clique. Assegure-se que é o mais preciso possível, uma vez que a localização que assinalar definirá onde esta será apresentada no Badgio.'
+                },
+                curr_lattitude: {
+                    en: 'Current location\'s Lattitude: ',
+                    pt: 'Localização atual. Latitude: '
+                },
+                curr_longitude: {
+                    en: ' & Longitude: ',
+                    pt: ' & Longitude: '
+                },
                 location: {
                     name: '',
                     address: '',
@@ -393,6 +405,9 @@
                     },
                     {
                         name: 'Schweiz'
+                    },
+                    {
+                        name: 'Italia'
                     },
                     {
                         name: 'United Kingdom'
@@ -535,6 +550,8 @@ p {
     height: 500px;
     width: 85%;
     margin: 20px auto 20px;
+    border: 2px solid #0a4870;
+    border-radius: 5px;
 }
 
 label {
