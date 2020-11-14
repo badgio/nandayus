@@ -375,28 +375,30 @@
                         name: 'Estabelecimento Comercial'
                     }
                 ],
-                postal_codes : [
-                    {
-                        number: '4710-340'
-                    },
-                    {
-                        number: '9000-276'
-                    }
-                ],
-                districts: [
-                    {
-                        name: 'Braga'
-                    },
-                    {
-                        name: 'Região Autónoma da Madeira'
-                    }
-                ],
                 countries: [
                     {
                         name: 'Portugal'
                     },
                     {
-                        name: 'Espanha'
+                        name: 'España'
+                    },
+                    {
+                        name: 'France'
+                    },
+                    {
+                        name: 'Deutschland'
+                    },
+                    {
+                        name: 'Oesterreich'
+                    },
+                    {
+                        name: 'Schweiz'
+                    },
+                    {
+                        name: 'United Kingdom'
+                    },
+                    {
+                        name: 'Ireland'
                     },
                 ],
                 obligatory_warning: {
@@ -405,7 +407,7 @@
                 },
                 map: {
                     zoom: 3,
-                    center: latLng(41.55, -8.42),
+                    center: latLng(41.55, -8.42), // Braga
                     url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
                     showMap: true,
