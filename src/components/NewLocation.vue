@@ -32,6 +32,45 @@
                         >
                     </div>
                 </div>
+                <label
+                    for="map"
+                >
+                    Map*:
+                </label>
+                <p>
+                    Point your location on the map, double clicking it. Please, assure that you are as precise as possible, as that location defines where your location will be shown on Badgio.
+                </p>
+                <p
+                    v-if="location.position.lattitude && location.position.longitude"
+                >
+                    Current location's Lattitude: {{location.position.lattitude.toFixed(3)}} and Longitude: {{location.position.longitude.toFixed(3)}}
+                </p>
+                <div
+                    class="map_container"
+                >
+                    <l-map
+                        id="map"
+                        v-if="map.showMap"
+                        :zoom="map.zoom"
+                        :center="map.center"
+                        :options="map.options"
+                        v-on:dblclick="addMarker"
+                    >
+                        <v-geosearch
+                            :options="map.geosearchOptions"
+                        >
+                        </v-geosearch>
+                        <l-tile-layer
+                            :url="map.url"
+                            :attribution="map.attribution"
+                        />
+                        <l-marker
+                            v-if="location.position.lattitude && location.position.longitude"
+                            :lat-lng="[location.position.lattitude, location.position.longitude]"
+                        >
+                        </l-marker>
+                    </l-map>
+                </div>
                 <div
                     class = "grid-container-2"
                 >
@@ -290,10 +329,20 @@
 <script>
     
     import axios from 'axios';
+    import { latLng } from "leaflet";
+    import { LMap, LTileLayer, LMarker, LPopup, LTooltip } from "vue2-leaflet";
+    import { OpenStreetMapProvider } from 'leaflet-geosearch';
+    import VGeosearch from 'vue2-leaflet-geosearch';
 
     export default {
         name : "NewLocation",
         components: {
+            LMap,
+            LTileLayer,
+            LMarker,
+            LPopup,
+            LTooltip,
+            VGeosearch,
         },
         data: () => {
             return {
@@ -301,6 +350,10 @@
                 location: {
                     name: '',
                     address: '',
+                    position: {
+                        lattitude: null,
+                        longitude: null
+                    },
                     type: '',
                     postal_code: '',
                     district: '',
@@ -345,106 +398,29 @@
                     {
                         name: 'Espanha'
                     },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
                 ],
                 obligatory_warning: {
                    pt: 'Todos os campos assinalados com * são de preenchimento obrigatório.',
                    en: 'All fields signaled by * are required.'
+                },
+                map: {
+                    zoom: 3,
+                    center: latLng(41.55, -8.42),
+                    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+                    showMap: true,
+                    geosearchOptions: {
+                        provider: new OpenStreetMapProvider(),
+                        style: 'button',
+                        position: 'topleft',
+                        showMarker: true,
+                        maxSuggestions: 5,
+                        animateZoom: true,
+                        updateMap: true,
+                        autoClose: true,
+                        autoComplete: true,
+                        autoCompleteDelay: 100
+                    },
                 },
             }
         },
@@ -480,10 +456,53 @@
                     this.location.image = e.target.result;
                     console.log(this.location.image);
                 };
-            }
+            },
+            zoomUpdate(zoom) {
+                this.currentZoom = zoom;
+            },
+            centerUpdate(center) {
+                this.currentCenter = center;
+            },
+            showLongText() {
+                this.showParagraph = !this.showParagraph;
+            },
+            innerClick() {
+                alert("Click!");
+            },
+            addMarker(e) {
+                console.log(e.latlng)
+                this.location.position.lattitude = e.latlng.lat;
+                this.location.position.longitude = e.latlng.lng;
+                this.getAddress()
+            },
+            async getAddress() {
+                this.loading = true;
+                let address = "Unresolved address";
+                try {
+                    var lat = this.location.position.lattitude;
+                    var lng = this.location.position.longitude;
+                    const result = await fetch(
+                        `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`
+                    );
+                    if (result.status === 200) {
+                        const body = await result.json();
+                        console.log(body)
+                        address = body.display_name;
+                        //this.location.postal_code = body.address.postcode
+                        //this.location.address = body.address.road + ', ' + body.address.house_number
+                        //console.log(address)
+                    }
+                } catch (e) {
+                    console.error("Reverse Geocode Error->", e);
+                }
+                this.loading = false;
+                return address;
+            },
+        },
+        mounted() {
         }
     }
-</script>
+ </script>
 
 <style>
 
@@ -491,6 +510,10 @@ h1 {
   padding : 25px;
   margin : auto;
   text-align : center;
+}
+
+p {
+    font-size: 11px;
 }
 
 .form_button {
@@ -504,6 +527,12 @@ h1 {
 
 .selects {
     width: 100%;
+}
+
+.map_container {
+    height: 500px;
+    width: 85%;
+    margin: 20px auto 20px;
 }
 
 label {
