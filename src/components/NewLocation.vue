@@ -444,9 +444,8 @@
         methods: {
             submitForm(e) {
                 var URL = '';
-                console.log('All gucci')
                 let data = new FormData();
-                data.append('image', this.location.image);
+                data.append('location', this.location);
                 let config = {
                     header: {
                         'Content-Type': 'image/png'
@@ -482,9 +481,6 @@
             },
             showLongText() {
                 this.showParagraph = !this.showParagraph;
-            },
-            innerClick() {
-                alert("Click!");
             },
             addMarker(e) {
                 console.log(e.latlng)
