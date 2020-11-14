@@ -4,6 +4,17 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import firebase from "firebase";
+import { Icon } from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import 'leaflet-geosearch/dist/geosearch.css';
+
+delete Icon.Default.prototype._getIconUrl;
+Icon.Default.mergeOptions({
+  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+  iconUrl: require('leaflet/dist/images/marker-icon.png'),
+  shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
+});
+
 
 Vue.config.productionTip = false
 
