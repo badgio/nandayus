@@ -42,7 +42,12 @@ const routes = [
     path: '/locations',
     name: 'locations',
     component: () => import('../components/Locations.vue')
-  }
+  },
+  {
+    path: '/location',
+    name: 'location',
+    component: () => import('../components/Location.vue')
+  },
 ]
 
 const router = new VueRouter({

@@ -32,6 +32,45 @@
                         >
                     </div>
                 </div>
+                <label
+                    for="map"
+                >
+                    Map*:
+                </label>
+                <p>
+                    {{mapAdvisory['en']}}
+                </p>
+                <p
+                    v-if="location.position.lattitude && location.position.longitude"
+                >
+                    {{curr_lattitude['en']}} {{this.location.position.lattitude.toFixed(3)}} {{curr_longitude['en']}} {{this.location.position.longitude.toFixed(3)}}
+                </p>
+                <div
+                    class="map_container"
+                >
+                    <l-map
+                        id="map"
+                        v-if="map.showMap"
+                        :zoom="map.zoom"
+                        :center="map.center"
+                        :options="map.options"
+                        v-on:dblclick="addMarker"
+                    >
+                        <v-geosearch
+                            :options="map.geosearchOptions"
+                        >
+                        </v-geosearch>
+                        <l-tile-layer
+                            :url="map.url"
+                            :attribution="map.attribution"
+                        />
+                        <l-marker
+                            v-if="location.position.lattitude && location.position.longitude"
+                            :lat-lng="[location.position.lattitude, location.position.longitude]"
+                        >
+                        </l-marker>
+                    </l-map>
+                </div>
                 <div
                     class = "grid-container-2"
                 >
@@ -174,14 +213,12 @@
                         >
                             Image*:
                         </label>
-                        <br>
                         <img
                             v-if="this.location.image"
                             :src="this.location.image"
                             width=320px
                             height=270px
                         />
-                        <br>
                         <input
                             type="file"
                             id="myFile"
@@ -289,16 +326,44 @@
 
 <script>
     
+    import axios from 'axios';
+    import { latLng } from "leaflet";
+    import { LMap, LTileLayer, LMarker, LPopup, LTooltip } from "vue2-leaflet";
+    import { OpenStreetMapProvider } from 'leaflet-geosearch';
+    import VGeosearch from 'vue2-leaflet-geosearch';
+
     export default {
         name : "NewLocation",
         components: {
+            LMap,
+            LTileLayer,
+            LMarker,
+            LPopup,
+            LTooltip,
+            VGeosearch,
         },
         data: () => {
             return {
                 pageTitle: "New Location",
+                mapAdvisory: {
+                    en: 'Point your location on the map, double clicking it. Assure that you are as precise as possible, as that location defines where your location will be shown on Badgio.',
+                    pt: 'Assinale a localização no mapa, através de um duplo clique. Assegure-se que é o mais preciso possível, uma vez que a localização que assinalar definirá onde esta será apresentada no Badgio.'
+                },
+                curr_lattitude: {
+                    en: 'Current location\'s Lattitude: ',
+                    pt: 'Localização atual. Latitude: '
+                },
+                curr_longitude: {
+                    en: ' & Longitude: ',
+                    pt: ' & Longitude: '
+                },
                 location: {
                     name: '',
                     address: '',
+                    position: {
+                        lattitude: null,
+                        longitude: null
+                    },
                     type: '',
                     postal_code: '',
                     district: '',
@@ -320,143 +385,135 @@
                         name: 'Estabelecimento Comercial'
                     }
                 ],
-                postal_codes : [
-                    {
-                        number: '4710-340'
-                    },
-                    {
-                        number: '9000-276'
-                    }
-                ],
-                districts: [
-                    {
-                        name: 'Braga'
-                    },
-                    {
-                        name: 'Região Autónoma da Madeira'
-                    }
-                ],
                 countries: [
                     {
                         name: 'Portugal'
                     },
                     {
-                        name: 'Espanha'
+                        name: 'España'
                     },
                     {
-                        name: 'Portugal'
+                        name: 'France'
                     },
                     {
-                        name: 'Espanha'
+                        name: 'Deutschland'
                     },
                     {
-                        name: 'Portugal'
+                        name: 'Oesterreich'
                     },
                     {
-                        name: 'Espanha'
+                        name: 'Schweiz'
                     },
                     {
-                        name: 'Portugal'
+                        name: 'Italia'
                     },
                     {
-                        name: 'Espanha'
+                        name: 'United Kingdom'
                     },
                     {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
+                        name: 'Ireland'
                     },
                 ],
                 obligatory_warning: {
                    pt: 'Todos os campos assinalados com * são de preenchimento obrigatório.',
                    en: 'All fields signaled by * are required.'
                 },
+                map: {
+                    zoom: 3,
+                    center: latLng(41.55, -8.42), // Braga
+                    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+                    showMap: true,
+                    geosearchOptions: {
+                        provider: new OpenStreetMapProvider(),
+                        style: 'button',
+                        position: 'topleft',
+                        showMarker: true,
+                        maxSuggestions: 5,
+                        animateZoom: true,
+                        updateMap: true,
+                        autoClose: true,
+                        autoComplete: true,
+                        autoCompleteDelay: 100
+                    },
+                },
             }
         },
         methods: {
             submitForm(e) {
-                console.log('All gucci')
+                var URL = '';
+                let data = new FormData();
+                data.append('location', this.location);
+                let config = {
+                    header: {
+                        'Content-Type': 'image/png'
+                    }
+                };
+
+                console.log(data);
+                
+                axios.put(
+                    URL, 
+                    data,
+                    config
+                ).then(
+                    response => {
+                        console.log('image upload response > ', response)
+                    }
+                )
             },
             onFileChange(e) {
-                const file = e.target.files[0];
-                this.location.image = URL.createObjectURL(file);
-            }
+                const image = e.target.files[0];
+                const reader = new FileReader();
+                reader.readAsDataURL(image);
+                reader.onload = e =>{
+                    this.location.image = e.target.result;
+                    console.log(this.location.image);
+                };
+            },
+            zoomUpdate(zoom) {
+                this.currentZoom = zoom;
+            },
+            centerUpdate(center) {
+                this.currentCenter = center;
+            },
+            showLongText() {
+                this.showParagraph = !this.showParagraph;
+            },
+            addMarker(e) {
+                console.log(e.latlng)
+                this.location.position.lattitude = e.latlng.lat;
+                this.location.position.longitude = e.latlng.lng;
+                this.getAddress()
+            },
+            async getAddress() {
+                this.loading = true;
+                let address = "Unresolved address";
+                try {
+                    var lat = this.location.position.lattitude;
+                    var lng = this.location.position.longitude;
+                    const result = await fetch(
+                        `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`
+                    );
+                    if (result.status === 200) {
+                        const body = await result.json();
+                        console.log(body)
+                        address = body.display_name;
+                        //this.location.postal_code = body.address.postcode
+                        //this.location.address = body.address.road + ', ' + body.address.house_number
+                        //console.log(address)
+                    }
+                } catch (e) {
+                    console.error("Reverse Geocode Error->", e);
+                }
+                this.loading = false;
+                return address;
+            },
+        },
+        mounted() {
         }
     }
-</script>
+ </script>
 
 <style>
 
@@ -464,6 +521,10 @@ h1 {
   padding : 25px;
   margin : auto;
   text-align : center;
+}
+
+p {
+    font-size: 11px;
 }
 
 .form_button {
@@ -477,6 +538,14 @@ h1 {
 
 .selects {
     width: 100%;
+}
+
+.map_container {
+    height: 500px;
+    width: 85%;
+    margin: 20px auto 20px;
+    border: 2px solid #0a4870;
+    border-radius: 5px;
 }
 
 label {
