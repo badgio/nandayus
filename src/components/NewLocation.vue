@@ -289,6 +289,8 @@
 
 <script>
     
+    import axios from 'axios';
+
     export default {
         name : "NewLocation",
         components: {
@@ -449,10 +451,34 @@
         methods: {
             submitForm(e) {
                 console.log('All gucci')
+                let data = new FormData();
+                data.append('image', this.location.image);
+                let config = {
+                    header: {
+                        'Content-Type': 'image/png'
+                    }
+                };
+
+                console.log(data);
+                
+                axios.put(
+                    URL, 
+                    data,
+                    config
+                ).then(
+                    response => {
+                        console.log('image upload response > ', response)
+                    }
+                )
             },
             onFileChange(e) {
-                const file = e.target.files[0];
-                this.location.image = URL.createObjectURL(file);
+                const image = e.target.files[0];
+                const reader = new FileReader();
+                reader.readAsDataURL(image);
+                reader.onload = e =>{
+                    this.location.image = e.target.result;
+                    console.log(this.location.image);
+                };
             }
         }
     }
