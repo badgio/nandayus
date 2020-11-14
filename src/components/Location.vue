@@ -6,6 +6,28 @@
             class="row"
         >
             <div
+                class="col-60"
+            >
+                <h3>
+                    {{this.location.name}}
+                </h3>
+                <p>
+                    Type: {{this.location.type}}
+                </p>
+                <p>
+                    Address: {{this.location.address}}
+                </p>
+                <p>
+                    Postal Code: {{this.location.postal_code}}
+                </p>
+                <p>
+                    District: {{this.location.district}}
+                </p>
+                <p>
+                    Country: {{this.location.country}}
+                </p>
+            </div>
+            <div
                 class="col-40"
             >
                 <div
@@ -25,32 +47,10 @@
                     </button>
                 </div>
             </div>
-            <div
-                class="col-60"
-            >
-                <h3>
-                    {{this.location.name}}
-                </h3>
-                <h6>
-                    Type: {{this.location.type}}
-                </h6>
-                <h6>
-                    Address: {{this.location.address}}
-                </h6>
-                <h6>
-                    Postal Code: {{this.location.postal_code}}
-                </h6>
-                <h6>
-                    District: {{this.location.district}}
-                </h6>
-                <h6>
-                    Country: {{this.location.country}}
-                </h6>
-            </div>
         </div>
-        <h4>
+        <h6>
             Description:
-        </h4>
+        </h6>
         <br>
         <textarea
             name="description"
@@ -61,9 +61,9 @@
             required
             v-model="location.description"
         ></textarea>
-        <h4>
+        <h6>
             Website:
-        </h4>
+        </h6>
         <br>
         <input
             class="input_textfield"
@@ -73,13 +73,12 @@
             v-model="location.website"
         >
         <br>
-        <h4>
+        <h6>
             Redes Sociais
-        </h4>
-        <h5>
+        </h6>
+        <p>
             Facebook:
-        </h5>
-        <br>
+        </p>
         <input
             class="input_textfield"
             type="url"
@@ -87,10 +86,9 @@
             name="fb"
             v-model="location.social_networks.facebook"
         >
-        <h5>
+        <p>
             Twitter:
-        </h5>
-        <br>
+        </p>
         <input
             class="input_textfield"
             type="url"
@@ -98,10 +96,9 @@
             name="tw"
             v-model="location.social_networks.twitter"
         >
-        <h5>
+        <p>
             Instagram:
-        </h5>
-        <br>
+        </p>
         <input
             class="input_textfield"
             type="url"
@@ -126,7 +123,7 @@
                 location: {
                     name: 'Location Location Location',
                     address: 'Main Street, number 1',
-                    type: 'Turistic Atraction',
+                    type: 'Touristic Atraction',
                     postal_code: '4700-300',
                     district: 'Braga',
                     country: 'Portugal',
@@ -289,14 +286,18 @@
 
 * {
   box-sizing: border-box;
+  color: #0a4870;
 }
 
 h3 {
   padding-top : 25px;
-  margin : auto;
 }
 
-h4, h5 {
+p {
+    font-size: 12px;
+}
+
+h3, h6, p {
     margin: 5px 0px 0px 2.5%;
 }
 
@@ -323,6 +324,7 @@ h4, h5 {
 .col-60 {
   -ms-flex: 60%; /* IE10 */
   flex: 60%;
+  text-align: center;
 }
 
 .col-40,
@@ -330,14 +332,13 @@ h4, h5 {
 .col-60 {
     margin: 0 auto 0;
     padding: 0 16px;
-    text-align: left;
 }
 
 /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other (also change the direction - make the "cart" column go on top) */
 @media (max-width: 650px) {
     .row {
-        flex-direction: column;
-        max-height: 400px;
+        flex-direction: column-reverse;
+        max-height: 500px;
         text-align: center;
         margin: 0 auto;
     }
@@ -350,7 +351,7 @@ h4, h5 {
         width: 100%;
     }
 
-    h4 {
+    h6 {
         text-align: center;
     }
 }
@@ -404,7 +405,7 @@ input[type='file'] {
 
 .input_textfield {
     width: 95%;
-    height: 50px;
+    height: 35px;
     margin: 0 auto 15px;
     text-align: left;
     border: 1px solid #999;
