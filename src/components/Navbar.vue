@@ -1,67 +1,30 @@
 <template>
   <div>
-    <v-toolbar 
-    color = "teal lighten-5"
-    height = 60px
-    > 
-        <v-toolbar-items
-        class = "hidden-md-and-down"
+    <ul>
+      <li
+        class="badgio"
+      >
+        <router-link
+          class="router_link"
+          to="/"
+          tag="span"
         >
-            <v-btn
-            class = "ma-2"
-            outlined
-            color = "#546E7A"
-            max-height = 40px
-            v-for="item in menu"
-            :key="item.index"
-            flat
-            large
-            >
-                <router-link
-                :to=item.link
-                tag = "span"
-                >
-                    {{item.title}}
-                </router-link>
-            </v-btn>
-        </v-toolbar-items>
-        <v-menu
-        offset-y
+          Badgio
+        </router-link>
+      </li>
+      <li
+        v-for="item in menu"
+        :key="item.index"
+      >
+        <router-link
+          class="router_link"
+          :to=item.link
+          tag = "span"
         >
-            <template v-slot:activator="{ on }">
-                <v-btn
-                class = "ma-2 hidden-lg-and-up"
-                rounded
-                max-height = 40px
-                v-on = on
-                >
-                <v-icon>
-                    mdi-menu
-                </v-icon>
-                </v-btn>
-            </template>
-            <v-list>
-                <v-list-item
-                v-for="item in menu"
-                :key="item.index"
-                >
-                <router-link
-                :to=item.link
-                tag="span"
-                >
-                    <v-list-item-title>{{ item.title }}</v-list-item-title>
-                </router-link>
-                </v-list-item>
-            </v-list>
-        </v-menu>
-
-        <v-spacer></v-spacer>
-        <v-toolbar-title
-        color = "dark"
-        >
-            <v-btn @click="signOut">Sign out</v-btn>
-        </v-toolbar-title>
-    </v-toolbar>
+            {{item.title}}
+        </router-link>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -117,9 +80,36 @@ export default {
 
 <style scoped>
 
-.v-btn {
-    width : max;
-    height : max;
+ul {
+  list-style-type: none;
+  margin: 0 auto;
+  padding: 0px;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: right;
+}
+
+.badgio {
+  float: left;
+}
+
+.router_link {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.router_link:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #4CAF50;
 }
 
 </style>
