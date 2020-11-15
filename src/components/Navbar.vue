@@ -36,6 +36,10 @@ export default {
     data :() => ({
         menu : [
             {
+              title: 'Sign Out',
+              link: '/'
+            },
+            {
                 title : "Sign Up",
                 link : "/signup"
             },
