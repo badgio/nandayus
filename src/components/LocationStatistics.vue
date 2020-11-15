@@ -37,7 +37,8 @@
             class="chart_container"
         >
             <LineChart
-                :chartdata="chartdata"
+                ref="lineChart"
+                :chartData="chartdata"
                 :options="options"
             />
         </div>
@@ -185,10 +186,6 @@
                         }
                     }
                 },
-                chartdata: {
-                    labels: [],
-                    datasets: [],
-                },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
@@ -246,9 +243,17 @@
 
             this.chartdata.datasets = datasets;
         },
+        computed: {
+            chartdata() {
+                    return {
+                        labels: [],
+                        datasets: [],
+                    }
+                },
+        },
         methods: {
             fillChartData(cat_name) {
-                console.log('fillChartData(',cat_name,')')
+                
                 this.chartdata.datasets = [];
                 
                 var datasets = [];
@@ -264,7 +269,10 @@
                 }
 
                 this.chartdata.datasets = datasets;
-                               
+
+                // update chart
+                this.$refs.lineChart.updateData();
+
             },
         },
     }
@@ -317,14 +325,15 @@ h2, h3 {
     border-radius: 5px;
     background-color: #F0F8FF;
     color: black;
-    padding: 15px 32px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
-    width: 175px;
+    font-size: 13px;
+    font-weight: bold;
+    width: 25%;
+    min-width: 175px;
     height: 50px;
-    margin: 10px auto 20px;
+    margin: 10px auto 10px;
     cursor: pointer;
 }
 
