@@ -515,7 +515,7 @@
     }
  </script>
 
-<style>
+<style scoped>
 
 h1 {
   padding : 25px;

@@ -12,7 +12,7 @@
             >
                 <ul>
                     <li>
-                        <span class="mdi mdi-email"></span> - badgio@badgio.pt
+                        <span class="mdi mdi-email"></span> - contact@badgio.pt
                     </li>
                     <li>
                         <span class="mdi mdi-home"></span> - Rua da Universidade nº1, Braga, Portugal
@@ -32,7 +32,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 footer {
     text-align: center;

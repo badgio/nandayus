@@ -71,7 +71,7 @@
     }
 </script>
 
-<style>
+<style scoped>
 
 template {
     align-content: center;
