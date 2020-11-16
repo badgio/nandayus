@@ -89,6 +89,7 @@ ul {
   margin: 0 auto;
   padding: 0px;
   overflow: hidden;
+  height: 50px;
   background-color: #333;
 }
 

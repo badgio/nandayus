@@ -3,17 +3,21 @@
         <h1>
             {{pageTitle}}
         </h1>
-        <router-link
-            class="router_link"
-            to="/newlocation"
-            tag="span"
+        <div
+            class="row"
         >
-            <button
-                class="submit_button"
+            <router-link
+                class="router"
+                to="/newlocation"
+                tag="span"
             >
-                {{newButton}}
-            </button>
-        </router-link>
+                <button
+                    class="submit_button"
+                >
+                    {{newButton}}
+                </button>
+            </router-link>
+        </div>
         <hr>
         <TemplateCard
             :objects="this.locations"
@@ -73,19 +77,21 @@
 
 <style>
 
-template {
-    align-content: center;
-    text-align: left;
-}
-
 h1 {
   padding-top : 25px;
   margin : 0 auto 0;
   color: #0a4870;
   font-weight: bold;
+  text-align: center;
 }
 
-.router_link {
+.row {
+    width: 100%;
+    text-align: center;
+}
+
+.router {
+    margin: 0px auto 0px;
     text-align: center;
 }
 
@@ -98,7 +104,6 @@ h1 {
     font-size: 16px;
     width: 175px;
     height: 50px;
-    margin: 10px auto 20px;
     cursor: pointer;
 }
 

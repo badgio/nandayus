@@ -5,10 +5,18 @@
     <Navbar
       class="navbar"
     />
-    <router-view
-      class="router"
+    <div
+      class="container"
     >
-    </router-view>
+      <div
+        class="table_cell"
+      >
+        <router-view
+        class="router"
+        >
+        </router-view>
+      </div>
+    </div>
     <Footer
       class="footer"
     />
@@ -35,39 +43,48 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
+
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 
 .app {
-  flex: 1;
   align-items: center;
   font-family: 'Roboto';
   width: 100%;
+  height: 100%;
+  display:table;
 }
 
 .navbar {
-  padding-bottom: 10px;
   margin: 0px;
 }
 
-.router {
-  display: flex;
-  flex-flow: column;
-  flex: 1 1 auto;
+.container {
+  display: table-row;
   height: 100%;
-  width: 85%;
-  background-color: #fafafa;
-  border: 1px solid #999;
-  border-radius: 5px;
-  margin: 60px auto 50px;
+  max-width: 50%;
+  margin: 0 auto;
+}
+
+.table_cell {
+  display: table-cell;
+  background-color: #f9f9f9;
+}
+
+.router {
+  margin: 60px auto 100px;
+  width: 90%;  
   font-size: 18px;
 }
 
 .footer {
-  position: fixed;
-  bottom: 0;
-  width:100%;
-  margin-top: 90px;
-  height:60px;
+  width: 100%;
+  height: 50px;
 }
 
 </style>

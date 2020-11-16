@@ -1,6 +1,7 @@
 <template>
     <div>
         <footer>
+            <br>
             <div
                 class="row"
             >
@@ -14,10 +15,10 @@
                         <span class="mdi mdi-email"></span> - badgio@badgio.pt
                     </li>
                     <li>
-                        <span class="mdi mdi-home"></span> - Address: Rua da Universidade nº1, Braga, Portugal
+                        <span class="mdi mdi-home"></span> - Rua da Universidade nº1, Braga, Portugal
                     </li>
                     <li>
-                        <span class="mdi mdi-deskphone"></span> - Phone Number: +351253000000
+                        <span class="mdi mdi-deskphone"></span> - (+351) 253000000
                     </li>
                 </ul>
             </div>
@@ -31,7 +32,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 footer {
     text-align: center;
