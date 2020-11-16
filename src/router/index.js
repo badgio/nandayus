@@ -48,6 +48,11 @@ const routes = [
     name: 'location',
     component: () => import('../components/Location.vue')
   },
+  {
+    path: '/statistics/location',
+    name: 'locationstatistics',
+    component: () => import('../components/LocationStatistics.vue')
+  }
 ]
 
 const router = new VueRouter({
