@@ -1,18 +1,26 @@
 <template>
-  <v-app
-    class = "app"
+  <div
+    class="app"
   >
-    <Navbar />
-  	<v-container
-      class = "container"
+    <Navbar
+      class="navbar"
+    />
+    <div
+      class="container"
     >
-      <router-view
-        class = "router"
+      <div
+        class="table_cell"
       >
-      </router-view>
-  	</v-container>
-    <Footer/>
-  </v-app>
+        <router-view
+        class="router"
+        >
+        </router-view>
+      </div>
+    </div>
+    <Footer
+      class="footer"
+    />
+  </div>
 </template>
 
 <script>
@@ -35,34 +43,48 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
+
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 
 .app {
   align-items: center;
   font-family: 'Roboto';
+  width: 100%;
+  height: 100%;
+  display:table;
 }
 
-.router {
-  display: flex;
-  flex-flow: column;
-  flex: 1 1 auto;
-  margin: 15px auto 50px;
-  width: 85%;
-  background-color: #fafafa;
-  border: 1px solid #999;
-  border-radius: 5px;
-  font-size: 18px;
+.navbar {
+  margin: 0px;
 }
 
 .container {
-  display: flex;
-  flex-flow: column;
-  flex: 1 1 auto;
+  display: table-row;
   height: 100%;
-  max-width: 100%;
-  padding: 0;
-  align-self: center;
+  max-width: 50%;
+  margin: 0 auto;
+}
+
+.table_cell {
+  display: table-cell;
   background-color: #f9f9f9;
+}
+
+.router {
+  margin: 60px auto 100px;
+  width: 90%;  
+  font-size: 18px;
+}
+
+.footer {
+  width: 100%;
+  height: 50px;
 }
 
 </style>

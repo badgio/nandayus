@@ -36,6 +36,10 @@ export default {
     data :() => ({
         menu : [
             {
+              title: 'Sign Out',
+              link: '/'
+            },
+            {
                 title : "Sign Up",
                 link : "/signup"
             },
@@ -85,6 +89,7 @@ ul {
   margin: 0 auto;
   padding: 0px;
   overflow: hidden;
+  height: 50px;
   background-color: #333;
 }
 

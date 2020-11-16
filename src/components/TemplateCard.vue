@@ -12,24 +12,34 @@
                     :src="obj.image_link"
                     alt="Avatar"
                 >
-                <div class="container">
+                <div
+                    class="row"
+                >
                     <h4>
                         <b>
                             {{obj.name}}
                         </b>
                     </h4>
+                </div>
+                <div
+                    class="row"
+                >
                     <hr>
                 </div>
-                <router-link
-                    :to="obj.url"
-                    tag="span"
+                <div
+                    class="row"
                 >
-                    <button
-                        class="submit_button"
+                    <router-link
+                        :to="obj.url"
+                        tag="span"
                     >
-                        More
-                    </button>
-                </router-link>
+                        <button
+                            class="submit_button"
+                        >
+                            More
+                        </button>
+                    </router-link>
+                </div>
             </div>
         </div>
     </div>
@@ -64,8 +74,13 @@
     grid-gap: 5px;
 }
 
-.container h4 b{
-    padding: 2px 16px;
+.row {
+    width: 100%;
+}
+
+h4 {
+    margin: 0 auto 0;
+    text-align: center;
 }
 
 hr {
