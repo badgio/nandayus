@@ -1,30 +1,53 @@
 <template>
   <div>
-    <ul>
-      <li
-        class="badgio"
-      >
+    <div class="nav">
+      <input type="checkbox" id="nav-check">
+      <div class="nav-header">
+        <div class="nav-title">
+          <a>
+            <router-link
+              to="/"
+              tag="span"
+            >
+              Badgio
+            </router-link>
+          </a>
+        </div>
+      </div>
+      <div class="nav-btn">
+        <label for="nav-check">
+          <span></span>
+          <span></span>
+          <span></span>
+        </label>
+      </div>
+      <div class="nav-links">
+        <a
+          v-for="item in menu"
+          :key="item.index"
+        >
+          <router-link
+            class="router_link"
+            :to=item.link
+          >
+            {{item.title}}
+          </router-link>
+        </a>
+        <!--
         <router-link
           class="router_link"
-          to="/"
+          v-for="item in menu"
+          :key="item.index"
+          :to=item.link
           tag="span"
         >
-          Badgio
+          <a>
+            {{item.title}}            
+          </a>
         </router-link>
-      </li>
-      <li
-        v-for="item in menu"
-        :key="item.index"
-      >
-        <router-link
-          class="router_link"
-          :to=item.link
-          tag = "span"
-        >
-            {{item.title}}
-        </router-link>
-      </li>
-    </ul>
+        -->
+      </div>
+    </div>
   </div>
 </template>
 
@@ -36,24 +59,28 @@ export default {
     data :() => ({
         menu : [
             {
+              title : "Badges",
+              link : "/badges"
+            },
+            {
+              title: "Collections",
+              link: '/collections'
+            },
+            {
+              title : "Locations",
+              link : "/locations"
+            },
+            {
+              title : "Sign Up",
+              link : "/signup"
+            },
+            {
+              title : "Sign In",
+              link : "/signin"
+            },
+            {
               title: 'Sign Out',
               link: '/'
-            },
-            {
-                title : "Sign Up",
-                link : "/signup"
-            },
-            {
-                title : "Sign In",
-                link : "/signin"
-            },
-            {
-                title : "Badges",
-                link : "/badges"
-            },
-            {
-                title : "Locations",
-                link : "/locations"
             },
         ]
     }),
@@ -84,37 +111,110 @@ export default {
 
 <style scoped>
 
-ul {
-  list-style-type: none;
-  margin: 0 auto;
-  padding: 0px;
-  overflow: hidden;
+* {
+  box-sizing: border-box;
+}
+
+.nav {
   height: 50px;
-  background-color: #333;
+  width: 100%;
+  background-color: #4d4d4d;
+  position: relative;
 }
 
-li {
+.nav > .nav-header {
+  display: inline;
+}
+
+.nav > .nav-header > .nav-title {
+  display: inline-block;
+  font-size: 22px;
+  color: #fff;
+  padding: 10px 10px 10px 10px;
+}
+
+.nav > .nav-btn {
+  display: none;
+}
+
+.nav > .nav-links {
+  display: inline;
   float: right;
+  font-size: 18px;
 }
 
-.badgio {
-  float: left;
+.nav > .nav-links > a {
+  display: inline-block;
+  padding: 13px 10px 13px 10px;
+  text-decoration: none;
+  color: #efefef;
+}
+
+.nav > .nav-links > a:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.nav > #nav-check {
+  display: none;
 }
 
 .router_link {
-  display: block;
   color: white;
-  text-align: center;
-  padding: 14px 16px;
   text-decoration: none;
 }
 
-.router_link:hover:not(.active) {
-  background-color: #111;
+@media (max-width:700px) {
+  .nav > .nav-btn {
+    display: inline-block;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+  }
+  .nav > .nav-btn > label {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    padding: 13px;
+  }
+  .nav > .nav-btn > label:hover,.nav  #nav-check:checked ~ .nav-btn > label {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  .nav > .nav-btn > label > span {
+    display: block;
+    width: 25px;
+    height: 10px;
+    border-top: 2px solid #eee;
+  }
+  .nav > .nav-links {
+    position: absolute;
+    display: block;
+    width: 100%;
+    background-color: #333;
+    height: 0px;
+    transition: all 0.3s ease-in;
+    overflow-y: hidden;
+    top: 50px;
+    left: 0px;
+  }
+  .nav > .nav-links > a,
+  .nav > .nav-links > a > .router_link {
+    display: block;
+    width: 100%;
+  }
+
+  .nav > .nav-links > a > span.router-link {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .nav > #nav-check:not(:checked) ~ .nav-links {
+    height: 0px;
+  }
+  .nav > #nav-check:checked ~ .nav-links {
+    height: 250px;
+    overflow-y: auto;
+  }
 }
 
-.active {
-  background-color: #4CAF50;
-}
 
 </style>

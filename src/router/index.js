@@ -52,6 +52,11 @@ const routes = [
     path: '/statistics/location',
     name: 'locationstatistics',
     component: () => import('../components/LocationStatistics.vue')
+  },
+  {
+    path: '/collections',
+    name: 'collections',
+    component: () => import('../components/Collections.vue')
   }
 ]
 
