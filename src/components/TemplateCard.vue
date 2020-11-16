@@ -62,16 +62,16 @@
     }
 </script>
 
-<style>
+<style scoped>
 
 .grid-container {
     width: 95%;
-    min-width: 200px;
+    min-width: 275px;
     margin: 0 auto 50px;
     text-align: center;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(325px, 1fr));
-    grid-gap: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 
 .row {
@@ -102,9 +102,11 @@ hr {
     border-radius: 8px;
     border-style: solid;
     border-width: 2px;
-    height: 450px;
-    width: 320px;
-    margin: 20px auto 0px;
+    height: 400px;
+    width: 250px;
+    margin: 10px 10px;
+    margin: 10px;
+    display: inline-block;
 }
 
 .id_card:hover {

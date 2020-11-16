@@ -278,7 +278,7 @@
     }
 </script>
 
-<style>
+<style scoped>
 
 h2, h3 {
     padding: 25px 0px 0px 25px;
