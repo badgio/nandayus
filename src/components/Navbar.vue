@@ -29,11 +29,23 @@
           <router-link
             class="router_link"
             :to=item.link
-            tag="span"
           >
             {{item.title}}
           </router-link>
         </a>
+        <!--
+        <router-link
+          class="router_link"
+          v-for="item in menu"
+          :key="item.index"
+          :to=item.link
+          tag="span"
+        >
+          <a>
+            {{item.title}}            
+          </a>
+        </router-link>
+        -->
       </div>
     </div>
   </div>
@@ -146,6 +158,11 @@ export default {
   display: none;
 }
 
+.router_link {
+  color: white;
+  text-decoration: none;
+}
+
 @media (max-width:700px) {
   .nav > .nav-btn {
     display: inline-block;
@@ -179,10 +196,17 @@ export default {
     top: 50px;
     left: 0px;
   }
-  .nav > .nav-links > a {
+  .nav > .nav-links > a,
+  .nav > .nav-links > a > .router_link {
     display: block;
     width: 100%;
   }
+
+  .nav > .nav-links > a > span.router-link {
+    width: 100%;
+    margin: 0 auto;
+  }
+
   .nav > #nav-check:not(:checked) ~ .nav-links {
     height: 0px;
   }
