@@ -5,6 +5,20 @@
         <div
             class="badge_column"
         >
+            <img
+                class="badge_column_image"
+                :src=this.imageURL
+                alt="Badge Image"
+            >
+        </div>
+        <input
+            class="badge_button"
+            type="button"
+            value="X"
+        >
+        <div
+            class="badge_column"
+        >
             <div
                 class="badge_column_text text_left"
             >
@@ -14,28 +28,9 @@
                 <h6>
                     {{description}}
                 </h6>
-            </div>
-        </div>
-        <div
-            class="badge_column"
-        >
-            <div
-                class="badge_column_text text_center"
-            >
-                <h5>
+                <h6>
                     {{location}}
-                </h5>
-            </div>
-        </div>
-        <div
-            class="badge_column"
-        >
-            <div
-                class="badge_column_text text_center"
-            >
-                <h5>
-                    {{location}}
-                </h5>
+                </h6>
             </div>
         </div>
     </div>
@@ -43,7 +38,7 @@
 
 <script>
     export default {
-        name: 'Badge Card',
+        name: 'BadgeCard',
         props: {
             name: {
                 type: String,
@@ -57,14 +52,17 @@
                 type: String,
                 default: true
             },
-            image: {
+            imageURL: {
+                type: String,
                 default: true
             }
         },
         data () {
             return {
-                
             }
+        },
+        created() {
+            console.log(this.imageURL)
         }
     }
 </script>
@@ -73,23 +71,75 @@
 
 .badge_card {
     width: 85%;
-    margin: 15px auto 15px;
-    border: 2px solid red;
+    min-width: 250px;
+    margin: 5px auto 5px;
     display: grid;
-    /*grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));*/
+    grid-template-columns: auto auto;
     grid-gap: 5px;
+    background-color: #eee;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    position: relative;
 }
 
 .badge_column {
     width: 95%;
-    min-width: 750px;
-    height: 80px;
-    margin: 5px auto 5px;
-    border: 2px solid teal;
+    min-width: 200px;
+    min-height: 95%;
+    margin: 0px auto 0px;
 }
 
 .badge_column_text {
-    font-size: 15px;
+    font-size: 18px;
+}
+
+.badge_column_image {
+    width: 100%;
+    height: 97.5%;
+    max-height: 200px;
+    max-width: 300px;
+    margin: 0px auto 0px;
+    border: 2px solid teal;
+}
+
+.badge_button {
+    width: 30px;
+    height: 30px;
+    font-size: 8pt;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 3px;
+    margin-right: 3px;
+    position:absolute;
+    bottom:0;
+    right:0;
+    border-radius: 50%;
+    border: 2px solid #666;
+    box-shadow: 1px 1px #ccc;
+    background-color: #F23A3A;
+    color: #333;
+}
+
+@media (max-width: 650px) {
+    .badge_card {
+        width: 75%;
+        min-width: 300px;
+        margin: 15px auto 15px;
+        display: grid;
+        grid-gap: 5px;
+        grid-template-columns: auto;
+    }
+
+    .badge_column {
+        min-width: 100%;
+        min-height: 100px;
+    }
+
+    .badge_column_image {
+        max-width: 98%;
+        max-height: 100%;
+        border-radius: 5px;
+    }
 }
 
 .text_center {
@@ -102,7 +152,7 @@
 
 h5,
 h6 {
-    margin: 5px 0px 0px 5px;
+    margin: 15px 0px 15px 5px;
 }
 
 </style>

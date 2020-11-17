@@ -61,6 +61,7 @@
                 :name="badge.name"
                 :description="badge.description"
                 :location="badge.location"
+                :imageURL="badge.image"
             />
         </div>
         <br>
@@ -140,19 +141,19 @@
                             name: 'Badge Badge Badge #1',
                             description: 'Description Description Description Description Description Description Description Description Description Description #1',
                             location: 'Restaurant Restaurant Restaurant #1',
-                            image: 'Image Image Image #1'
+                            image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
                         },
                         {
                             name: 'Badge Badge Badge #2',
                             description: 'Description Description Description Description Description Description Description Description Description Description #2',
                             location: 'Restaurant Restaurant Restaurant #2',
-                            image: 'Image Image Image #2'
+                            image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
                         },
                         {
                             name: 'Badge Badge Badge #3',
                             description: 'Description Description Description Description Description Description Description Description Description Description #3',
                             location: 'Restaurant Restaurant Restaurant #3',
-                            image: 'Image Image Image #3'
+                            image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
                         },
                     ],
                     website: '',
