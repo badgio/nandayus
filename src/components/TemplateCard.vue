@@ -30,13 +30,27 @@
                     class="row"
                 >
                     <router-link
-                        :to="obj.url"
+                        :to="obj.management.url"
                         tag="span"
                     >
                         <button
                             class="submit_button"
                         >
-                            More
+                            {{obj.management.text['en']}}
+                        </button>
+                    </router-link>
+                </div>
+                <div
+                    class="row"
+                >
+                    <router-link
+                        :to="obj.statistics.url"
+                        tag="span"
+                    >
+                        <button
+                            class="submit_button"
+                        >
+                            {{obj.statistics.text['en']}}
                         </button>
                     </router-link>
                 </div>
@@ -66,30 +80,27 @@
 
 .grid-container {
     width: 95%;
-    min-width: 275px;
+    min-width: 200px;
     margin: 0 auto 50px;
     text-align: center;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(325px, 1fr));
+    grid-gap: 5px;
 }
 
 .row {
     width: 100%;
 }
-
 h4 {
     margin: 0 auto 0;
     text-align: center;
 }
-
 hr {
     width: 20%;
     height: 3px;
     margin: 5px auto 0px;
     background: #0a4870;
 }
-
 .id_card {
     align-self: center;
     text-align: center;
@@ -102,19 +113,15 @@ hr {
     border-radius: 8px;
     border-style: solid;
     border-width: 2px;
-    height: 400px;
-    width: 250px;
-    margin: 10px 10px;
-    margin: 10px;
-    display: inline-block;
+    min-height: 450px;
+    width: 320px;
+    margin: 20px auto 20px;
 }
-
 .id_card:hover {
     box-shadow: 0 8px 20px 0 rgba(0,0,0,0.2);
 }
-
 .id_card img {
-    height: 60%;
+    height: 270px;
     width: 100%;
     border-top-left-radius: 7px;
     border-top-right-radius: 7px;
@@ -122,7 +129,6 @@ hr {
     border-bottom-style: solid;
     border-bottom-width: 1.5px;
 }
-
 .submit_button {
     border: 1px solid #0a4870;
     border-radius: 5px;
