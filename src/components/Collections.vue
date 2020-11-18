@@ -55,7 +55,7 @@
                             }
                         },
                         management: {
-                            url:'/newcollection',
+                            url:'/collection',
                             text: {
                                 en: 'Management',
                                 pt: 'Gestão'
@@ -74,7 +74,7 @@
                             }
                         },
                         management: {
-                            url:'/newcollection',
+                            url:'/collection',
                             text: {
                                 en: 'Management',
                                 pt: 'Gestão'
@@ -93,7 +93,7 @@
                             }
                         },
                         management: {
-                            url:'/newcollection',
+                            url:'/collection',
                             text: {
                                 en: 'Management',
                                 pt: 'Gestão'
@@ -112,7 +112,7 @@
                             }
                         },
                         management: {
-                            url:'/newcollection',
+                            url:'/collection',
                             text: {
                                 en: 'Management',
                                 pt: 'Gestão'
@@ -131,7 +131,7 @@
                             }
                         },
                         management: {
-                            url:'/newcollection',
+                            url:'/collection',
                             text: {
                                 en: 'Management',
                                 pt: 'Gestão'
@@ -150,7 +150,7 @@
                             }
                         },
                         management: {
-                            url:'/newcollection',
+                            url:'/collection',
                             text: {
                                 en: 'Management',
                                 pt: 'Gestão'
