@@ -114,7 +114,7 @@
                             type="radio"
                             id="state_input1"
                             value="permanent"
-                            v-model="collection.state"
+                            v-model="collection.validity"
                         >
                         <label>
                             {{language.validity.permanent[this.selected_language]}}
@@ -126,7 +126,7 @@
                             type="radio"
                             id="state_input2"
                             value="temporary"
-                            v-model="collection.state"
+                            v-model="collection.validity"
                         >
                         <label>
                             {{language.validity.temporary[this.selected_language]}}
@@ -306,7 +306,7 @@
                     description: '',
                     image: '',
                     website: '',
-                    state: '',
+                    validity: '',
                     curr_date: '',
                     beg_date: '',
                     end_date:'',

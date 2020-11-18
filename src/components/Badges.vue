@@ -3,17 +3,21 @@
         <h1>
             {{language.pageTitle[selected_language]}}
         </h1>
-        <router-link
-            class="router_link"
-            to="/newbadge"
-            tag="span"
+        <div
+            class="row"
         >
-            <button
-                class="submit_button"
+            <router-link
+                class="router"
+                to="/newbadge"
+                tag="span"
             >
-                {{language.newButton[selected_language]}}
-            </button>
-        </router-link>
+                <button
+                    class="submit_button"
+                >
+                    {{language.newButton[selected_language]}}
+                </button>
+            </router-link>
+        </div>    
         <hr>
         <TemplateCard
             :objects="this.badges"
@@ -59,7 +63,7 @@
                             }
                         },
                         management: {
-                            url:'/newbadge',
+                            url:'/badge',
                             text: {
                                 en: 'Management',
                                 pt: 'Gestão'
@@ -78,7 +82,7 @@
                             }
                         },
                         management: {
-                            url:'/newbadge',
+                            url:'/badge',
                             text: {
                                 en: 'Management',
                                 pt: 'Gestão'
@@ -97,7 +101,7 @@
                             }
                         },
                         management: {
-                            url:'/newbadge',
+                            url:'/badge',
                             text: {
                                 en: 'Management',
                                 pt: 'Gestão'
@@ -116,7 +120,7 @@
                             }
                         },
                         management: {
-                            url:'/newbadge',
+                            url:'/badge',
                             text: {
                                 en: 'Management',
                                 pt: 'Gestão'
@@ -135,7 +139,7 @@
                             }
                         },
                         management: {
-                            url:'/newbadge',
+                            url:'/badge',
                             text: {
                                 en: 'Management',
                                 pt: 'Gestão'
@@ -154,7 +158,7 @@
                             }
                         },
                         management: {
-                            url:'/newbadge',
+                            url:'/badge',
                             text: {
                                 en: 'Management',
                                 pt: 'Gestão'
@@ -171,19 +175,23 @@
 
 <style scoped>
 
-template {
-    align-content: center;
-    text-align: left;
-}
+
 
 h1 {
   padding-top : 25px;
   margin : 0 auto 0;
   color: #0a4870;
   font-weight: bold;
+  text-align:center;
 }
 
-.router_link {
+.row {
+    width: 100%;
+    text-align: center;
+}
+
+.router {
+    margin: 0px auto 0px;
     text-align: center;
 }
 
@@ -196,7 +204,6 @@ h1 {
     font-size: 16px;
     width: 175px;
     height: 50px;
-    margin: 10px auto 20px;
     cursor: pointer;
 }
 

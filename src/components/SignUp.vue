@@ -77,7 +77,7 @@ html {
 
 .login-box {
   position: absolute;
-  top: 50%;
+  top: 30%;
   left: 50%;
   width: 400px;
   padding: 40px;

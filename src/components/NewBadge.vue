@@ -101,7 +101,7 @@
                                 type="radio"
                                 id="state_input1"
                                 value="permanent"
-                                v-model="badge.state"
+                                v-model="badge.validity"
                             >
                             <label>
                                 {{language.state.permanent[selected_language]}}
@@ -113,7 +113,7 @@
                                 type="radio"
                                 id="state_input2"
                                 value="temporary"
-                                v-model="badge.state"
+                                v-model="badge.validity"
                             >
                             <label
                         >       {{language.state.temporary[selected_language]}}
@@ -244,7 +244,7 @@
                     location: '',
                     collection: '',
                     description: '',
-                    state: '',
+                    validity: '',
                     image: '',
                 },
                 locations: [
