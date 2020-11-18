@@ -30,22 +30,9 @@
             class="router_link"
             :to=item.link
           >
-            {{item.title}}
+            {{item.title[selected_language]}}
           </router-link>
         </a>
-        <!--
-        <router-link
-          class="router_link"
-          v-for="item in menu"
-          :key="item.index"
-          :to=item.link
-          tag="span"
-        >
-          <a>
-            {{item.title}}            
-          </a>
-        </router-link>
-        -->
       </div>
     </div>
   </div>
@@ -59,34 +46,55 @@ export default {
     data :() => ({
         menu : [
             {
-              title : "Badges",
+              title: {
+                en: 'Badges',
+                pt: 'Badges',
+              },
               link : "/badges"
             },
             {
-              title: "Collections",
+              title: {
+                en: "Collections",
+                pt: 'Coleções',
+              },
               link: '/collections'
             },
             {
-              title : "Locations",
+              title: {
+                en: "Locations",
+                pt: 'Locais',
+              },
               link : "/locations"
             },
             {
-              title : "Sign Up",
+              title: {
+                en: "Sign Up",
+                pt: 'Registo',
+              },
               link : "/signup"
             },
             {
-              title : "Sign In",
-              link : "/signin"
+              title: {
+                en: "Sign In",
+                pt: 'Iniciar Sessão',
+              },
+              link: "/signin"
             },
             {
-              title: 'Sign Out',
+              title: {
+                en: 'Sign Out',
+                pt: 'Terminar Sessão',
+              },
               link: '/'
             },
         ]
     }),
-  computed: {
+    computed: {
+      selected_language() {
+          return this.$store.getters.getLanguage;
+      },
     ...mapGetters({
-// map `this.user` to `this.$store.getters.user`
+      // map `this.user` to `this.$store.getters.user`
       user: "user"
     })
   },

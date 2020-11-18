@@ -10,13 +10,13 @@
                     {{this.collection.name}}
                 </h3>
                 <h6>
-                    State: {{this.collection.state}}
+                    {{language.state[this.selected_language]}}: {{this.collection.state}}
                 </h6>
                 <h6>
-                    Validity: {{this.collection.validity}}
+                    {{language.validity[this.selected_language]}}: {{this.collection.validity}}
                 </h6>
                 <h6>
-                    Description:
+                    {{language.description[this.selected_language]}}:
                 </h6>
                 <textarea
                     name="description"
@@ -46,7 +46,7 @@
                     <button
                         class="submit_button"
                     >
-                        Browse File
+                        {{language.browse_file[this.selected_language]}}
                     </button>
                 </div>
             </div>
@@ -66,7 +66,7 @@
             >
             <br>
             <h6>
-                Redes Sociais
+                {{language.social_networks[this.selected_language]}}
             </h6>
             <p>
                 Facebook:
@@ -101,7 +101,7 @@
             class="card badge_card"
         >
             <h6>
-                Badges / Locations associated with the Collection:
+                {{language.associated_badges[this.selected_language]}}
             </h6>
             <div
                 class="input_icons"
@@ -113,11 +113,11 @@
                 <input
                     type="text"
                     class="search_bar"
-                    placeholder="Search Badges"
+                    :placeholder="language.search_badges[this.selected_language]"
                     v-model="searchQuery"
                 >
                 <button>
-                    Add
+                    {{language.add[this.selected_language]}}
                 </button>
             </div>
             <div
@@ -159,7 +159,7 @@
                 v-else
             >
                 <h6>
-                    {{no_badges['en']}}
+                    {{language.no_badges[this.selected_language]}}
                 </h6>
             </div>
         </div>
@@ -167,7 +167,7 @@
         <button
             class="submit_button"
         >
-            Submit Changes
+            {{language.submit_changes[this.selected_language]}}
         </button>
     </div>
 </template>
@@ -183,7 +183,56 @@
         },
         data: () => {
             return {
-                pageTitle: "Collection",
+                language: {
+                    pageTitle: {
+                        en: 'Collection',
+                        pt: 'Coleção',
+                    },
+                    state: {
+                        en: 'State',
+                        pt: 'Estado',
+                    },
+                    validity: {
+                        en: 'Validity',
+                        pt: 'Duração',
+                    },
+                    description: {
+                        en: 'Description',
+                        pt: 'Descrição',
+                    },
+                    browse_file: {
+                        en: 'Browse File',
+                        pt: 'Carregar Ficheiro', 
+                    },
+                    social_networks: {
+                        en: 'Social Networks',
+                        pt: 'Redes Sociais'
+                    },
+                    associated_badges: {
+                        en: 'Badges / Locations associated with the Collection:',
+                        pt: 'Badges / Locais associados à Coleção:'
+                    },
+                    search_badges: {
+                        en: 'Search Badges',
+                        pt: 'Procurar Badges',
+                    },
+                    add: {
+                        en: 'Add',
+                        pt: 'Adicionar',
+                    },
+                    no_badges: {
+                        en: 'You have no Badges associated with the Collection. Add some! If you don\'t have any, you can create some!',
+                        pt: 'Não tem Badges associados à Coleção. Adicione alguns! Se não tem nenhum, pode criá-los!'
+                    },
+                    submit_changes: {
+                        en: 'Submit Changes',
+                        pt: 'Submeter Alterações',
+                    },
+                    obligatory_warning: {
+                        pt: 'Todos os campos assinalados com * são de preenchimento obrigatório.',
+                        en: 'All fields signaled by * are required.'
+                    },
+                },
                 all_badges: [
                     {
                         id: '1',
@@ -272,14 +321,6 @@
                         twitter: '',
                     }
                 },
-                no_badges: {
-                    en: 'You have no Badges associated with the Collection. Add some! If you don\'t have any, you can create some!',
-                    pt: 'Não tem Badges associados à Coleção. Adicione alguns! Se não tem nenhum, pode criá-los!'
-                },
-                obligatory_warning: {
-                   pt: 'Todos os campos assinalados com * são de preenchimento obrigatório.',
-                   en: 'All fields signaled by * are required.'
-                },
             }
         },
         methods: {
@@ -299,6 +340,9 @@
             }
         },
         computed: {
+            selected_language() {
+                return this.$store.getters.getLanguage;
+            },
             result_badges() {
                 if (this.searchQuery) {
                     return this.all_badges.filter((item) => {

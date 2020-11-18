@@ -7,6 +7,28 @@
             >
                 Badgio &#169; 2020
             </div>
+            <br>
+            <label
+                for="languageSelector"
+            >
+                {{language.select_language[selected_language]}}
+            </label>
+            <select
+                name="languageSelector"
+                id="languageSelector"
+                v-model="selected_language"
+                v-on:change="changeLanguage"
+            >
+                <option
+                    v-for="language in languages" 
+                    :key="language.index"
+                    :value="language.abbreviation"
+                    :selected="language.selected"
+                >
+                    {{language.name}}
+                </option>
+            </select>
+            <br>
             <div
                 class="row"
             >
@@ -28,7 +50,52 @@
 
 <script>
 export default {
-    name : "Footer"
+    name : "Footer",
+    data() {
+        return {
+            language: {
+                select_language: {
+                    en: 'Change Language: ',
+                    pt: 'Alterar Idioma',
+                }
+            },
+            languages: [
+                {
+                    name: 'English',
+                    abbreviation: 'en',
+                    selected: false,
+                },
+                {
+                    name: 'Português',
+                    abbreviation: 'pt',
+                    selected: false,
+                },
+            ],
+            selected_language: ''
+        }
+    },
+    created() {
+        this.selected_language = this.display_language;
+    },
+    computed: {
+        display_language: {
+            // getter
+            get: function() {
+                return this.$store.getters.getLanguage;
+            },
+            
+            // setter
+            set: function() {
+                this.$store.dispatch('changeLanguageAction', this.selected_language);
+            }
+        }
+    },
+    methods: {
+        changeLanguage() {
+            this.display_language = this.selected_language;
+            console.log('stored_language: ', this.$store.getters.getLanguage);
+        }
+    }
 }
 </script>
 

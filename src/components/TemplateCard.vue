@@ -36,7 +36,7 @@
                         <button
                             class="submit_button"
                         >
-                            {{obj.management.text['en']}}
+                            {{obj.management.text[language]}}
                         </button>
                     </router-link>
                 </div>
@@ -50,7 +50,7 @@
                         <button
                             class="submit_button"
                         >
-                            {{obj.statistics.text['en']}}
+                            {{obj.statistics.text[language]}}
                         </button>
                     </router-link>
                 </div>
@@ -65,6 +65,10 @@
         props: {
             objects: {
                 type: Array,
+                required: true,
+            },
+            language: {
+                type: String,
                 required: true,
             },
         },

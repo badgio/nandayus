@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>
-            {{pageTitle['en']}}
+            {{language.pageTitle[this.selected_language]}}
         </h1>
         <div
             class="row"
@@ -14,13 +14,14 @@
                 <button
                     class="submit_button"
                 >
-                    {{newButton['en']}}
+                    {{language.newButton[this.selected_language]}}
                 </button>
             </router-link>
         </div>
         <hr>
         <TemplateCard
             :objects="this.collections"
+            :language="this.selected_language"
         />
     </div>
 </template>
@@ -36,13 +37,15 @@
         },
         data: () => {
             return {
-                pageTitle: {
-                    en: 'Collections',
-                    pt: 'Coleções'
-                },
-                newButton: {
-                    en: 'Create New Collection',
-                    pt: 'Criar Nova Coleção'
+                language: {
+                    pageTitle: {
+                        en: 'Collections',
+                        pt: 'Coleções'
+                    },
+                    newButton: {
+                        en: 'Create New Collection',
+                        pt: 'Criar Nova Coleção'
+                    },  
                 },
                 collections: [
                     {
@@ -160,6 +163,11 @@
                         image_link: "https://i.redd.it/8f8ync5fkhy51.jpg",
                     },
                 ]
+            }
+        },
+        computed: {
+            selected_language() {
+                return this.$store.getters.getLanguage;
             }
         }
     }

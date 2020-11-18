@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>
-            {{pageTitle}}
+            {{language.pageTitle[this.selected_language]}}
         </h1>
         <div
             class="row"
@@ -14,13 +14,14 @@
                 <button
                     class="submit_button"
                 >
-                    {{newButton}}
+                    {{language.newButton[this.selected_language]}}
                 </button>
             </router-link>
         </div>
         <hr>
         <TemplateCard
             :objects="this.locations"
+            :language="this.selected_language"
         />
     </div>
 </template>
@@ -36,8 +37,16 @@
         },
         data: () => {
             return {
-                pageTitle: 'Locations',
-                newButton: 'Create New Location',
+                language: {
+                    pageTitle: {
+                        en: 'Locations',
+                        pt: 'Locais',
+                    },
+                    newButton: {
+                        en: 'Create New Location',
+                        pt: 'Criar Novo Local',
+                    },
+                },
                 locations: [
                     {
                         name: 'Location #1',
@@ -154,6 +163,11 @@
                         image_link: "https://i.redd.it/8f8ync5fkhy51.jpg",
                     },
                 ]
+            }
+        },
+        computed: {
+            selected_language() {
+                return this.$store.getters.getLanguage;
             }
         }
     }

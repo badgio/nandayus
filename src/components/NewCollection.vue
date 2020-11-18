@@ -3,7 +3,7 @@
         class="card"
     >
         <h1>
-            {{pageTitle}}
+            {{language.pageTitle[this.selected_language]}}
         </h1>
         <form
             class="form"
@@ -19,7 +19,7 @@
                     <label
                         for="name_input"
                     >
-                        Name*:
+                        {{language.name[this.selected_language]}}*:
                     </label>
                     <div>
                         <input
@@ -37,7 +37,7 @@
                     <label
                         for="description_1"
                     >
-                        Description*:
+                        {{language.description[this.selected_language]}}*:
                     </label>
                     <textarea
                         name="description"
@@ -59,7 +59,7 @@
                         <label
                             for="myFile"
                         >
-                            Image*:
+                            {{language.image[this.selected_language]}}*:
                         </label>
                         <br>
                         <img
@@ -107,7 +107,7 @@
                     <label
                         for="state_select"
                     >
-                        Validity*:
+                        {{language.validity[this.selected_language]}}*:
                     </label>
                     <div>
                         <input
@@ -116,8 +116,8 @@
                             value="permanent"
                             v-model="collection.validity"
                         >
-                        <label
-                    >       Permanent
+                        <label>
+                            {{language.validity.permanent[this.selected_language]}}
                         </label>
                         
                     </div>
@@ -129,7 +129,7 @@
                             v-model="collection.validity"
                         >
                         <label>
-                            Temporary
+                            {{language.validity.temporary[this.selected_language]}}
                         </label>
                         <div
                             v-if="collection.state=='temporary'"
@@ -138,7 +138,7 @@
                             <label
                                 for="beg_label"
                             >
-                                Valid from 
+                                {{language.validity.from[this.selected_language]}}
                             </label>
                             <input
                                 class="date_input"
@@ -151,7 +151,7 @@
                             <label
                                 for="end_label"
                             >
-                                until 
+                                {{language.validity.until[this.selected_language]}}
                             </label>
                             <input
                                 class="date_input"
@@ -167,7 +167,7 @@
                 <br>
                 <div>
                     <h4>
-                        Social Networks:
+                        {{language.social_networks[this.selected_language]}}
                     </h4>
                     <br>
                     <div
@@ -227,7 +227,7 @@
                 </div>
             </div>
             <p>
-                {{obligatory_warning['en']}}
+                {{language.obligatory_warning['en']}}
             </p>
             <div
                 class="form_button"
@@ -236,7 +236,7 @@
                     class="submit_button"
                     type="submit"
                 >
-                    Submit Place
+                    {{language.submit_collection[this.selected_language]}}
                 </button>
             </div>
         </form>
@@ -251,7 +251,56 @@
         name : "NewCollection",
         data: () => {
             return {
-                pageTitle: "New Collection",
+                language: {
+                    pageTitle: {
+                        en: "New Collection",
+                        pt: 'Nova Coleção',
+                    },
+                    name: {
+                        en: 'Name',
+                        pt: 'Nome',
+                    },
+                    description: {
+                        en: 'Description',
+                        pt: 'Descrição',
+                    },
+                    image: {
+                        en: 'Image',
+                        pt: 'Imagem',
+                    },
+                    social_networks: {
+                        en: 'Social Networks',
+                        pt: 'Redes Sociais'
+                    },
+                    validity: {
+                        en: 'Validity',
+                        pt: 'Duração',
+                        permanent: {
+                            en: 'Permanent',
+                            pt: 'Permanente',
+                        },
+                        temporary: {
+                            en: 'Temporary',
+                            pt: 'Temporária',
+                        },
+                        from: {
+                            en: 'Valid from ',
+                            pt: 'Válida  de ',
+                        },
+                        until: {
+                            en: ' until ',
+                            pt: ' até ',
+                        },
+                    },
+                    obligatory_warning: {
+                        pt: 'Todos os campos assinalados com * são de preenchimento obrigatório.',
+                        en: 'All fields signaled by * are required.',
+                    },
+                    submit_collection: {
+                        en: 'Submit Collection',
+                        pt: 'Submeter Coleção',
+                    },
+                },
                 collection: {
                     name: '',
                     description: '',
@@ -267,17 +316,15 @@
                         twitter: '',
                     }
                 },
-                obligatory_warning: {
-                   pt: 'Todos os campos assinalados com * são de preenchimento obrigatório.',
-                   en: 'All fields signaled by * are required.'
-                },
             }
         },
         created() {
             this.collection.curr_date = new Date().toJSON().slice(0,10);
-            console.log(this.collection.curr_date);
         },
         computed: {
+            selected_language() {
+                return this.$store.getters.getLanguage;
+            },
             latest_date: function() {
                 if (this.collection.curr_date < this.collection.beg_date) return this.collection.beg_date;
                 else return this.collection.curr_date;

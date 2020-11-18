@@ -3,7 +3,7 @@
         class="card"
     >
         <h1>
-            {{pageTitle}}
+            {{language.pageTitle[selected_language]}}
         </h1>
         <form
             class="form"
@@ -19,7 +19,7 @@
                     <label
                         for="name_input"
                     >
-                        Name*:
+                        {{language.name[selected_language]}}*:
                     </label>
                     <div>
                         <input
@@ -35,15 +35,15 @@
                 <label
                     for="map"
                 >
-                    Map*:
+                    {{language.map[selected_language]}}*
                 </label>
                 <p>
-                    {{mapAdvisory['en']}}
+                    {{language.mapAdvisory[selected_language]}}
                 </p>
                 <p
                     v-if="location.position.lattitude && location.position.longitude"
                 >
-                    {{curr_lattitude['en']}} {{this.location.position.lattitude.toFixed(3)}} {{curr_longitude['en']}} {{this.location.position.longitude.toFixed(3)}}
+                    {{language.curr_lattitude[selected_language]}} {{this.location.position.lattitude.toFixed(3)}} {{language.curr_longitude[selected_language]}} {{this.location.position.longitude.toFixed(3)}}
                 </p>
                 <div
                     class="map_container"
@@ -77,7 +77,7 @@
                     <label
                         for="address_select"
                     >
-                        Address*:
+                        {{language.address[selected_language]}}*:
                     </label>
                     <div>
                         <input
@@ -96,7 +96,7 @@
                     <label
                         for="type_select"
                     >
-                        Location Type*:
+                        {{language.type[selected_language]}}*:
                     </label>
                     <select
                         name="type_select"
@@ -109,14 +109,14 @@
                             selected
                             disabled
                         >
-                            Location Type
+                            {{language.location_type[selected_language]}}
                         </option>
                         <option
                             v-for="type in types"
                             :key=type.index
                             :value="type.name"
                         >
-                            {{type.name}}
+                            {{type.name[selected_language]}}
                         </option>
                     </select>
                 </div>
@@ -126,7 +126,7 @@
                     <label
                         for="postal_code_select"
                     >
-                        Postal Code*:
+                        {{language.postal_code[selected_language]}}*:
                     </label>
                     <input
                         class="input_textfield"
@@ -143,7 +143,7 @@
                     <label
                         for="district_select"
                     >
-                        District*:
+                        {{language.district[selected_language]}}*:
                     </label>
                     <input
                         class="input_textfield"
@@ -160,7 +160,7 @@
                     <label
                         for="country_select"
                     >
-                        Country*:
+                        {{language.country[selected_language]}}*:
                     </label>
                     <select
                         name="country_select"
@@ -173,7 +173,7 @@
                             selected
                             disabled
                         >
-                            Country
+                            {{language.country[selected_language]}}
                         </option>
                         <option
                             v-for="country in countries"
@@ -189,7 +189,7 @@
                     <label
                         for="description_1"
                     >
-                        Description*:
+                        {{language.description[selected_language]}}*:
                     </label>
                     <textarea
                         name="description"
@@ -211,7 +211,7 @@
                         <label
                             for="myFile"
                         >
-                            Image*:
+                            {{language.image[selected_language]}}*:
                         </label>
                         <img
                             v-if="this.location.image"
@@ -254,7 +254,7 @@
                 <br>
                 <div>
                     <h4>
-                        Social Networks:
+                        {{language.social_networks[selected_language]}}
                     </h4>
                     <br>
                     <div
@@ -314,7 +314,7 @@
                 </div>
             </div>
             <p>
-                {{obligatory_warning['en']}}
+                {{language.obligatory_warning[selected_language]}}
             </p>
             <div
                 class="form_button"
@@ -323,7 +323,7 @@
                     class="submit_button"
                     type="submit"
                 >
-                    Submit Place
+                    {{language.submit_location[selected_language]}}
                 </button>
             </div>
         </form>
@@ -350,18 +350,75 @@
         },
         data: () => {
             return {
-                pageTitle: "New Location",
-                mapAdvisory: {
-                    en: 'Point your location on the map, double clicking it. Assure that you are as precise as possible, as that location defines where your location will be shown on Badgio.',
-                    pt: 'Assinale a localização no mapa, através de um duplo clique. Assegure-se que é o mais preciso possível, uma vez que a localização que assinalar definirá onde esta será apresentada no Badgio.'
-                },
-                curr_lattitude: {
-                    en: 'Current location\'s Lattitude: ',
-                    pt: 'Localização atual. Latitude: '
-                },
-                curr_longitude: {
-                    en: ' & Longitude: ',
-                    pt: ' & Longitude: '
+                language: {
+                    pageTitle: {
+                        en: "New Location",
+                        pt: 'Novo Local',
+                    },
+                    name: {
+                        en: 'Name',
+                        pt: 'Nome',
+                    },
+                    map: {
+                        en: 'Map',
+                        pt: 'Mapa',
+                    },
+                    mapAdvisory: {
+                        en: 'Point your location on the map, double clicking it. Assure that you are as precise as possible, as that location defines where your location will be shown on Badgio.',
+                        pt: 'Assinale a localização no mapa, através de um duplo clique. Assegure-se que é o mais preciso possível, uma vez que a localização que assinalar definirá onde esta será apresentada no Badgio.'
+                    },
+                    curr_lattitude: {
+                        en: 'Current location\'s Lattitude: ',
+                        pt: 'Localização atual. Latitude: '
+                    },
+                    curr_longitude: {
+                        en: ' & Longitude: ',
+                        pt: ' & Longitude: '
+                    },
+                    address: {
+                        en: 'Address',
+                        pt: 'Morada',
+                    },
+                    type: {
+                        en: 'Type',
+                        pt: 'Tipo',
+                    },
+                    location_type: {
+                        en: 'Location Type',
+                        pt: 'Tipo de Local'
+                    },
+                    postal_code: {
+                        en: 'Postal Code',
+                        pt: 'Código Postal',
+                    },
+                    district: {
+                        en: 'District',
+                        pt: 'Distrito',
+                    },
+                    country: {
+                        en: 'Country',
+                        pt: 'País',
+                    },
+                    description: {
+                        en: 'Description',
+                        pt: 'Descrição',
+                    },
+                    image: {
+                        en: 'Image',
+                        pt: 'Imagem',
+                    },
+                    social_networks: {
+                        en: 'Social Networks',
+                        pt: 'Redes Sociais',
+                    },
+                    submit_location: {
+                        en: 'Submit Location',
+                        pt: 'Submeter Local'
+                    },
+                    obligatory_warning: {
+                        pt: 'Todos os campos assinalados com * são de preenchimento obrigatório.',
+                        en: 'All fields signaled by * are required.'
+                    },
                 },
                 location: {
                     name: '',
@@ -385,10 +442,16 @@
                 },
                 types: [
                     {
-                        name: 'Atração Turística'
+                        name: {
+                            en: 'Touristic Attraction',
+                            pt: 'Atração Turística',
+                        },
                     },
                     {
-                        name: 'Estabelecimento Comercial'
+                        name: {
+                            en: 'Commercial Establishment',
+                            pt: 'Estabelecimento Comercial',
+                        },
                     }
                 ],
                 countries: [
@@ -420,10 +483,6 @@
                         name: 'Ireland'
                     },
                 ],
-                obligatory_warning: {
-                   pt: 'Todos os campos assinalados com * são de preenchimento obrigatório.',
-                   en: 'All fields signaled by * are required.'
-                },
                 map: {
                     zoom: 3,
                     center: latLng(41.55, -8.42), // Braga
@@ -444,6 +503,11 @@
                     },
                 },
             }
+        },
+        computed: {
+            selected_language() {
+                return this.$store.getters.getLanguage;
+            },
         },
         methods: {
             submitForm(e) {

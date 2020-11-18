@@ -12,19 +12,19 @@
                     {{this.location.name}}
                 </h3>
                 <p>
-                    Type: {{this.location.type}}
+                    {{language.type[this.selected_language]}}: {{this.location.type}}
                 </p>
                 <p>
-                    Address: {{this.location.address}}
+                    {{language.address[this.selected_language]}}: {{this.location.address}}
                 </p>
                 <p>
-                    Postal Code: {{this.location.postal_code}}
+                    {{language.postal_code[this.selected_language]}}: {{this.location.postal_code}}
                 </p>
                 <p>
-                    District: {{this.location.district}}
+                    {{language.district[this.selected_language]}}: {{this.location.district}}
                 </p>
                 <p>
-                    Country: {{this.location.country}}
+                    {{language.country[this.selected_language]}}: {{this.location.country}}
                 </p>
             </div>
             <div
@@ -43,13 +43,13 @@
                     <button
                         class="submit_button"
                     >
-                        Browse File
+                        {{language.browse_file[this.selected_language]}}
                     </button>
                 </div>
             </div>
         </div>
         <h6>
-            Description:
+            {{language.description[this.selected_language]}}
         </h6>
         <br>
         <textarea
@@ -74,7 +74,7 @@
         >
         <br>
         <h6>
-            Redes Sociais
+            {{language.social_networks[this.selected_language]}}
         </h6>
         <p>
             Facebook:
@@ -109,7 +109,7 @@
         <button
             class="submit_button"
         >
-            Submit Changes
+            {{language.submit_changes[this.selected_language]}}
         </button>
     </div>
 </template>
@@ -120,6 +120,44 @@
         data: () => {
             return {
                 pageTitle: "Location",
+                language: {
+                    type: {
+                        en: 'Type',
+                        pt: 'Tipo',
+                    },
+                    address: {
+                        en: 'Address',
+                        pt: 'Morada',
+                    },
+                    postal_code: {
+                        en: 'Postal Code',
+                        pt: 'Código Postal',
+                    },
+                    district: {
+                        en: 'District',
+                        pt: 'Distrito',
+                    },
+                    country: {
+                        en: 'Country',
+                        pt: 'País',
+                    },
+                    browse_file: {
+                        en: 'Browse File',
+                        pt: 'Carregar Ficheiro',
+                    },
+                    description: {
+                        en: 'Description',
+                        pt: 'Descrição',
+                    },
+                    social_networks: {
+                        en: 'Social Networks',
+                        pt: 'Redes Sociais',
+                    },
+                    submit_changes: {
+                        en: 'Submit Changes',
+                        pt: 'Submeter Alterações',
+                    },
+                },
                 location: {
                     name: 'Location Location Location',
                     address: 'Main Street, number 1',
@@ -268,6 +306,11 @@
                    pt: 'Todos os campos assinalados com * são de preenchimento obrigatório.',
                    en: 'All fields signaled by * are required.'
                 },
+            }
+        },
+        computed: {
+            selected_language() {
+                return this.$store.getters.getLanguage;
             }
         },
         methods: {
