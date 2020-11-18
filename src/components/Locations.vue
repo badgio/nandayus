@@ -41,31 +41,115 @@
                 locations: [
                     {
                         name: 'Location #1',
+                        statistics: {
+                            url: '/statistics/location',
+                            text: {
+                                en: 'Statistics',
+                                pt: 'Estatísticas'
+                            }
+                        },
+                        management: {
+                            url:'/newlocation',
+                            text: {
+                                en: 'Management',
+                                pt: 'Gestão'
+                            }
+                        },
                         url: '/newlocation',
                         image_link: "https://media.istockphoto.com/photos/empty-coffee-shop-picture-id1154756901",
                     },
                     {
                         name: 'Location #2',
+                        statistics: {
+                            url: '/statistics/location',
+                            text: {
+                                en: 'Statistics',
+                                pt: 'Estatísticas'
+                            }
+                        },
+                        management: {
+                            url:'/newlocation',
+                            text: {
+                                en: 'Management',
+                                pt: 'Gestão'
+                            }
+                        },
                         url: '/newlocation',
                         image_link: "https://media.istockphoto.com/photos/this-cafes-got-a-little-something-for-everyone-picture-id520497828",
                     },
                     {
                         name: 'Location #3',
+                        statistics: {
+                            url: '/statistics/location',
+                            text: {
+                                en: 'Statistics',
+                                pt: 'Estatísticas'
+                            }
+                        },
+                        management: {
+                            url:'/newlocation',
+                            text: {
+                                en: 'Management',
+                                pt: 'Gestão'
+                            }
+                        },
                         url: '/newlocation',
                         image_link: "https://media.istockphoto.com/photos/old-church-picture-id816378880",
                     },
                     {
                         name: 'Location #4',
+                        statistics: {
+                            url: '/statistics/location',
+                            text: {
+                                en: 'Statistics',
+                                pt: 'Estatísticas'
+                            }
+                        },
+                        management: {
+                            url:'/newlocation',
+                            text: {
+                                en: 'Management',
+                                pt: 'Gestão'
+                            }
+                        },
                         url: '/newlocation',
                         image_link: "https://images.pexels.com/photos/137038/pexels-photo-137038.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
                     },
                     {
                         name: 'Location #5',
+                        statistics: {
+                            url: '/statistics/location',
+                            text: {
+                                en: 'Statistics',
+                                pt: 'Estatísticas'
+                            }
+                        },
+                        management: {
+                            url:'/newlocation',
+                            text: {
+                                en: 'Management',
+                                pt: 'Gestão'
+                            }
+                        },
                         url: '/newlocation',
                         image_link: "https://i.redd.it/lefp60p4bky51.jpg",
                     },
                     {
                         name: 'Location Location Location Location Location #6',
+                        statistics: {
+                            url: '/statistics/location',
+                            text: {
+                                en: 'Statistics',
+                                pt: 'Estatísticas'
+                            }
+                        },
+                        management: {
+                            url:'/newlocation',
+                            text: {
+                                en: 'Management',
+                                pt: 'Gestão'
+                            }
+                        },
                         url: '/newlocation',
                         image_link: "https://i.redd.it/8f8ync5fkhy51.jpg",
                     },

@@ -47,31 +47,115 @@
                 collections: [
                     {
                         name: 'Collection #1',
+                        statistics: {
+                            url: '/statistics/location',
+                            text: {
+                                en: 'Statistics',
+                                pt: 'Estatísticas'
+                            }
+                        },
+                        management: {
+                            url:'/collection',
+                            text: {
+                                en: 'Management',
+                                pt: 'Gestão'
+                            }
+                        },
                         url: '/newcollection',
                         image_link: "https://media.istockphoto.com/photos/empty-coffee-shop-picture-id1154756901",
                     },
                     {
                         name: 'Collection #2',
+                        statistics: {
+                            url: '/statistics/location',
+                            text: {
+                                en: 'Statistics',
+                                pt: 'Estatísticas'
+                            }
+                        },
+                        management: {
+                            url:'/collection',
+                            text: {
+                                en: 'Management',
+                                pt: 'Gestão'
+                            }
+                        },
                         url: '/newcollection',
                         image_link: "https://media.istockphoto.com/photos/this-cafes-got-a-little-something-for-everyone-picture-id520497828",
                     },
                     {
-                        name: 'Collection #3',
+                        name: 'Collection Collection Collection Collection Collection Collection Collection Collection Collection Collection Collection #3',
+                        statistics: {
+                            url: '/statistics/location',
+                            text: {
+                                en: 'Statistics',
+                                pt: 'Estatísticas'
+                            }
+                        },
+                        management: {
+                            url:'/collection',
+                            text: {
+                                en: 'Management',
+                                pt: 'Gestão'
+                            }
+                        },
                         url: '/newcollection',
                         image_link: "https://media.istockphoto.com/photos/old-church-picture-id816378880",
                     },
                     {
                         name: 'Collection #4',
+                        statistics: {
+                            url: '/statistics/location',
+                            text: {
+                                en: 'Statistics',
+                                pt: 'Estatísticas'
+                            }
+                        },
+                        management: {
+                            url:'/collection',
+                            text: {
+                                en: 'Management',
+                                pt: 'Gestão'
+                            }
+                        },
                         url: '/newcollection',
                         image_link: "https://images.pexels.com/photos/137038/pexels-photo-137038.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
                     },
                     {
                         name: 'Collection #5',
+                        statistics: {
+                            url: '/statistics/location',
+                            text: {
+                                en: 'Statistics',
+                                pt: 'Estatísticas'
+                            }
+                        },
+                        management: {
+                            url:'/collection',
+                            text: {
+                                en: 'Management',
+                                pt: 'Gestão'
+                            }
+                        },
                         url: '/newcollection',
                         image_link: "https://i.redd.it/lefp60p4bky51.jpg",
                     },
                     {
                         name: 'Collection Collection Collection Collection Collection #6',
+                        statistics: {
+                            url: '/statistics/location',
+                            text: {
+                                en: 'Statistics',
+                                pt: 'Estatísticas'
+                            }
+                        },
+                        management: {
+                            url:'/collection',
+                            text: {
+                                en: 'Management',
+                                pt: 'Gestão'
+                            }
+                        },
                         url: '/newcollection',
                         image_link: "https://i.redd.it/8f8ync5fkhy51.jpg",
                     },
@@ -81,7 +165,7 @@
     }
 </script>
 
-<style>
+<style scoped>
 
 h1 {
   padding-top : 25px;

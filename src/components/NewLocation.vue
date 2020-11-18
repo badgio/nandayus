@@ -219,13 +219,19 @@
                             width=320px
                             height=270px
                         />
-                        <input
-                            type="file"
-                            id="myFile"
-                            name="filename"
-                            required
-                            v-on:change="onFileChange"
+                        <div
+                            style="width: 100%;"
                         >
+                            <br>
+                            <input
+                                type="file"
+                                id="myFile"
+                                name="filename"
+                                style="width: 75px; margin: 0 auto;"
+                                required
+                                v-on:change="onFileChange"
+                            >
+                        </div>
                     </div>
                 </div>
                 <br>
@@ -575,6 +581,10 @@ select {
 #imgPreview img {
     border: 2px solid #0a4870;
     border-radius: 5px;
+}
+
+input[type='file'] {
+  color: transparent;
 }
 
 .grid-container {

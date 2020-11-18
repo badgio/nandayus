@@ -57,7 +57,17 @@ const routes = [
     path: '/collections',
     name: 'collections',
     component: () => import('../components/Collections.vue')
-  }
+  },
+  {
+    path: '/collection',
+    name: 'collection',
+    component: () => import('../components/Collection.vue')
+  },
+  {
+    path: '/newcollection',
+    name: 'newcollection',
+    component: () => import('../components/NewCollection.vue')
+  },
 ]
 
 const router = new VueRouter({
