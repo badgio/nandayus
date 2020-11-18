@@ -1,6 +1,6 @@
 <template>
   <div class="login-box">
-    <h2>Login</h2>
+    <h2>Sign-In</h2>
     <form @submit.prevent="submit">
       <div class="user-box">
         <input type="text" name="email" required="" v-model="form.email">
@@ -25,7 +25,7 @@ html {
 
 .login-box {
   position: absolute;
-  top: 50%;
+  top: 30%;
   left: 50%;
   width: 400px;
   padding: 40px;

@@ -114,7 +114,7 @@
                             type="radio"
                             id="state_input1"
                             value="permanent"
-                            v-model="collection.state"
+                            v-model="collection.validity"
                         >
                         <label
                     >       Permanent
@@ -126,7 +126,7 @@
                             type="radio"
                             id="state_input2"
                             value="temporary"
-                            v-model="collection.state"
+                            v-model="collection.validity"
                         >
                         <label>
                             Temporary
@@ -257,7 +257,7 @@
                     description: '',
                     image: '',
                     website: '',
-                    state: '',
+                    validity: '',
                     curr_date: '',
                     beg_date: '',
                     end_date:'',
