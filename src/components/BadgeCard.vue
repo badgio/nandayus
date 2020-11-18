@@ -15,6 +15,7 @@
             class="badge_button"
             type="button"
             value="X"
+            v-on:click="removeBadge(id)"
         >
         <div
             class="badge_column"
@@ -40,6 +41,10 @@
     export default {
         name: 'BadgeCard',
         props: {
+            id: {
+                type: String,
+                default: true
+            },
             name: {
                 type: String,
                 default: true
@@ -55,14 +60,16 @@
             imageURL: {
                 type: String,
                 default: true
-            }
+            },
         },
         data () {
             return {
             }
         },
-        created() {
-            console.log(this.imageURL)
+        methods: {
+            removeBadge(e) {
+                this.$emit('eventRemoveBadge', e);
+            }
         }
     }
 </script>
@@ -122,7 +129,7 @@
 
 @media (max-width: 650px) {
     .badge_card {
-        width: 75%;
+        width: 95%;
         min-width: 300px;
         margin: 15px auto 15px;
         display: grid;
@@ -136,7 +143,7 @@
     }
 
     .badge_column_image {
-        max-width: 98%;
+        max-width: 99%;
         max-height: 100%;
         border-radius: 5px;
     }
