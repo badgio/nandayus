@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>
-            {{pageTitle}}
+            {{language.pageTitle[selected_language]}}
         </h1>
         <router-link
             class="router_link"
@@ -11,12 +11,13 @@
             <button
                 class="submit_button"
             >
-                {{newButton}}
+                {{language.newButton[selected_language]}}
             </button>
         </router-link>
         <hr>
         <TemplateCard
             :objects="this.badges"
+            :language="this.selected_language"
         />
     </div>
 </template>
@@ -30,10 +31,23 @@
         components: {
             TemplateCard,
         },
+        computed: {
+            selected_language() {
+                return this.$store.getters.getLanguage;
+            }
+        },
         data: () => {
             return {
-                pageTitle: 'Badges',
-                newButton: 'Create New Badge',
+                language: {
+                    pageTitle: {
+                        en: 'Badges',
+                        pt: 'Badges',
+                    },
+                    newButton: {
+                        en: 'Create New Badge',
+                        pt: 'Criar Badge Novo',
+                    },
+                },
                 badges: [
                     {
                         name: 'Badge #1',

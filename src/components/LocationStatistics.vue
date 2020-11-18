@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>
-            {{pageTitle['en']}}
+            {{language.pageTitle[this.selected_language]}}
         </h2>
         <div
             class="card_container"
@@ -10,7 +10,7 @@
                 class="card"
             >
                 <h4>
-                    {{totalVisitors['en']}}
+                    {{language.totalVisitors[this.selected_language]}}
                 </h4>
                 <br>
                 <h5>
@@ -21,7 +21,7 @@
                 class="card"
             >
                 <h4>
-                    {{nRedeemedRewards['en']}}
+                    {{language.nRedeemedRewards[this.selected_language]}}
                 </h4>
                 <br>
                 <h5>
@@ -49,25 +49,25 @@
                 class="controller_button"
                 v-on:click="fillChartData('general')"
             >
-                {{general['en']}}
+                {{language.general[this.selected_language]}}
             </button>
             <button
                 class="controller_button"
                 v-on:click="fillChartData('age')"
             >
-                {{age['en']}}
+                {{language.age[this.selected_language]}}
             </button>
             <button
                 class="controller_button"
                 v-on:click="fillChartData('gender')"
             >
-                {{gender['en']}}
+                {{language.gender[this.selected_language]}}
             </button>
             <button
                 class="controller_button"
                 v-on:click="fillChartData('nationality')"
             >
-                {{nationality['en']}}
+                {{language.nationality[this.selected_language]}}
             </button>
         </div>
     </div>
@@ -84,19 +84,37 @@
         },
         data() {
             return {
+                language: {
+                    pageTitle: {
+                        en: 'Statistics - Location...',
+                        pt: 'Estatísticas Local...'
+                    },
+                    totalVisitors: {
+                        en: 'Total Visitors:',
+                        pt: 'Total de Visitantes:'
+                    },
+                    nRedeemedRewards: {
+                        en: 'Nº of Redeemed Rewards',
+                        pt: 'Nº de Recompensas Redimidas'
+                    },
+                    general: {
+                        en: 'General',
+                        pt: 'Geral'
+                    },
+                    age: {
+                        en: 'Age Range',
+                        pt: 'Faixa Etária'
+                    },
+                    gender: {
+                        en: 'Gender',
+                        pt: 'Género'
+                    },
+                    nationality: {
+                        en: 'Nationality',
+                        pt: 'Nacionalidade'
+                    }
+                },
                 loaded: false,
-                pageTitle: {
-                    en: 'Statistics - Location...',
-                    pt: 'Estatísticas Local...'
-                },
-                totalVisitors: {
-                    en: 'Total Visitors:',
-                    pt: 'Total de Visitantes:'
-                },
-                nRedeemedRewards: {
-                    en: 'Nº of Redeemed Rewards',
-                    pt: 'Nº de Recompensas Redimidas'
-                },
                 chart: {
                     data: {
                         dates: ['01-01-2021', '02-01-2021', '03-01-2021', '04-01-2021'],
@@ -208,22 +226,6 @@
                         ]
                     }
                 },
-                general: {
-                    en: 'General',
-                    pt: 'Geral'
-                },
-                age: {
-                    en: 'Age Range',
-                    pt: 'Faixa Etária'
-                },
-                gender: {
-                    en: 'Gender',
-                    pt: 'Género'
-                },
-                nationality: {
-                    en: 'Nationality',
-                    pt: 'Nacionalidade'
-                }
             }
         },
         created() {
@@ -235,7 +237,7 @@
             for (let obj of this.chart.data.general) {
                 datasets.push(
                     {
-                        label: obj.label['en'],
+                        label: obj.label[this.selected_language],
                         data: obj.data
                     }
                 )
@@ -244,6 +246,9 @@
             this.chartdata.datasets = datasets;
         },
         computed: {
+            selected_language() {
+                return this.$store.getters.getLanguage;
+            },
             chartdata() {
                     return {
                         labels: [],
@@ -262,7 +267,7 @@
                 for (let obj of this.chart.data[cat_name]) {
                     datasets.push(
                         {
-                            label: obj.label['en'],
+                            label: obj.label[this.selected_language],
                             data: obj.data
                         }
                     )

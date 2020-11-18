@@ -4,7 +4,7 @@
             class="card"
         >
             <h1>
-                {{pageTitle}}
+                {{language.pageTitle[selected_language]}}
             </h1>
             <v-form
                 class = "form"
@@ -18,7 +18,7 @@
                         <label
                             for="name_input"
                         >
-                            Name:
+                            {{language.name[selected_language]}}
                         </label>
                         <div>
                             <input
@@ -36,7 +36,7 @@
                         <label
                             for="location_select"
                         >
-                            Location:
+                            {{language.location[selected_language]}}
                         </label>
                         <select
                             name="location_select"
@@ -48,7 +48,7 @@
                                 selected
                                 disabled
                             >
-                                Local
+                                {{language.location[selected_language]}}
                             </option>
                             <option
                                 v-for="location in locations"
@@ -65,7 +65,7 @@
                         <label
                             for="collection_select"
                         >
-                            Collection:
+                            {{language.collection[selected_language]}}
                         </label>
                         <select
                             name="collection_select"
@@ -77,7 +77,7 @@
                                 selected
                                 disabled
                             >
-                                Collection
+                                {{language.collection[selected_language]}}
                             </option>
                             <option
                                 v-for="collection in collections"
@@ -94,7 +94,7 @@
                         <label
                             for="state_select"
                         >
-                            State:
+                            {{language.state[sel]}}
                         </label>
                         <div>
                             <input
@@ -103,8 +103,8 @@
                                 value="permanent"
                                 v-model="badge.state"
                             >
-                            <label
-                        >       Permanent
+                            <label>
+                                {{language.state.permanent[selected_language]}}
                             </label>
                             
                         </div>
@@ -116,7 +116,7 @@
                                 v-model="badge.state"
                             >
                             <label
-                        >       Temporary
+                        >       {{language.state.temporary[selected_language]}}
                             </label>
                             
                         </div>
@@ -126,7 +126,7 @@
                         <label
                             for="description_1"
                         >
-                            Description:
+                            {{language.description[selected_language]}}
                         </label>
                         <textarea
                             name="description"
@@ -147,7 +147,7 @@
                             <label
                                 for="myFile"
                             >
-                                Image:
+                                {{language.image[selected_language]}}
                             </label>
                             <br>
                             <img
@@ -175,7 +175,7 @@
                         class="submit_button"
                         type="button"
                     >
-                        Submit Badge
+                        {{language.submit_badge[selected_language]}}
                     </button>
                 </div>
             </v-form>
@@ -189,9 +189,55 @@
         name : "NewBadge",
         components: {
         },
+        computed: {
+            selected_language() {
+                return this.$store.getters.getLanguage;
+            },
+        },
         data: () => {
             return {
-                pageTitle: "New Badge",
+                language: {
+                    pageTitle: {
+                        en: 'New Badge',
+                        pt: 'Novo Badge',
+                    },
+                    name: {
+                        en: 'Name',
+                        pt: 'Name',
+                    },
+                    location: {
+                        en: 'Location',
+                        pt: 'Local',
+                    },
+                    collection: {
+                        en: 'Collection',
+                        pt: 'Coleção',
+                    },
+                    state: {
+                        en: 'State',
+                        pt: 'Estado',
+                        permanent: {
+                            en: 'Permanent',
+                            pt: 'Permanente',
+                        },
+                        temporary: {
+                            en: 'Temporary',
+                            pt: 'Temporário',
+                        },
+                    },
+                    description: {
+                        en: 'Description',
+                        pt: 'Descrição',
+                    },
+                    image: {
+                        en: 'Image',
+                        pt: 'Imagem',
+                    },
+                    submit_badge: {
+                        en: 'Submit Badge',
+                        pt: 'Submeter Badge'
+                    },
+                },
                 badge_name: '',
                 badge: {
                     name: '',
@@ -292,6 +338,10 @@ select {
 #imgPreview img {
     border: 2px solid #0a4870;
     border-radius: 5px;
+}
+
+input[type='file'] {
+  color: transparent;
 }
 
 .grid-container {

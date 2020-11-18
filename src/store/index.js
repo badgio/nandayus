@@ -4,17 +4,24 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    language: 'pt',
     user: {
       loggedIn: false,
       data: null
     }
   },
   getters: {
+    getLanguage(state) {
+      return state.language;
+    },
     user(state){
-      return state.user
+      return state.user;
     }
   },
   mutations: {
+    changeLanguageMutation:(state, language) =>  {
+      state.language = language;
+    },
     SET_LOGGED_IN(state, value) {
       state.user.loggedIn = value;
     },
@@ -23,6 +30,10 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    changeLanguageAction({commit}, lang) {
+      // action that calls changeLanguageMutation which changes the language in which the site is displayed
+      commit('changeLanguageMutation', lang);
+    },
     fetchUser({ commit }, user) {
       commit("SET_LOGGED_IN", user !== null);
       if (user) {
