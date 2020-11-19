@@ -19,8 +19,22 @@
             </router-link>
         </div>    
         <hr>
+        <div
+            class="filter"
+        >
+            <i
+                class="mdi mdi-magnify icon"
+            > 
+            </i>
+            <input
+                type="text"
+                class="search_bar"
+                :placeholder="language.filter_text[this.selected_language]"
+                v-model="searchQuery"
+            >
+        </div>
         <TemplateCard
-            :objects="this.badges"
+            :objects="this.result_badges"
             :language="this.selected_language"
         />
     </div>
@@ -38,6 +52,16 @@
         computed: {
             selected_language() {
                 return this.$store.getters.getLanguage;
+            },
+            result_badges() {
+                if (this.searchQuery) {
+                    return this.badges.filter((item) => {
+                        return this.searchQuery.toLowerCase().split(' ').every(v => item.name.toLowerCase().includes(v));
+                    })
+                }
+                else {
+                    return this.badges;
+                }
             }
         },
         data: () => {
@@ -46,12 +70,17 @@
                     pageTitle: {
                         en: 'Badges',
                         pt: 'Badges',
+                    },                    
+                    filter_text: {
+                        en: 'Filter your Badges',
+                        pt: 'Filtrar os seus Badges',
                     },
                     newButton: {
                         en: 'Create New Badge',
                         pt: 'Criar Badge Novo',
                     },
                 },
+                searchQuery: '',
                 badges: [
                     {
                         name: 'Badge #1',
@@ -169,7 +198,7 @@
                     },
                 ]
             }
-        }
+        },
     }
 </script>
 
@@ -193,6 +222,19 @@ h1 {
 .router {
     margin: 0px auto 0px;
     text-align: center;
+}
+
+.filter {
+    float: left;
+    margin: 10px 0px 10px 5%;
+}
+
+.search_bar {
+    height: 35px;
+    width: 200px;
+    border: 1px solid #999;
+    border-radius: 5px;
+    box-shadow: 4px 4px #ccc;
 }
 
 .submit_button {
