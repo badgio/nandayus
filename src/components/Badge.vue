@@ -58,11 +58,15 @@
             </div>
         </div>
         <br>
-        <button
-            class="submit_button"
+        <div
+            class="row"
         >
-            Submit Changes
-        </button>
+            <button
+                class="submit_button"
+            >
+                Submit Changes
+            </button>
+        </div>
     </div>
 </template>
 
@@ -276,7 +280,13 @@ input[type='file'] {
   color: transparent;
 }
 
-.submit_button {
+.row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.row > button {
     border: 1px solid #999;
     border-radius: 5px;
     background-color: #F0F8FF;
@@ -284,12 +294,10 @@ input[type='file'] {
     padding: 15px 15px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
     font-size: 12px;
     font-weight: bold;
     width: 150px;
-    height: 50px;
-    margin: 0px auto 20px;
+    margin: 10px auto;
     cursor: pointer;
 }
 

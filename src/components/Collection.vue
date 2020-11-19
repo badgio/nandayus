@@ -164,11 +164,15 @@
             </div>
         </div>
         <br>
-        <button
-            class="submit_button"
+        <div
+            class="row"
         >
-            {{language.submit_changes[this.selected_language]}}
-        </button>
+            <button
+                class="submit_button"
+            >
+                {{language.submit_changes[this.selected_language]}}
+            </button>
+        </div>
     </div>
 </template>
 
@@ -364,6 +368,19 @@
   color: #0a4870;
 }
 
+
+h3 {
+    padding-top : 15px;
+}
+
+p {
+    font-size: 12px;
+}
+
+h3, h6, p {
+    margin: 5px 0px 5px 15px;
+}
+
 .card {
     width: 85%;
     margin: 0 auto;
@@ -465,18 +482,6 @@ input {
     color: white;
 }
 
-h3 {
-    padding-top : 15px;
-}
-
-p {
-    font-size: 12px;
-}
-
-h3, h6, p {
-    margin: 5px 0px 5px 15px;
-}
-
 /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other (also change the direction - make the "cart" column go on top) */
 @media (max-width: 650px) {
     .card {
@@ -531,7 +536,13 @@ input[type='file'] {
   color: transparent;
 }
 
-.submit_button {
+.row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.row > button {
     border: 1px solid #999;
     border-radius: 5px;
     background-color: #F0F8FF;
@@ -539,12 +550,10 @@ input[type='file'] {
     padding: 15px 15px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
     font-size: 12px;
     font-weight: bold;
     width: 150px;
-    height: 50px;
-    margin: 0px auto 20px;
+    margin: 10px auto;
     cursor: pointer;
 }
 

@@ -1,12 +1,10 @@
 <template>
-    <div
-        class="card"
-    >
+    <div>
         <div
-            class="row"
+            class="card location_card"
         >
             <div
-                class="col-60"
+                class="left_col_75"
             >
                 <h3>
                     {{this.location.name}}
@@ -26,15 +24,28 @@
                 <p>
                     {{language.country[this.selected_language]}}: {{this.location.country}}
                 </p>
+                <h6>
+                    {{language.description[this.selected_language]}}
+                </h6>
+                <textarea
+                    name="description"
+                    id="description_1"
+                    class = "desc_textarea"
+                    :cols = "60"
+                    :rows = "4"
+                    required
+                    v-model="location.description"
+                ></textarea>
             </div>
             <div
-                class="col-40"
+                class="right_col_25"
             >
                 <div
                     id="imgPreview"
                 >
                     <br>
                     <img
+                        class="card_image"
                         src="https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038"
                         width=160px
                         height=135px
@@ -48,69 +59,65 @@
                 </div>
             </div>
         </div>
-        <h6>
-            {{language.description[this.selected_language]}}
-        </h6>
         <br>
-        <textarea
-            name="description"
-            id="description_1"
-            class = "desc_textarea"
-            :cols = "60"
-            :rows = "4"
-            required
-            v-model="location.description"
-        ></textarea>
-        <h6>
-            Website:
-        </h6>
-        <br>
-        <input
-            class="input_textfield"
-            type="url"
-            id="site_name_input"
-            name="site_name"
-            v-model="location.website"
+        <div
+            class="card social_networks_card"
         >
-        <br>
-        <h6>
-            {{language.social_networks[this.selected_language]}}
-        </h6>
-        <p>
-            Facebook:
-        </p>
-        <input
-            class="input_textfield"
-            type="url"
-            id="fb_input"
-            name="fb"
-            v-model="location.social_networks.facebook"
+            <h6>
+                Website:
+            </h6>
+            <br>
+            <input
+                class="input_textfield"
+                type="url"
+                id="site_name_input"
+                name="site_name"
+                v-model="location.website"
+            >
+            <br>
+            <h6>
+                {{language.social_networks[this.selected_language]}}
+            </h6>
+            <p>
+                Facebook:
+            </p>
+            <input
+                class="input_textfield"
+                type="url"
+                id="fb_input"
+                name="fb"
+                v-model="location.social_networks.facebook"
+            >
+            <p>
+                Twitter:
+            </p>
+            <input
+                class="input_textfield"
+                type="url"
+                id="tw_input"
+                name="tw"
+                v-model="location.social_networks.twitter"
+            >
+            <p>
+                Instagram:
+            </p>
+            <input
+                class="input_textfield"
+                type="url"
+                id="insta_input"
+                name="insta"
+                v-model="location.social_networks.instagram"
+            >
+        </div>
+        <div
+            class="row"
         >
-        <p>
-            Twitter:
-        </p>
-        <input
-            class="input_textfield"
-            type="url"
-            id="tw_input"
-            name="tw"
-            v-model="location.social_networks.twitter"
-        >
-        <p>
-            Instagram:
-        </p>
-        <input
-            class="input_textfield"
-            type="url"
-            id="insta_input"
-            name="insta"
-            v-model="location.social_networks.instagram"
-        >
-        <button
-            class="submit_button"
-        >
-            {{language.submit_changes[this.selected_language]}}
-        </button>
+            <button
+                class="submit_button"
+            >
+                {{language.submit_changes[this.selected_language]}}
+            </button>
+        </div>
     </div>
 </template>
 
@@ -156,6 +163,10 @@
                     submit_changes: {
                         en: 'Submit Changes',
                         pt: 'Submeter Alterações',
+                    },    
+                    obligatory_warning: {
+                        pt: 'Todos os campos assinalados com * são de preenchimento obrigatório.',
+                        en: 'All fields signaled by * are required.'
                     },
                 },
                 location: {
@@ -205,107 +216,7 @@
                     {
                         name: 'Espanha'
                     },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
                 ],
-                obligatory_warning: {
-                   pt: 'Todos os campos assinalados com * são de preenchimento obrigatório.',
-                   en: 'All fields signaled by * are required.'
-                },
             }
         },
         computed: {
@@ -333,7 +244,7 @@
 }
 
 h3 {
-  padding-top : 25px;
+    padding-top : 15px;
 }
 
 p {
@@ -341,61 +252,90 @@ p {
 }
 
 h3, h6, p {
-    margin: 5px 0px 0px 2.5%;
+    margin: 5px 0px 5px 15px;
 }
 
-.row {
-    display: -ms-flexbox; /* IE10 */
-    display: flex;
-    -ms-flex-wrap: wrap; /* IE10 */
-    flex-wrap: wrap;
-    max-height: 300px;
-    width: 100%;
+.card {
+    width: 85%;
     margin: 0 auto;
+    background-color: #eee;
+    border: 2px solid teal;
+    border-radius: 5px;
 }
 
-.col-40 {
-  -ms-flex: 40%; /* IE10 */
-  flex: 40%;
+.location_card {
+    height: 300px;
+    display: grid;
+    grid-auto-columns: 60% 40%;
 }
 
-.col-50 {
-  -ms-flex: 50%; /* IE10 */
-  flex: 50%;
+.location_card > .left_col_75 > textarea {
+    margin-left: 10px;
 }
 
-.col-60 {
-  -ms-flex: 60%; /* IE10 */
-  flex: 60%;
-  text-align: center;
+.left_col_75 {
+    grid-column: 1 / 2;
 }
 
-.col-40,
-.col-50,
-.col-60 {
-    margin: 0 auto 0;
-    padding: 0 16px;
+.right_col_25 {
+    grid-column: 2 / 3;
+}
+
+.card_image {
+    margin: 0px auto 0px;
+    width: 95%;
+    height: 65%;
+    max-width: 300px;
+    max-height: 350px;
+    min-width: 150px;
+    min-height: 165px;
+}
+
+.social_networks_card {
+    display: grid;
+}
+
+input {
+    height: 35px;
+    margin: 0px 0px 10px 15px;
+    border: 1px solid #999;
+    border-radius: 5px;
+    box-shadow: 4px 4px #ccc;
+}
+
+.social_networks_card > input {
+    width: 95%;
 }
 
 /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other (also change the direction - make the "cart" column go on top) */
 @media (max-width: 650px) {
-    .row {
-        flex-direction: column-reverse;
-        max-height: 500px;
-        text-align: center;
-        margin: 0 auto;
+    .card {
+        width: 95%;
     }
 
-    .col-40,
-    .col-50,
-    .col-60 {
-        text-align: center;
-        margin: 0 auto;
-        width: 100%;
+    .location_card {
+        height: 600px;
+        grid-auto-columns: 100%;
+        grid-auto-rows: 50% 50%;
     }
 
-    h6 {
+    .left_col_75 {
+        grid-row: 2 / 3;
+        width: 95%;
+        margin: 0 auto;
         text-align: center;
+    }
+
+    .right_col_25 {
+        width: 95%;
+        margin: 0 auto;
+        grid-column: 1 / 2;
+    }
+
+    .card_image {
+        margin: 0px auto 0px;
+        width: 90%;
+        height: 85%;
     }
 }
 
@@ -420,7 +360,13 @@ input[type='file'] {
   color: transparent;
 }
 
-.submit_button {
+.row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.row > button {
     border: 1px solid #999;
     border-radius: 5px;
     background-color: #F0F8FF;
@@ -428,12 +374,10 @@ input[type='file'] {
     padding: 15px 15px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
     font-size: 12px;
     font-weight: bold;
     width: 150px;
-    height: 50px;
-    margin: 0px auto 20px;
+    margin: 10px auto;
     cursor: pointer;
 }
 
