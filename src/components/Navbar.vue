@@ -22,6 +22,19 @@
         </label>
       </div>
       <div class="nav-links">
+        <router-link
+            class="router_link"
+            :to=item.link
+            v-for="item in menu"
+            :key="item.index"
+          >
+            <a>
+              {{item.title[selected_language]}}
+            </a>
+          </router-link>
+      </div>
+      <!--
+      <div class="nav-links">
         <a
           v-for="item in menu"
           :key="item.index"
@@ -34,6 +47,8 @@
           </router-link>
         </a>
       </div>
+          -->
+
     </div>
   </div>
 </template>
@@ -154,6 +169,7 @@ export default {
 .nav > .nav-links > a {
   display: inline-block;
   padding: 13px 10px 13px 10px;
+  height: 50px;
   text-decoration: none;
   color: #efefef;
 }
@@ -161,6 +177,11 @@ export default {
 .nav > .nav-links > a:hover {
   background-color: rgba(0, 0, 0, 0.3);
 }
+
+.nav > .nav-links > a > span.router-link {
+    width: 100%;
+    margin: 0 auto;
+  }
 
 .nav > #nav-check {
   display: none;
@@ -208,11 +229,6 @@ export default {
   .nav > .nav-links > a > .router_link {
     display: block;
     width: 100%;
-  }
-
-  .nav > .nav-links > a > span.router-link {
-    width: 100%;
-    margin: 0 auto;
   }
 
   .nav > #nav-check:not(:checked) ~ .nav-links {
