@@ -19,11 +19,6 @@ const routes = [
     component: () => import('../components/SignUp.vue')
   },
   {
-    path: '/profile',
-    name: 'profile',
-    component: () => import('../components/Profile.vue')
-  },
-  {
     path: '/badges',
     name: 'badges',
     component: () => import('../components/Templates.vue'),
