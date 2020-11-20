@@ -70,7 +70,7 @@
                     {
                         name: 'Collection #1',
                         statistics: {
-                            url: '/statistics/location',
+                            url: '/statistics/collection',
                             text: {
                                 en: 'Statistics',
                                 pt: 'Estatísticas'
@@ -89,7 +89,7 @@
                     {
                         name: 'Collection #2',
                         statistics: {
-                            url: '/statistics/location',
+                            url: '/statistics/collection',
                             text: {
                                 en: 'Statistics',
                                 pt: 'Estatísticas'
@@ -108,7 +108,7 @@
                     {
                         name: 'Collection Collection Collection Collection Collection Collection Collection Collection Collection Collection Collection #3',
                         statistics: {
-                            url: '/statistics/location',
+                            url: '/statistics/collection',
                             text: {
                                 en: 'Statistics',
                                 pt: 'Estatísticas'
@@ -127,7 +127,7 @@
                     {
                         name: 'Collection #4',
                         statistics: {
-                            url: '/statistics/location',
+                            url: '/statistics/collection',
                             text: {
                                 en: 'Statistics',
                                 pt: 'Estatísticas'
@@ -146,7 +146,7 @@
                     {
                         name: 'Collection #5',
                         statistics: {
-                            url: '/statistics/location',
+                            url: '/statistics/collection',
                             text: {
                                 en: 'Statistics',
                                 pt: 'Estatísticas'
@@ -165,7 +165,7 @@
                     {
                         name: 'Collection Collection Collection Collection Collection #6',
                         statistics: {
-                            url: '/statistics/location',
+                            url: '/statistics/collection',
                             text: {
                                 en: 'Statistics',
                                 pt: 'Estatísticas'
