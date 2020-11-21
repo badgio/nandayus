@@ -70,6 +70,31 @@
                 {{language.nationality[this.selected_language]}}
             </button>
         </div>
+        <hr>
+        <h3>
+            {{language.table[this.selected_language]}}
+        </h3>
+        <table>
+            <tr>
+                <th>
+                    {{language.table.location_name[this.selected_language]}}
+                </th>
+                <th>
+                    {{language.table.n_of_visitors[this.selected_language]}}
+                </th>
+            </tr>
+            <tr
+                v-for="item in this.tabledata"
+                :key="item.index"
+            >
+                <td>
+                    {{item.name}}
+                </td>
+                <td>
+                    {{item.visitors}}
+                </td>
+            </tr>
+        </table>
     </div>
 </template>
 
@@ -78,24 +103,24 @@
     import LineChart from './LineChart.vue';
 
     export default {
-        name: 'LocationStatistics',
+        name: 'CollectionStatistics',
         components: {
-            LineChart
+            LineChart,
         },
         data() {
             return {
                 language: {
                     pageTitle: {
-                        en: 'Statistics - Location...',
-                        pt: 'Estatísticas Local...'
+                        en: 'Statistics - Collection ...',
+                        pt: 'Estatísticas - Coleção ...',
                     },
                     totalVisitors: {
-                        en: 'Total Visitors:',
-                        pt: 'Total de Visitantes:'
+                        en: 'Total Visitors',
+                        pt: 'Nº Total de Visitantes',
                     },
                     nRedeemedRewards: {
                         en: 'Nº of Redeemed Rewards',
-                        pt: 'Nº de Recompensas Redimidas'
+                        pt: 'Nº de Recompensas Redimidas',
                     },
                     chart: {
                         en: 'Chart',
@@ -116,6 +141,18 @@
                     nationality: {
                         en: 'Nationality',
                         pt: 'Nacionalidade'
+                    },
+                    table: {
+                        en: 'Table',
+                        pt: 'Tabela',
+                        location_name: {
+                            en: 'Location',
+                            pt: 'Local',
+                        },
+                        n_of_visitors: {
+                            en: 'Total Nº of Visitors',
+                            pt: 'Nº Total de Visitantes',
+                        },
                     },
                 },
                 loaded: false,
@@ -230,6 +267,36 @@
                         ]
                     }
                 },
+                tabledata: [
+                    {
+                        name: 'Location #1',
+                        visitors: 15,
+                    },
+                    {
+                        name: 'Location #2',
+                        visitors: 20,
+                    },
+                    {
+                        name: 'Location #3',
+                        visitors: 25,
+                    },
+                    {
+                        name: 'Location #4',
+                        visitors: 30,
+                    },
+                    {
+                        name: 'Location #5',
+                        visitors: 25,
+                    },
+                    {
+                        name: 'Location #6',
+                        visitors: 20,
+                    },
+                    {
+                        name: 'Location #7',
+                        visitors: 15,
+                    },
+                ],
             }
         },
         created() {
@@ -344,6 +411,57 @@ h2, h3 {
     height: 50px;
     margin: 10px auto 10px;
     cursor: pointer;
+}
+
+/*
+    Table Styling
+*/
+
+/*
+    Spacing
+*/
+
+table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th:nth-child(1) {
+  width: 30%;
+}
+
+thead th:nth-child(2) {
+  width: 20%;
+}
+
+thead th:nth-child(3) {
+  width: 15%;
+}
+
+thead th:nth-child(4) {
+  width: 35%;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  text-align: center;
+  padding: 8px;
+}
+
+/*
+    Graphics and colors
+*/
+
+tr:hover {
+    background-color: #ddd;
+} 
+
+th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #4CAF50;
+    color: white;
 }
 
 </style>
