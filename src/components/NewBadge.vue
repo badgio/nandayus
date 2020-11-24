@@ -189,13 +189,9 @@
 </template>
 
 <script>
-import Multiselect from "vue-multiselect";
 
     export default {
         name : "NewBadge",
-        components: {
-            Multiselect
-        },
         computed: {
             selected_language() {
                 return this.$store.getters.getLanguage;
@@ -283,12 +279,6 @@ import Multiselect from "vue-multiselect";
                    pt: 'Todos os campos assinalados com * são de preenchimento obrigatório.',
                    en: 'All fields signaled by * are required.'
                 },
-                value: null,
-                options: [
-                    { name: "Orange", value: "orange" },
-                    { name: "Apple", value: "apple" },
-                    { name: "Grape", value: "grape" }
-                ],
             }
         },
         methods: {
