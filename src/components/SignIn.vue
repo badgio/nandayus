@@ -90,6 +90,14 @@ export default {
         .catch(err => {
           this.error = err.message;
         });
+      firebase
+      .auth().currentUser.getIdToken(/* forceRefresh */ true)
+      .then(function(idToken) {
+        console.log(idToken);
+      })
+      .catch(function(error) {
+        this.error = err.message;
+      });
     }
   }
 };

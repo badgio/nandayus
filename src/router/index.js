@@ -42,7 +42,7 @@ const routes = [
         {
             name: 'Badge #1',
             statistics: {
-                url: '/statistics/location',
+                url: '/statistics/badge',
                 text: {
                     en: 'Statistics',
                     pt: 'Estatísticas'
@@ -61,7 +61,7 @@ const routes = [
         {
             name: 'Badge #2',
             statistics: {
-                url: '/statistics/location',
+                url: '/statistics/badge',
                 text: {
                     en: 'Statistics',
                     pt: 'Estatísticas'
@@ -80,7 +80,7 @@ const routes = [
         {
             name: 'Badge #3',
             statistics: {
-                url: '/statistics/location',
+                url: '/statistics/badge',
                 text: {
                     en: 'Statistics',
                     pt: 'Estatísticas'
@@ -99,7 +99,7 @@ const routes = [
         {
             name: 'Badge #4',
             statistics: {
-                url: '/statistics/location',
+                url: '/statistics/badge',
                 text: {
                     en: 'Statistics',
                     pt: 'Estatísticas'
@@ -118,7 +118,7 @@ const routes = [
         {
             name: 'Badge #5',
             statistics: {
-                url: '/statistics/location',
+                url: '/statistics/badge',
                 text: {
                     en: 'Statistics',
                     pt: 'Estatísticas'
@@ -137,7 +137,7 @@ const routes = [
         {
             name: 'Badge Badge Badge Badge Badge #6',
             statistics: {
-                url: '/statistics/location',
+                url: '/statistics/badge',
                 text: {
                     en: 'Statistics',
                     pt: 'Estatísticas'
@@ -471,6 +471,11 @@ const routes = [
     path: '/statistics/collection',
     name: 'collectionstatistics',
     component: () => import('../components/CollectionStatistics.vue')
+  },  
+  {
+    path: '/statistics/badge',
+    name: 'badgesstatistics',
+    component: () => import('../components/BadgeStatistics.vue')
   },  
 ]
 
