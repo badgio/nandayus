@@ -23,32 +23,19 @@
       </div>
       <div class="nav-links">
         <router-link
-            class="router_link"
-            :to=item.link
-            v-for="item in menu"
-            :key="item.index"
-          >
-            <a>
-              {{item.title[selected_language]}}
-            </a>
-          </router-link>
-      </div>
-      <!--
-      <div class="nav-links">
-        <a
+          class="router_link"
+          :to=item.link
           v-for="item in menu"
           :key="item.index"
         >
-          <router-link
-            class="router_link"
-            :to=item.link
-          >
+          <a>
             {{item.title[selected_language]}}
-          </router-link>
-        </a>
+          </a>
+        </router-link>
+           <a href="" @click="signOut()">
+            {{language.sign_out[selected_language]}}
+          </a>
       </div>
-          -->
-
     </div>
   </div>
 </template>
@@ -59,6 +46,12 @@ import firebase from "firebase";
 export default {
   name : "Navbar",
     data :() => ({
+        language:{
+          sign_out: {
+            en: 'Sign Out',
+            pt: 'Terminar Sessão',
+          }
+        },  
         menu : [
             {
               title: {
@@ -94,13 +87,6 @@ export default {
                 pt: 'Iniciar Sessão',
               },
               link: "/signin"
-            },
-            {
-              title: {
-                en: 'Sign Out',
-                pt: 'Terminar Sessão',
-              },
-              link: '/'
             },
         ]
     }),
@@ -172,16 +158,19 @@ export default {
   height: 50px;
   text-decoration: none;
   color: #efefef;
+  cursor: pointer;
 }
 
 .nav > .nav-links > a:hover {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
+/*
 .nav > .nav-links > a > span.router-link {
     width: 100%;
     margin: 0 auto;
   }
+*/
 
 .nav > #nav-check {
   display: none;

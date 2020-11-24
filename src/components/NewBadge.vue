@@ -291,31 +291,25 @@
 </script>
 
 <style scoped>
-
 h1 {
   padding : 25px;
   margin : auto;
   text-align : center;
 }
-
 .form_button {
     text-align: center;
 }
-
 .form {
     width: 75%;
     margin: auto;
 }
-
 .selects {
     width: 100%;
 }
-
 label {
     text-align: left;
     font-weight: bold;
 }
-
 select {
     border: 1px solid #999;
     border-radius: 5px;
@@ -328,22 +322,18 @@ select {
     font-size: 18px;
     overflow: auto;
 }
-
 #imgPreview {
     margin: 0 auto 0;
     font-weight: bold;
     text-align: center;
 }
-
 #imgPreview img {
     border: 2px solid #0a4870;
     border-radius: 5px;
 }
-
 input[type='file'] {
   color: transparent;
 }
-
 .grid-container {
     width: 95%;
     min-width: 200px;
@@ -353,13 +343,11 @@ input[type='file'] {
     grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
     grid-gap: 25px;
 }
-
 .grid-container-2 {
     display: grid;
     grid-template-columns: repeat(auto-fill);
     grid-gap: 10px;
 }
-
 .desc_textarea {
     width: 100%;
     align-self: center;
@@ -368,7 +356,6 @@ input[type='file'] {
     box-shadow: 4px 4px #ccc;
     text-indent: 1%;
 }
-
 .input_textfield {
     width: 100%;
     height: 50px;
@@ -379,7 +366,6 @@ input[type='file'] {
     box-shadow: 4px 4px #ccc;
     text-indent: 1%;
 }
-
 .submit_button {
     border: 1px solid #999;
     border-radius: 5px;
@@ -395,5 +381,4 @@ input[type='file'] {
     margin: 10px auto 20px;
     cursor: pointer;
 }
-
 </style>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div
-            class="card collection_card"
+            class="card badge_card"
         >
             <div
                 class="left_col_75"
@@ -10,19 +10,16 @@
                     {{this.badge.name}}
                 </h3>
                 <h6>
-                    State: {{this.badge.state}}
+                    {{language.state[this.selected_language]}}: {{this.badge.state}}
                 </h6>
                 <h6>
-                    Location: {{this.badge.location}}
+                    {{language.location[this.selected_language]}}: {{this.badge.location}}
                 </h6>
                 <h6>
-                    Collection: {{this.badge.collection}}
+                    {{language.validity[this.selected_language]}}: {{this.badge.validity}}
                 </h6>
                 <h6>
-                    Validity: {{this.badge.validity}}
-                </h6>
-                <h6>
-                    Description:
+                    {{language.description[this.selected_language]}}
                 </h6>
                 <textarea
                     name="description"
@@ -35,6 +32,7 @@
                 >
                 </textarea>
             </div>
+            
             <div
                 class="right_col_25"
             >
@@ -52,9 +50,75 @@
                     <button
                         class="submit_button"
                     >
-                        Browse File
+                        {{language.browse_file[this.selected_language]}}
                     </button>
                 </div>
+            </div>
+        </div>
+        <br>
+        <div
+            class="card collection_card"
+        >
+            <h6>
+                {{language.associated_collections[this.selected_language]}}
+            </h6>
+            <div
+                class="input_icons"
+            >
+                <i
+                    class="mdi mdi-magnify icon"
+                > 
+                </i>
+                <input
+                    type="text"
+                    class="search_bar"
+                    :placeholder="language.search_collections[this.selected_language]"
+                    v-model="searchQuery"
+                >
+                <button>
+                    {{language.add[this.selected_language]}}
+                </button>
+            </div>
+            <div
+                class="collection_results"
+                v-if="this.searchQuery"
+            >
+                <div
+                    class="queried_collection"
+                    v-for="(collection, index) in result_collections"
+                    :key="index"
+                >
+                    <input
+                        class="collection_button"
+                        type="button"
+                        value="+"
+                        v-on:click="addToSelected(collection.id)"
+                    >
+                    <b>
+                        Collection: {{collection.name}}
+                    </b>
+                </div>
+            </div>
+            <hr>
+            <div
+                v-if="badge.collections.length > 0"
+            >
+                <CollectionCard
+                    v-for="collection in badge.collections"
+                    :key="collection.index"
+                    :id="collection.id"
+                    :name="collection.name"
+                    :description="collection.description"
+                    :imageURL="collection.image"
+                    v-on:eventRemoveCollection="removeFromSelected"
+                />
+            </div>
+            <div
+                v-else
+            >
+                <h6>
+                    {{language.no_collections[this.selected_language]}}
+                </h6>
             </div>
         </div>
         <br>
@@ -64,7 +128,7 @@
             <button
                 class="submit_button"
             >
-                Submit Changes
+                {{language.submit_changes[this.selected_language]}}
             </button>
         </div>
     </div>
@@ -72,21 +136,138 @@
 
 <script>
 
-    
+    import CollectionCard from './CollectionCard.vue';
 
     export default {
         name: 'Badge',
+        components: {
+            CollectionCard
+        },
         data: () => {
             return {
                 pageTitle: "Badge",
+                language: {
+                    state: {
+                        en: 'State',
+                        pt: 'Estado',
+                    },
+                    location: {
+                        en: 'Location',
+                        pt: 'Localização',
+                    },
+                    collection: {
+                        en: 'Collection',
+                        pt: 'Coleção',
+                    },
+                    validity: {
+                        en: 'Validity',
+                        pt: 'Validade',
+                    },
+                    browse_file: {
+                        en: 'Browse File',
+                        pt: 'Carregar Ficheiro',
+                    },
+                    description: {
+                        en: 'Description',
+                        pt: 'Descrição',
+                    },
+                    associated_collections: {
+                        en: 'Collections associated with the Badge:',
+                        pt: 'Coleções associados à Badge:'
+                    },
+                    search_collections: {
+                        en: 'Search Collections',
+                        pt: 'Procurar Coleções',
+                    },
+                    add: {
+                        en: 'Add',
+                        pt: 'Adicionar',
+                    },
+                    no_collections: {
+                        en: 'You have no Collections associated with the Badge. Add some! If you don\'t have any, you can create some!',
+                        pt: 'Não tem Coleções associados à Badge. Adicione alguns! Se não tem nenhum, pode criá-los!'
+                    },
+                    submit_changes: {
+                        en: 'Submit Changes',
+                        pt: 'Submeter Alterações',
+                    },    
+                    obligatory_warning: {
+                        pt: 'Todos os campos assinalados com * são de preenchimento obrigatório.',
+                        en: 'All fields signaled by * are required.'
+                    },
+                },
+                all_collections: [
+                    {
+                        id: '1',
+                        name: 'André Gonçalves',
+                        description: 'Description Description Description Description Description Description Description Description Description Description #1',
+                        image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
+                    },
+                    {
+                        id: '2',
+                        name: 'Diogo Gonçalves',
+                        description: 'Description Description Description Description Description Description Description Description Description Description #2',
+                        image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
+                    },
+                    {
+                        id: '3',
+                        name: 'Francisco Francisco Francisco Reinolds',
+                        description: 'Description Description Description Description Description Description Description Description Description Description #3',
+                        image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
+                    },
+                    {
+                        id: '4',
+                        name: 'José Costa',
+                        description: 'Description Description Description Description Description Description Description Description Description Description #1',
+                        image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
+                    },
+                    {
+                        id: '5',
+                        name: 'Luís Alves',
+                        description: 'Description Description Description Description Description Description Description Description Description Description #2',
+                        image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
+                    },
+                    {
+                        id: '6',
+                        name: 'Miguel Carvalho',
+                        description: 'Description Description Description Description Description Description Description Description Description Description #3',
+                        image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
+                    },
+                    {
+                        id: '7',
+                        name: 'Rafaela Rodrigues',
+                        description: 'Description Description Description Description Description Description Description Description Description Description #3',
+                        image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
+                    },
+                ],
+                searchQuery: null,
                 badge: {
                     name: 'Badge X',
                     state: 'Approved',
                     location: 'Centro',
-                    collection: 'Verde Cool',
                     validity: 'Permanent',
                     description: '',
                     image: '',
+                    collections: [
+                        {
+                            id: '8',
+                            name: 'Collection Collection Collection #1',
+                            description: 'Description Description Description Description Description Description Description Description Description Description #1',
+                            image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
+                        },
+                        {
+                            id: '9',
+                            name: 'Collection Collection Collection #2',
+                            description: 'Description Description Description Description Description Description Description Description Description Description #2',
+                            image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
+                        },
+                        {
+                            id: '10',
+                            name: 'Collection Collection Collection #3',
+                            description: 'Description Description Description Description Description Description Description Description Description Description #3',
+                            image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
+                        },
+                    ],
                 },
                 obligatory_warning: {
                    pt: 'Todos os campos assinalados com * são de preenchimento obrigatório.',
@@ -100,8 +281,30 @@
             },
             onFileChange(e) {
                 const file = e.target.files[0];
-                this.collection.image = URL.createObjectURL(file);
+                this.badge.image = URL.createObjectURL(file);
             },
+            addToSelected(e) {
+                this.badge.collections.push(this.all_collections.splice(this.all_collections.findIndex(x => x.id == e), 1)[0]);
+                this.searchQuery = null;
+            },
+            removeFromSelected(e) {
+                this.all_collections.push(this.badge.collections.splice(this.badge.collections.findIndex(x => x.id == e), 1)[0]);
+            }
+        },
+        computed: {
+            selected_language() {
+                return this.$store.getters.getLanguage;
+            },
+            result_collections() {
+                if (this.searchQuery) {
+                    return this.all_collections.filter((item) => {
+                        return this.searchQuery.toLowerCase().split(' ').every(v => item.name.toLowerCase().includes(v));
+                    })
+                }
+                else {
+                    return this.all_collections;
+                }
+            }
         },
     }
 </script>
@@ -113,6 +316,19 @@
   color: #0a4870;
 }
 
+
+h3 {
+    padding-top : 15px;
+}
+
+p {
+    font-size: 12px;
+}
+
+h3, h6, p {
+    margin: 5px 0px 5px 15px;
+}
+
 .card {
     width: 85%;
     margin: 0 auto;
@@ -121,7 +337,7 @@
     border-radius: 5px;
 }
 
-.collection_card {
+.badge_card {
     height: 300px;
     display: grid;
     grid-auto-columns: 60% 40%;
@@ -161,11 +377,11 @@ input {
     width: 95%;
 }
 
-.badge_card > .input_icons {
+.collection_card > .input_icons {
     width: 100%;
 }
 
-.badge_card > .input_icons > input {
+.collection_card > .input_icons > input {
     width: 75%;
 }
 
@@ -176,19 +392,19 @@ input {
     text-align: center; 
 } 
 
-.badge_card >.input_icons > button {
+.collection_card >.input_icons > button {
     margin: 0px 0px 10px 15px;
     width: 80px;
     height: 35px;
 }
 
-.badge_card > .badge_results {
+.collection_card > .collection_results {
     width: 65%;
     min-width: 280px;
     margin-left: 50px; 
 }
 
-.badge_card > .badge_results > .queried_badge {
+.collection_card > .collection_results > .queried_collection {
     display: flex;
     align-items: center;
     position: relative;
@@ -200,7 +416,7 @@ input {
     border-radius: 5px;
 }
 
-.badge_card > .badge_results > .queried_badge > .badge_button {
+.collection_card > .collection_results > .queried_collection > .collection_button {
     width: 30px;
     height: 30px;
     font-size: 12pt;
@@ -214,25 +430,13 @@ input {
     color: white;
 }
 
-h3 {
-    padding-top : 15px;
-}
-
-p {
-    font-size: 12px;
-}
-
-h3, h6, p {
-    margin: 5px 0px 5px 15px;
-}
-
 /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other (also change the direction - make the "cart" column go on top) */
 @media (max-width: 650px) {
     .card {
         width: 95%;
     }
 
-    .collection_card {
+    .badge_card {
         height: 600px;
         grid-auto-columns: 100%;
         grid-auto-rows: 50% 50%;
