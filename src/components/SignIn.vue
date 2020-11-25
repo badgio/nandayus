@@ -80,24 +80,25 @@ export default {
   },
   methods: {
     submit() {
-      console.log("signiinnnn")
       firebase
         .auth()
         .signInWithEmailAndPassword(this.form.email, this.form.password)
         .then(data => {
+          console.log("Sign-In")
+          console.log("Refresh Token");
+          console.log(data.user.refreshToken);
+          firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
+            console.log("Id Token")
+            console.log(idToken);
+          })
+          .catch(function(error) {
+            this.error = err.message;
+          });
           this.$router.replace({ name: "Home" });
         })
         .catch(err => {
           this.error = err.message;
         });
-      firebase
-      .auth().currentUser.getIdToken(/* forceRefresh */ true)
-      .then(function(idToken) {
-        console.log(idToken);
-      })
-      .catch(function(error) {
-        this.error = err.message;
-      });
     }
   }
 };
