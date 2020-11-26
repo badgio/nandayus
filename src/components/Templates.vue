@@ -107,7 +107,7 @@ h1 {
 }
 
 .filter {
-    float: left;
+    float: right;
     margin: 10px 0px 10px 5%;
 }
 
