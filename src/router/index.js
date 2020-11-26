@@ -38,7 +38,7 @@ const routes = [
         },
       },
       toLink: '/newbadge',
-      data: [
+      prov_data: [
         {
             name: 'Badge #1',
             statistics: {
@@ -191,7 +191,7 @@ const routes = [
         },
       },
       toLink: '/newlocation',
-      data: [
+      prov_data: [
           {
             name: 'Location #1',
             statistics: {
@@ -339,7 +339,7 @@ const routes = [
         },
       },
       toLink: '/newcollection',
-      data: [
+      prov_data: [
         {
           name: 'Collection #1',
           statistics: {
@@ -476,6 +476,11 @@ const routes = [
     path: '/statistics/badge',
     name: 'badgesstatistics',
     component: () => import('../components/BadgeStatistics.vue')
+  },
+  {
+      path: '/contact-us',
+      name: 'contactform',
+      component: () => import('../components/Contact.vue')
   },
   {
       path: '*',
