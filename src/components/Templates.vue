@@ -61,7 +61,7 @@
             prov_data: {
                 type: Array,
                 required: true,
-            }
+            },
         },
         data: () => {
             return {

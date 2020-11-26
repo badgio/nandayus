@@ -6,7 +6,7 @@
             <h1>
                 {{language.pageTitle[selected_language]}}
             </h1>
-            <v-form
+            <form
                 class = "form"
             >
                 <div
@@ -94,7 +94,7 @@
                         <label
                             for="state_select"
                         >
-                            {{language.state[sel]}}
+                            {{language.state[selected_language]}}
                         </label>
                         <div>
                             <input
@@ -178,7 +178,7 @@
                         {{language.submit_badge[selected_language]}}
                     </button>
                 </div>
-            </v-form>
+            </form>
         </div>
     </div>
 </template>
