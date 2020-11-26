@@ -476,7 +476,12 @@ const routes = [
     path: '/statistics/badge',
     name: 'badgesstatistics',
     component: () => import('../components/BadgeStatistics.vue')
-  },  
+  },
+  {
+      path: '*',
+      name: 'pagenotfound',
+      component: () => import('../components/PageNotFound.vue')
+  }
 ]
 
 const router = new VueRouter({
