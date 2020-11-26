@@ -21,11 +21,11 @@
           <span></span>
         </label>
       </div>
-      <div class="nav-links">
+      <div v-if="user.loggedIn" class="nav-links">
         <router-link
           class="router_link"
           :to=item.link
-          v-for="item in menu"
+          v-for="item in menu_admin"
           :key="item.index"
         >
           <a>
@@ -35,6 +35,18 @@
            <a href="" @click="signOut()">
             {{language.sign_out[selected_language]}}
           </a>
+      </div>
+      <div v-else class="nav-links">
+        <router-link
+          class="router_link"
+          :to=item.link
+          v-for="item in menu_front_page"
+          :key="item.index"
+        >
+          <a>
+            {{item.title[selected_language]}}
+          </a>
+        </router-link>
       </div>
     </div>
   </div>
@@ -52,7 +64,7 @@ export default {
             pt: 'Terminar Sessão',
           }
         },  
-        menu : [
+        menu_admin : [
             {
               title: {
                 en: 'Badges',
@@ -74,6 +86,33 @@ export default {
               },
               link : "/locations"
             },
+        ],
+        menu_manager : [
+            {
+              title: {
+                en: "Locations",
+                pt: 'Locais',
+              },
+              link : "/locations"
+            },
+        ],
+        menu_promoter : [
+            {
+              title: {
+                en: 'Badges',
+                pt: 'Badges',
+              },
+              link : "/badges"
+            },
+            {
+              title: {
+                en: "Collections",
+                pt: 'Coleções',
+              },
+              link: '/collections'
+            },
+        ],
+        menu_front_page : [
             {
               title: {
                 en: "Sign Up",
@@ -88,7 +127,7 @@ export default {
               },
               link: "/signin"
             },
-        ]
+        ],
     }),
     computed: {
       selected_language() {
