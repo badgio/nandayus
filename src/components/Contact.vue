@@ -3,7 +3,9 @@
         <div
             class="card contact"
         >
-            <h3>
+            <h3
+                class="pageTitle"
+            >
                 {{language.contact_us[this.selected_language]}}
             </h3>
             <hr>
@@ -16,6 +18,7 @@
                 >
                     {{language.about[this.selected_language]}}*
                 </label>
+                <br>
                 <select
                     name="about"
                     id="about"
@@ -44,6 +47,7 @@
                 >
                     {{language.email[selected_language]}}*
                 </label>
+                <br>
                 <input
                     id="email_field"
                     type="text"
@@ -97,7 +101,7 @@
                     },
                     about: {
                         en: 'What is the contact about',
-                        pt: 'Tema do Contato',
+                        pt: 'Razão do Contato',
                     },
                     about_default: {
                         en: 'Choose a Subject',
@@ -148,20 +152,28 @@
     margin: 0 auto;
     border-radius: 5px;
     border: 1px solid #b3b3b3;
-    text-align: center;
+    text-align: left;
     padding: 20px;
+}
+
+.pageTitle {
+    text-align: center;
 }
 
 /**/
 
 input[type=text], select, textarea {
   width: 90%;
-  margin: 5px auto 5px;
+  margin: 5px 5% 5px 5%;
   padding: 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
   resize: vertical;
+}
+
+label {
+    margin-left: 5%;
 }
 
 .submit_button {

@@ -32,6 +32,16 @@
             <div
                 class="row"
             >
+                <router-link
+                    class="contact_link"
+                    to="/contact-us"
+                >
+                    Contact us via our form!
+                </router-link>
+            </div>
+            <div
+                class="row"
+            >
                 <ul>
                     <li>
                         <span class="mdi mdi-email"></span> - contact@badgio.pt
@@ -114,6 +124,12 @@ footer {
     margin: 0 auto 10px;
     display: flex;
     justify-content: center;
+}
+
+.contact_link {
+    margin-top: 10px;
+    text-decoration: none;
+    color: white;
 }
 
 span {
