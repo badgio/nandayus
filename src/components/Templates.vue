@@ -34,7 +34,7 @@
             >
         </div>
         <TemplateCard
-            :objects="result_data"
+            :objects="this.result_data"
             :language="this.selected_language"
         />
     </div>
@@ -58,10 +58,10 @@
                 type: String,
                 required: true,
             },
-            data: {
-                type: Object,
+            prov_data: {
+                type: Array,
                 required: true,
-            }
+            },
         },
         data: () => {
             return {
@@ -74,12 +74,12 @@
             },
             result_data() {
                 if (this.searchQuery) {
-                    return this.data.filter((item) => {
+                    return this.prov_data.filter((item) => {
                         return this.searchQuery.toLowerCase().split(' ').every(v => item.name.toLowerCase().includes(v));
                     })
                 }
                 else {
-                    return this.data;
+                    return this.prov_data;
                 }
             }
         }
@@ -107,8 +107,8 @@ h1 {
 }
 
 .filter {
-    float: left;
-    margin: 10px 0px 10px 5%;
+    float: right;
+    margin: 10px 5% 10px 0px;
 }
 
 .search_bar {
