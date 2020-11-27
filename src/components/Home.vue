@@ -3,7 +3,6 @@
         <h1>
             {{pageTitle}}
         </h1>
-        <Map />
         <ManagementCard
             title="Location Location Test"
             image="https://cdn.pixabay.com/photo/2018/07/14/15/27/cafe-3537801_1280.jpg"
@@ -32,13 +31,11 @@
 <script>
 
     import ManagementCard from './ManagementCard.vue';
-    import Map from './Map.vue';
-
+    
     export default {
         name: "Home",
         components: {
             ManagementCard,
-            Map,
         },
         data: () => {
             return {
