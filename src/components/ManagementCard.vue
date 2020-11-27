@@ -13,7 +13,7 @@
                         class="overlay-image"
                     >
                         <div
-                            v-on:click="logger"
+                            v-on:click="onFileChange"
                         >
                             <img
                                 class="image" 
@@ -26,7 +26,15 @@
                                 <div 
                                     class="text"
                                 >
-                                    Click here and upload a new picture
+                                    <input
+                                        type="file"
+                                        id="myFile"
+                                        name="filename"
+                                        value="SSSSSubmit"
+                                        style="width: 100px; margin: 0 auto;"
+                                        required
+                                        v-on:change="onFileChange"
+                                    >
                                 </div>
                             </div>
                         </div>
@@ -45,6 +53,17 @@
                 >
                     {{par.type['en']}}: {{par.text}}
                 </p>
+                <div
+                    v-if="website"
+                >
+                    <p>
+                        Website
+                    </p>
+                    <input
+                        type="text"
+                        :placeholder="website"
+                    >
+                </div>
             </div>
         </div>
         <div
@@ -73,17 +92,6 @@
             <div
                 class="column full"
             >
-                <div
-                    v-if="website"
-                >
-                    <p>
-                        Website
-                    </p>
-                    <input
-                        type="text"
-                        :placeholder="website"
-                    >
-                </div>
                 <div
                     v-if="social_networks.length > 0"
                 >
@@ -142,7 +150,16 @@
         methods: {
             logger() {
                 console.log('Smth Smth')
-            }
+            },
+            onFileChange(e) {
+                const image = e.target.files[0];
+                const reader = new FileReader();
+                reader.readAsDataURL(image);
+                reader.onload = e => {
+                    this.image = e.target.result;
+                    
+                };
+            },
         },
     }
 </script>
@@ -164,6 +181,7 @@ p {
 
 h3, h6, p {
     margin: 5px 0px 5px 15px;
+    color: #047;
 }
 
 .card {
@@ -177,9 +195,9 @@ h3, h6, p {
 
 /* Create two equal columns that floats next to each other */
 .column {
-  float: right;
-  padding: 10px;
-  border-radius: 5px;
+    float: right;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .half {
@@ -200,16 +218,21 @@ h3, h6, p {
 
 input[type=text] {
     height: 30px;
-    width: 100%;
-    margin: 5px;
+    width: 95%;
+    margin: 5px 0px 5px 15px;
     padding: 2px;
     border-radius: 8px;
     border: 1px solid #c8c8c8;
     background-color: #ececec;
 }
 
+input[type='file'] {
+  color: transparent;
+}
+
 textarea {
-    width: 100%;
+    width: 95%;
+    margin: 5px 0px 5px 15px;
     border-radius: 8px;
     border: 1px solid #c8c8c8;
     background-color: #ececec;
@@ -243,7 +266,7 @@ img {
     border-radius: 5px;
     width: 100%;
     height: 80%;
-    margin-top: 10px;
+    margin-top: 15px;
     max-width: 400px;
     max-height: 250px;
 }
