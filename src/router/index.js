@@ -528,26 +528,6 @@ const routes = [
         component: () => import('../components/Contact.vue')
     },
     {
-        path: '/form4', // Location
-        name: 'form',
-        component: () => import('../components/Form.vue'),
-        props: {
-            pageTitle: {
-                en: 'New Location',
-                pt: 'Novo Local',
-            },
-            show_map: true,
-            show_location_attributes: true,
-            show_duration: true,
-            show_badge_attributes: true,
-            social_networks: true,
-            submit_object: {
-                en: 'Submit Location',
-                pt: 'Submeter Local'
-            },
-        }
-    },
-    {
         path: '*',
         name: 'pagenotfound',
         component: () => import('../components/PageNotFound.vue')
