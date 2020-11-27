@@ -318,11 +318,12 @@
                         <label
                             for="location_select"
                         >
-                            {{language.location[selected_language]}}
+                            {{language.location[selected_language]}}*:
                         </label>
                         <select
                             name="location_select"
                             id="location_select"
+                            required
                             v-model="object.location"
                         >   
                             <option
@@ -348,12 +349,13 @@
                         <label
                             for="collection_select"
                         >
-                            {{language.collection[selected_language]}}
+                            {{language.collection[selected_language]}}*:
                         </label>
                         <select
                             name="collection_select"
                             id="collection_select"
                             v-model="object.collection"
+                            required
                         >
                             <option
                                 value=""
