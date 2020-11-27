@@ -148,9 +148,6 @@
             }
         },
         methods: {
-            logger() {
-                console.log('Smth Smth')
-            },
             onFileChange(e) {
                 const image = e.target.files[0];
                 const reader = new FileReader();

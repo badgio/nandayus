@@ -482,6 +482,27 @@ const routes = [
       name: 'contactform',
       component: () => import('../components/Contact.vue')
   },
+    {
+        path: '/form1', // Badge
+        name: 'form',
+        component: () => import('../components/Form.vue'),
+        props: {
+            pageTitle: {
+                en: 'New Badge',
+                pt: 'Novo Badge',
+            },
+        }
+    },
+    {
+        path: '/form2', // Collection
+        name: 'form',
+        component: () => import('../components/Form.vue')
+    },
+    {
+        path: '/form3', // Location
+        name: 'form',
+        component: () => import('../components/Form.vue')
+    },
   {
       path: '*',
       name: 'pagenotfound',

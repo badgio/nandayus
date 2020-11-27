@@ -3,7 +3,7 @@
         class="card"
     >
         <h1>
-            {{language.pageTitle[selected_language]}}
+            {{pageTitle[selected_language]}}
         </h1>
         <form
             class="form"
@@ -32,45 +32,7 @@
                         >
                     </div>
                 </div>
-                <label
-                    for="map"
-                >
-                    {{language.map[selected_language]}}*
-                </label>
-                <p>
-                    {{language.mapAdvisory[selected_language]}}
-                </p>
-                <p
-                    v-if="location.position.lattitude && location.position.longitude"
-                >
-                    {{language.curr_lattitude[selected_language]}} {{this.location.position.lattitude.toFixed(3)}} {{language.curr_longitude[selected_language]}} {{this.location.position.longitude.toFixed(3)}}
-                </p>
-                <div
-                    class="map_container"
-                >
-                    <l-map
-                        id="map"
-                        v-if="map.showMap"
-                        :zoom="map.zoom"
-                        :center="map.center"
-                        :options="map.options"
-                        v-on:dblclick="addMarker"
-                    >
-                        <v-geosearch
-                            :options="map.geosearchOptions"
-                        >
-                        </v-geosearch>
-                        <l-tile-layer
-                            :url="map.url"
-                            :attribution="map.attribution"
-                        />
-                        <l-marker
-                            v-if="location.position.lattitude && location.position.longitude"
-                            :lat-lng="[location.position.lattitude, location.position.longitude]"
-                        >
-                        </l-marker>
-                    </l-map>
-                </div>
+                <Map />
                 <div
                     class = "grid-container-2"
                 >
@@ -333,20 +295,18 @@
 <script>
     
     import axios from 'axios';
-    import { latLng } from "leaflet";
-    import { LMap, LTileLayer, LMarker, LPopup, LTooltip } from "vue2-leaflet";
-    import { OpenStreetMapProvider } from 'leaflet-geosearch';
-    import VGeosearch from 'vue2-leaflet-geosearch';
+    import Map from './Map.vue';
 
     export default {
         name : "NewLocation",
         components: {
-            LMap,
-            LTileLayer,
-            LMarker,
-            LPopup,
-            LTooltip,
-            VGeosearch,
+            Map,
+        },
+        props: {
+            pageTitle: {
+                type: Object,
+                required: true,
+            },
         },
         data: () => {
             return {
@@ -358,22 +318,6 @@
                     name: {
                         en: 'Name',
                         pt: 'Nome',
-                    },
-                    map: {
-                        en: 'Map',
-                        pt: 'Mapa',
-                    },
-                    mapAdvisory: {
-                        en: 'Point your location on the map, double clicking it. Assure that you are as precise as possible, as that location defines where your location will be shown on Badgio.',
-                        pt: 'Assinale a localização no mapa, através de um duplo clique. Assegure-se que é o mais preciso possível, uma vez que a localização que assinalar definirá onde esta será apresentada no Badgio.'
-                    },
-                    curr_lattitude: {
-                        en: 'Current location\'s Lattitude: ',
-                        pt: 'Localização atual. Latitude: '
-                    },
-                    curr_longitude: {
-                        en: ' & Longitude: ',
-                        pt: ' & Longitude: '
                     },
                     address: {
                         en: 'Address',
@@ -483,25 +427,6 @@
                         name: 'Ireland'
                     },
                 ],
-                map: {
-                    zoom: 3,
-                    center: latLng(41.55, -8.42), // Braga
-                    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-                    showMap: true,
-                    geosearchOptions: {
-                        provider: new OpenStreetMapProvider(),
-                        style: 'button',
-                        position: 'topleft',
-                        showMarker: true,
-                        maxSuggestions: 5,
-                        animateZoom: true,
-                        updateMap: true,
-                        autoClose: true,
-                        autoComplete: true,
-                        autoCompleteDelay: 100
-                    },
-                },
             }
         },
         computed: {
@@ -541,47 +466,7 @@
                     console.log(this.location.image);
                 };
             },
-            zoomUpdate(zoom) {
-                this.currentZoom = zoom;
-            },
-            centerUpdate(center) {
-                this.currentCenter = center;
-            },
-            showLongText() {
-                this.showParagraph = !this.showParagraph;
-            },
-            addMarker(e) {
-                console.log(e.latlng)
-                this.location.position.lattitude = e.latlng.lat;
-                this.location.position.longitude = e.latlng.lng;
-                this.getAddress()
-            },
-            async getAddress() {
-                this.loading = true;
-                let address = "Unresolved address";
-                try {
-                    var lat = this.location.position.lattitude;
-                    var lng = this.location.position.longitude;
-                    const result = await fetch(
-                        `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`
-                    );
-                    if (result.status === 200) {
-                        const body = await result.json();
-                        console.log(body)
-                        address = body.display_name;
-                        //this.location.postal_code = body.address.postcode
-                        //this.location.address = body.address.road + ', ' + body.address.house_number
-                        //console.log(address)
-                    }
-                } catch (e) {
-                    console.error("Reverse Geocode Error->", e);
-                }
-                this.loading = false;
-                return address;
-            },
         },
-        mounted() {
-        }
     }
  </script>
 
@@ -617,14 +502,6 @@ p {
 
 .selects {
     width: 100%;
-}
-
-.map_container {
-    height: 500px;
-    width: 85%;
-    margin: 20px auto 20px;
-    border: 2px solid #0a4870;
-    border-radius: 5px;
 }
 
 label {

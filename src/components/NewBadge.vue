@@ -157,13 +157,19 @@
                                 height=270px
                             />
                             <br>
-                            <input
-                                type="file"
-                                id="myFile"
-                                name="filename"
-                                required
-                                v-on:change="onFileChange"
+                            <div
+                                style="width: 100%;"
                             >
+                                <br>
+                                <input
+                                    type="file"
+                                    id="myFile"
+                                    name="filename"
+                                    style="width: 75px; margin: 0 auto;"
+                                    required
+                                    v-on:change="onFileChange"
+                                >
+                            </div>
                     </div>
                 </div>
                     <br>
@@ -296,44 +302,62 @@ h1 {
   margin : auto;
   text-align : center;
 }
+
+.card {
+    width: 90%;
+    margin: 25px auto 25px;
+    border-radius: 8px;
+    border: 1px solid #d3d3d3;
+    box-shadow: 0 0 9px 1px rgba(0, 0, 0, 0.2);
+    background-color: white;
+}
+
 .form_button {
     text-align: center;
 }
+
 .form {
     width: 75%;
     margin: auto;
 }
+
 .selects {
     width: 100%;
 }
+
 label {
     text-align: left;
     font-weight: bold;
 }
+
 select {
     border: 1px solid #999;
     border-radius: 5px;
     text-indent: 1%;
     width: 100%;
-    height: 50px;
+    height: 35px;
     margin: 0 auto 15px;
     color: black;
     box-shadow: 4px 4px #ccc;
     font-size: 18px;
     overflow: auto;
 }
+
 #imgPreview {
     margin: 0 auto 0;
     font-weight: bold;
     text-align: center;
 }
+
 #imgPreview img {
     border: 2px solid #0a4870;
     border-radius: 5px;
 }
+
 input[type='file'] {
   color: transparent;
 }
+
 .grid-container {
     width: 95%;
     min-width: 200px;
@@ -343,29 +367,35 @@ input[type='file'] {
     grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
     grid-gap: 25px;
 }
+
 .grid-container-2 {
     display: grid;
     grid-template-columns: repeat(auto-fill);
     grid-gap: 10px;
 }
+
 .desc_textarea {
-    width: 100%;
     align-self: center;
-    border: 1px solid #999;
-    border-radius: 5px;
-    box-shadow: 4px 4px #ccc;
     text-indent: 1%;
+    width: 95%;
+    margin: 5px 0px 5px 15px;
+    border-radius: 8px;
+    border: 1px solid #c8c8c8;
+    background-color: #ececec;
 }
+
 .input_textfield {
-    width: 100%;
-    height: 50px;
-    margin: 0 auto 15px;
+    height: 30px;
+    width: 95%;
+    margin: 5px 0px 5px 15px;
+    padding: 2px;
+    border-radius: 8px;
+    border: 1px solid #c8c8c8;
+    background-color: #ececec;
     text-align: left;
-    border: 1px solid #999;
-    border-radius: 5px;
-    box-shadow: 4px 4px #ccc;
     text-indent: 1%;
 }
+
 .submit_button {
     border: 1px solid #999;
     border-radius: 5px;
@@ -377,8 +407,9 @@ input[type='file'] {
     display: inline-block;
     font-size: 16px;
     width: 175px;
-    height: 50px;
+    min-height: 50px;
     margin: 10px auto 20px;
     cursor: pointer;
 }
+
 </style>

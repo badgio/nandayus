@@ -378,6 +378,15 @@ p {
     font-size: 11px;
 }
 
+.card {
+    width: 90%;
+    margin: 25px auto 25px;
+    border-radius: 8px;
+    border: 1px solid #d3d3d3;
+    box-shadow: 0 0 9px 1px rgba(0, 0, 0, 0.2);
+    background-color: white;
+}
+
 .form_button {
     text-align: center;
 }
@@ -397,16 +406,15 @@ label {
 }
 
 select {
-    border: 1px solid #999;
-    border-radius: 5px;
-    text-indent: 1%;
-    width: 100%;
-    height: 50px;
-    margin: 0 auto 15px;
-    color: black;
-    box-shadow: 4px 4px #ccc;
+    width: 95%;
+    margin: 5px 0px 5px 15px;
+    height: 35px;
     font-size: 18px;
     overflow: auto;
+    border-radius: 8px;
+    border: 1px solid #c8c8c8;
+    background-color: #ececec;
+    text-indent: 1%;
 }
 
 .date_input {
@@ -449,22 +457,24 @@ input[type='file'] {
 }
 
 .desc_textarea {
-    width: 100%;
     align-self: center;
-    border: 1px solid #999;
-    border-radius: 5px;
-    box-shadow: 4px 4px #ccc;
     text-indent: 1%;
+    width: 95%;
+    margin: 5px 0px 5px 15px;
+    border-radius: 8px;
+    border: 1px solid #c8c8c8;
+    background-color: #ececec;
 }
 
 .input_textfield {
-    width: 100%;
-    height: 50px;
-    margin: 0 auto 15px;
+    height: 30px;
+    width: 95%;
+    margin: 5px 0px 5px 15px;
+    padding: 2px;
+    border-radius: 8px;
+    border: 1px solid #c8c8c8;
+    background-color: #ececec;
     text-align: left;
-    border: 1px solid #999;
-    border-radius: 5px;
-    box-shadow: 4px 4px #ccc;
     text-indent: 1%;
 }
 
@@ -479,7 +489,7 @@ input[type='file'] {
     display: inline-block;
     font-size: 16px;
     width: 175px;
-    height: 50px;
+    min-height: 50px;
     margin: 10px auto 20px;
     cursor: pointer;
 }
