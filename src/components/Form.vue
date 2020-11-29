@@ -352,7 +352,7 @@
                 <div
                     class="grid-container-2"
                 >
-                    <label class="typo__label">{{language.collections[selected_language]}}*:</label>
+                    <label class="typo__label">{{language.collections[selected_language]}}:</label>
                     <multiselect 
                         v-model="object.collections" 
                         tag-placeholder="Add this as new tag" 
