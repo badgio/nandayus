@@ -289,8 +289,10 @@
                         <input
                             type="radio"
                             id="state_input1"
+                            name="validity"
                             value="permanent"
                             v-model="object.duration"
+                            required
                         >
                         <label>
                             {{language.duration.permanent[this.selected_language]}}
@@ -301,6 +303,7 @@
                         <input
                             type="radio"
                             id="state_input2"
+                            name="validity"
                             value="temporary"
                             v-model="object.duration"
                         >
@@ -321,6 +324,7 @@
                             class="date_input"
                             type="date"
                             name="beg_date"
+                            required
                             id="beg_date"
                             v-model="object.beg_date"
                             :min=this.object.curr_date
@@ -332,6 +336,7 @@
                         </label>
                         <input
                             class="date_input"
+                            required
                             type="date"
                             name="end_date"
                             id="end_date"
@@ -376,41 +381,25 @@
                             </option>
                         </select>
                     </div>
-                    <br>
-                    <div
-                        class="grid-container-2"
-                    >
-                        <br>
-                        <label
-                            for="collection_select"
-                        >
-                            {{language.collection[selected_language]}}*:
-                        </label>
-                        <select
-                            name="collection_select"
-                            id="collection_select"
-                            v-model="object.collection"
-                            required
-                        >
-                            <option
-                                value=""
-                                selected
-                                disabled
-                            >
-                                {{language.collection[selected_language]}}
-                            </option>
-                            <option
-                                v-for="collection in collections"
-                                :key=collection.index
-                                :value="collection.name"
-                            >
-                                {{collection.name}}
-                            </option>
-                        </select>
-                    </div>
-                    <br>
-                    <br>
                 </div>
+                <div
+                    class="grid-container-2"
+                >
+                    <label class="typo__label">{{language.collections[selected_language]}}:</label>
+                    <multiselect 
+                        v-model="object.collections" 
+                        tag-placeholder="Add this as new tag" 
+                        placeholder="Search or add a tag" 
+                        label="name"
+                        track-by="code" 
+                        :options="collections" 
+                        :multiple="true" 
+                        :taggable="true" 
+                        @tag="addTag">
+                    </multiselect>
+                </div>
+                <br>
+                <br>
                 <div
                     v-if="social_networks"
                 >
@@ -514,6 +503,7 @@
     import { LMap, LTileLayer, LMarker, LPopup, LTooltip } from "vue2-leaflet";
     import { OpenStreetMapProvider } from 'leaflet-geosearch';
     import VGeosearch from 'vue2-leaflet-geosearch';
+    import Multiselect from 'vue-multiselect'
 
     export default {
         name : "NewLocation",
@@ -524,6 +514,7 @@
             LPopup,
             LTooltip,
             VGeosearch,
+            Multiselect,
         },
         props: {
             pageTitle: {
@@ -666,6 +657,10 @@
                         en: 'Collection',
                         pt: 'Coleção',
                     },
+                    collections: {
+                        en: 'Collections',
+                        pt: 'Coleções',
+                    },
                     social_networks: {
                         en: 'Social Networks',
                         pt: 'Redes Sociais',
@@ -695,6 +690,7 @@
                     end_date:'',
                     location: '',
                     collection: '',
+                    collections:[],
                     website: '',
                     social_networks: {
                         facebook: '',
@@ -776,18 +772,10 @@
                     }
                 ],
                 collections: [
-                    {
-                        name: 'Verde Cool'
-                    },
-                    {
-                        name: 'Semana da euforia'
-                    },
-                    {
-                        name: 'Enterro da Gata'
-                    },
-                    {
-                        name: 'Receção ao caloiro'
-                    },
+                    { name: 'Verde Cool', code: 've' },
+                    { name: 'Semana da euforia', code: 'se' },
+                    { name: 'Enterro da Gata', code: 'en' },
+                    { name: 'Receção ao caloiro', code: 're' }
                 ],
             }
         },
@@ -872,7 +860,15 @@
             },
         },
         mounted() {
-        }
+        },
+        addTag (newTag) {
+            const tag = {
+                name: newTag,
+                code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
+            }
+            this.collections.push(tag)
+            this.object.collections.push(tag)
+        },
     }
  </script>
 
@@ -1037,3 +1033,5 @@ input[type='file'] {
 }
 
 </style>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
