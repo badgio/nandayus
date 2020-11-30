@@ -2,9 +2,12 @@
     <div
         class="card"
     >
+        <br>
+        <br>
         <h1>
             {{pageTitle[selected_language]}}
         </h1>
+        <br>
         <form
             class="form"
             id="objectForm"
@@ -31,11 +34,12 @@
                             v-model="object.name"
                         >
                     </div>
+                    <br>
+                    <br>
                 </div>
                 <div
                     v-if="show_map"
                 >
-                    <br>
                     <label
                         for="map"
                     >
@@ -49,6 +53,7 @@
                     >
                         {{language.curr_lattitude[selected_language]}} {{this.object.position.lattitude.toFixed(3)}} {{language.curr_longitude[selected_language]}} {{this.object.position.longitude.toFixed(3)}}
                     </p>
+                    <br>
                     <div
                         class="map_container"
                     >
@@ -75,6 +80,8 @@
                             </l-marker>
                         </l-map>
                     </div>
+                    <br>
+                    <br>
                 </div>
                 <div
                     v-if="show_location_attributes"
@@ -98,6 +105,7 @@
                             >
                         </div>
                     </div>
+                    <br>
                     <div
                         class = "grid-container-2"
                     >
@@ -128,6 +136,7 @@
                             </option>
                         </select>
                     </div>
+                    <br>
                     <div
                         class="grid-container-2"
                     >
@@ -145,6 +154,7 @@
                             v-model="object.postal_code"
                         >
                     </div>
+                    <br>
                     <div
                         class="grid-container-2"
                     >
@@ -162,6 +172,7 @@
                             v-model="object.district"
                         >
                     </div>
+                    <br>
                     <div
                         class="grid-container-2"
                     >
@@ -191,9 +202,11 @@
                                 {{country.name}}
                             </option>
                         </select>
+                        <br>
                     </div>
+                    <br>
+                    <br>
                 </div>
-                <br>
                 <div>
                     <label
                         for="description_1"
@@ -209,8 +222,8 @@
                         required
                         v-model="object.description"
                     ></textarea>
+                    <br>
                 </div>
-                <br>
                 <div
                     class="grid-container-2"
                 >
@@ -222,6 +235,8 @@
                         >
                             {{language.image[selected_language]}}*:
                         </label>
+                        <br>
+                        <br>
                         <img
                             v-if="this.object.image"
                             :src="this.object.image"
@@ -242,8 +257,9 @@
                             >
                         </div>
                     </div>
+                    <br>
+                    <br>
                 </div>
-                <br>
                 <div
                     v-if="show_duration"
                     class="grid-container-2"
@@ -306,7 +322,9 @@
                             v-model="object.end_date"
                             :min=latest_date
                         >
-                    </div>  
+                    </div>
+                    <br>
+                    <br>
                 </div>
                 <div
                     v-if="show_badge_attributes"
@@ -314,7 +332,6 @@
                     <div
                         class = "grid-container-2"
                     >
-                        <br>
                         <label
                             for="location_select"
                         >
@@ -342,6 +359,7 @@
                             </option>
                         </select>
                     </div>
+                    <br>
                     <div
                         class="grid-container-2"
                     >
@@ -373,11 +391,12 @@
                             </option>
                         </select>
                     </div>
+                    <br>
+                    <br>
                 </div>
                 <div
                     v-if="social_networks"
                 >
-                    <br>
                     <h4>
                         Website:
                     </h4>
@@ -390,6 +409,7 @@
                             v-model="object.website"
                         >
                     </div>
+                    <br>
                     <h4>
                         {{language.social_networks[selected_language]}}
                     </h4>
@@ -447,11 +467,14 @@
                             >
                         </div>
                     </div>
+                    <br>
                 </div>
             </div>
             <p>
                 {{language.obligatory_warning[selected_language]}}
             </p>
+            <br>
+            <br>
             <div
                 class="form_button"
             >
@@ -462,6 +485,7 @@
                     {{submit_object[selected_language]}}
                 </button>
             </div>
+            <br>
         </form>
     </div>
 </template>
@@ -813,6 +837,10 @@
 
 <style scoped>
 
+* {
+    color: #444444;
+}
+
 h1 {
   padding : 25px;
   margin : auto;
@@ -824,7 +852,7 @@ p {
 }
 
 .card {
-    width: 90%;
+    width: 70%;
     margin: 25px auto 25px;
     border-radius: 8px;
     border: 1px solid #d3d3d3;

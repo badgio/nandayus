@@ -1,8 +1,10 @@
 <template>
     <div>
+        <br>
         <h1>
             {{language.pageTitle[this.selected_language]}}
         </h1>
+        <br>
         <div
             class="row"
         >
@@ -18,6 +20,7 @@
                 </button>
             </router-link>
         </div>
+        <br>
         <hr>
         <div
             class="filter"
@@ -114,6 +117,7 @@ h1 {
 .search_bar {
     height: 35px;
     width: 200px;
+    margin-left: 10px;
     border: 1px solid #999;
     border-radius: 5px;
     box-shadow: 4px 4px #ccc;

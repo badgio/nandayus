@@ -77,7 +77,7 @@ html, body {
 
 .table_cell {
   display: table-cell;
-  background-color: #f9f9f9;
+  background-color: #FFFBF1;
 }
 
 .router {

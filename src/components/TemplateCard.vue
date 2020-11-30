@@ -15,6 +15,7 @@
                 <div
                     class="row"
                 >
+                    <br>
                     <h4>
                         <b>
                             {{obj.name}}
@@ -25,6 +26,7 @@
                     class="row"
                 >
                     <hr>
+                    <br>
                 </div>
                 <div
                     class="row"
