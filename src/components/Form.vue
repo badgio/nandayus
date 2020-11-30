@@ -2,6 +2,22 @@
     <div
         class="card"
     >
+        <div class="alert success">
+            <strong>
+                {{language.success_form.title[this.selected_language]}}
+            </strong>
+            {{language.success_form.text[this.selected_language]}}
+            <br>
+            {{language.form_dismissal[this.selected_language]}}
+        </div>
+        <div class="alert failure">
+            <strong>
+                {{language.failure_form.title[this.selected_language]}}
+            </strong>
+            {{language.failure_form.text[this.selected_language]}}
+            <br>
+            {{language.form_dismissal[this.selected_language]}}
+        </div>
         <br>
         <br>
         <h1>
@@ -325,6 +341,7 @@
                     </div>
                     <br>
                     <br>
+                    <br>
                 </div>
                 <div
                     v-if="show_badge_attributes"
@@ -541,6 +558,30 @@
         data: () => {
             return {
                 language: {
+                    success_form: {
+                        title: {
+                            en: 'Success',
+                            pt: 'Sucesso',
+                        },
+                        text: {
+                            en: 'The information has been successfully submitted!',
+                            pt: 'A informação foi submetida com sucesso!',
+                        },
+                    },
+                    failure_form: {
+                        title: {
+                            en: 'Failure',
+                            pt: 'Falha',
+                        },
+                        text: {
+                            en: 'The information has not been successfully submitted! Please try again!',
+                            pt: 'A informação não foi submetida com sucesso! Por favor tente de novo!',
+                        },
+                    },
+                    form_dismissal: {
+                        en: 'Click anywhere on the warning to dismiss it.',
+                        pt: 'Clique no aviso para o remover.'
+                    },
                     pageTitle: {
                         en: "New Location",
                         pt: 'Novo Local',
@@ -858,6 +899,34 @@ p {
     border: 1px solid #d3d3d3;
     box-shadow: 0 0 9px 1px rgba(0, 0, 0, 0.2);
     background-color: white;
+}
+
+.alert {    
+    padding: 10px 5px;
+    margin: 0px auto;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333333;
+}
+
+.success {
+    border: 1px solid #3f682f;
+    background-color: #589D6D;
+}
+
+.success:hover {
+    background-color: #487E58;
+    transition: 0.3s;
+}
+
+.failure {
+    border: 1px solid #cb4444;
+    background-color: #d47575;
+}
+
+.failure:hover {
+    background-color: #b04c4c;
+    transition: 0.3s;
 }
 
 .form_button {
