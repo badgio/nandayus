@@ -1,5 +1,14 @@
 <template>
     <div>
+        <ManagementCard
+            title="Location Location Test"
+            image="https://media.istockphoto.com/photos/cityscape-of-paris-picture-id1176360891"
+            v-bind:paragraphs="this.test_paragraphs"
+            v-bind:website="this.website"
+            v-bind:description="this.test_description"
+            v-bind:social_networks="this.social_networks"
+        />
+        <!--
         <div
             class="card collection_card"
         >
@@ -96,6 +105,7 @@
                 v-model="collection.social_networks.instagram"
             >
         </div>
+        -->
         <br>
         <div
             class="card badge_card"
@@ -179,11 +189,13 @@
 <script>
 
     import BadgeCard from './BadgeCard.vue';
+    import ManagementCard from './ManagementCard.vue';
 
     export default {
         name: 'Collection',
         components: {
-            BadgeCard
+            BadgeCard,
+            ManagementCard,
         },
         data: () => {
             return {
@@ -237,6 +249,53 @@
                         en: 'All fields signaled by * are required.'
                     },
                 },
+                test_paragraphs: [
+                    {
+                        type: {
+                            en: 'Description',
+                            pt: 'Descrição',
+                        },
+                        text: 'Text Text Text Test Text Text Text Test Text Text Text Test Text Text Text Test'
+                    },
+                    {
+                        type: {
+                            en: 'Description',
+                            pt: 'Descrição',
+                        },
+                        text: 'Text Text Text Test Text Text Text Test Text Text Text Test Text Text Text Test'
+                    },
+                    {
+                        type: {
+                            en: 'Description',
+                            pt: 'Descrição',
+                        },
+                        text: 'Text Text Text Test Text Text Text Test Text Text Text Test Text Text Text Test'
+                    },
+                    {
+                        type: {
+                            en: 'Description',
+                            pt: 'Descrição',
+                        },
+                        text: 'Text Text Text Test Text Text Text Test Text Text Text Test Text Text Text Test'
+                    },
+                ],
+                test_description: 'Testerino descriptionerino',
+                website: 'asdasdasda',
+                socials: [],
+                social_networks: [
+                    {
+                        name: 'Instagram',
+                        link: '',
+                    },
+                    {
+                        name: 'Facebook',
+                        link: 'facebook.com/test',
+                    },
+                    {
+                        name: 'Twitter',
+                        link: '',
+                    },
+                ],
                 all_badges: [
                     {
                         id: '1',
@@ -378,14 +437,12 @@ p {
 }
 
 h3, h6, p {
-    margin: 5px 0px 5px 15px;
+    margin: 10px 0px 10px 15px;
 }
 
 .card {
     width: 85%;
     margin: 0 auto;
-    background-color: #eee;
-    border: 2px solid teal;
     border-radius: 5px;
 }
 
@@ -427,6 +484,11 @@ input {
 
 .social_networks_card > input {
     width: 95%;
+}
+
+.badge_card {
+    background-color: white;
+    border: 2px solid #ddd;
 }
 
 .badge_card > .input_icons {

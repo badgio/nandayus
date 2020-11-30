@@ -184,6 +184,7 @@ h3, h6, p {
 .card {
     width: 90%;
     margin: 25px auto 25px;
+    padding-bottom: 15px;
     border-radius: 8px;
     border: 1px solid #d3d3d3;
     box-shadow: 0 0 9px 1px rgba(0, 0, 0, 0.2);
