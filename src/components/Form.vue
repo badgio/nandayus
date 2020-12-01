@@ -386,7 +386,8 @@
                     class="grid-container-2"
                 >
                     <label class="typo__label">{{language.collections[selected_language]}}:</label>
-                    <multiselect 
+                    <multiselect
+                        class="input_textfield" 
                         v-model="object.collections" 
                         tag-placeholder="Add this as new tag" 
                         placeholder="Search or add a tag" 
@@ -1033,5 +1034,7 @@ input[type='file'] {
 }
 
 </style>
+
+
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

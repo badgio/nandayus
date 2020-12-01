@@ -81,6 +81,13 @@ export default {
             },
             {
               title: {
+                en: "Rewards",
+                pt: 'Recompensas',
+              },
+              link : "/rewards"
+            },
+            {
+              title: {
                 en: "Locations",
                 pt: 'Locais',
               },
@@ -110,6 +117,13 @@ export default {
                 pt: 'Coleções',
               },
               link: '/collections'
+            },
+            {
+              title: {
+                en: "Rewards",
+                pt: 'Recompensas',
+              },
+              link : "/rewards"
             },
         ],
         menu_front_page : [
