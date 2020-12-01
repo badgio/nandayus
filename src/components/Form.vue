@@ -2,9 +2,28 @@
     <div
         class="card"
     >
+        <div class="alert success">
+            <strong>
+                {{language.success_form.title[this.selected_language]}}
+            </strong>
+            {{language.success_form.text[this.selected_language]}}
+            <br>
+            {{language.form_dismissal[this.selected_language]}}
+        </div>
+        <div class="alert failure">
+            <strong>
+                {{language.failure_form.title[this.selected_language]}}
+            </strong>
+            {{language.failure_form.text[this.selected_language]}}
+            <br>
+            {{language.form_dismissal[this.selected_language]}}
+        </div>
+        <br>
+        <br>
         <h1>
             {{pageTitle[selected_language]}}
         </h1>
+        <br>
         <form
             class="form"
             id="objectForm"
@@ -31,11 +50,12 @@
                             v-model="object.name"
                         >
                     </div>
+                    <br>
+                    <br>
                 </div>
                 <div
                     v-if="show_map"
                 >
-                    <br>
                     <label
                         for="map"
                     >
@@ -49,6 +69,7 @@
                     >
                         {{language.curr_lattitude[selected_language]}} {{this.object.position.lattitude.toFixed(3)}} {{language.curr_longitude[selected_language]}} {{this.object.position.longitude.toFixed(3)}}
                     </p>
+                    <br>
                     <div
                         class="map_container"
                     >
@@ -75,6 +96,8 @@
                             </l-marker>
                         </l-map>
                     </div>
+                    <br>
+                    <br>
                 </div>
                 <div
                     v-if="show_location_attributes"
@@ -98,6 +121,7 @@
                             >
                         </div>
                     </div>
+                    <br>
                     <div
                         class = "grid-container-2"
                     >
@@ -128,6 +152,7 @@
                             </option>
                         </select>
                     </div>
+                    <br>
                     <div
                         class="grid-container-2"
                     >
@@ -145,6 +170,7 @@
                             v-model="object.postal_code"
                         >
                     </div>
+                    <br>
                     <div
                         class="grid-container-2"
                     >
@@ -162,6 +188,7 @@
                             v-model="object.district"
                         >
                     </div>
+                    <br>
                     <div
                         class="grid-container-2"
                     >
@@ -191,9 +218,11 @@
                                 {{country.name}}
                             </option>
                         </select>
+                        <br>
                     </div>
+                    <br>
+                    <br>
                 </div>
-                <br>
                 <div>
                     <label
                         for="description_1"
@@ -209,8 +238,8 @@
                         required
                         v-model="object.description"
                     ></textarea>
+                    <br>
                 </div>
-                <br>
                 <div
                     class="grid-container-2"
                 >
@@ -222,6 +251,8 @@
                         >
                             {{language.image[selected_language]}}*:
                         </label>
+                        <br>
+                        <br>
                         <img
                             v-if="this.object.image"
                             :src="this.object.image"
@@ -242,8 +273,9 @@
                             >
                         </div>
                     </div>
+                    <br>
+                    <br>
                 </div>
-                <br>
                 <div
                     v-if="show_duration"
                     class="grid-container-2"
@@ -311,7 +343,10 @@
                             v-model="object.end_date"
                             :min=latest_date
                         >
-                    </div>  
+                    </div>
+                    <br>
+                    <br>
+                    <br>
                 </div>
                 <div
                     v-if="show_badge_attributes"
@@ -319,7 +354,6 @@
                     <div
                         class = "grid-container-2"
                     >
-                        <br>
                         <label
                             for="location_select"
                         >
@@ -348,7 +382,6 @@
                         </select>
                     </div>
                 </div>
-                <br>
                 <div
                     class="grid-container-2"
                 >
@@ -365,10 +398,11 @@
                         @tag="addTag">
                     </multiselect>
                 </div>
+                <br>
+                <br>
                 <div
                     v-if="social_networks"
                 >
-                    <br>
                     <h4>
                         Website:
                     </h4>
@@ -381,6 +415,7 @@
                             v-model="object.website"
                         >
                     </div>
+                    <br>
                     <h4>
                         {{language.social_networks[selected_language]}}
                     </h4>
@@ -438,11 +473,14 @@
                             >
                         </div>
                     </div>
+                    <br>
                 </div>
             </div>
             <p>
                 {{language.obligatory_warning[selected_language]}}
             </p>
+            <br>
+            <br>
             <div
                 class="form_button"
             >
@@ -453,6 +491,7 @@
                     {{submit_object[selected_language]}}
                 </button>
             </div>
+            <br>
         </form>
     </div>
 </template>
@@ -510,6 +549,30 @@
         data: () => {
             return {
                 language: {
+                    success_form: {
+                        title: {
+                            en: 'Success',
+                            pt: 'Sucesso',
+                        },
+                        text: {
+                            en: 'The information has been successfully submitted!',
+                            pt: 'A informação foi submetida com sucesso!',
+                        },
+                    },
+                    failure_form: {
+                        title: {
+                            en: 'Failure',
+                            pt: 'Falha',
+                        },
+                        text: {
+                            en: 'The information has not been successfully submitted! Please try again!',
+                            pt: 'A informação não foi submetida com sucesso! Por favor tente de novo!',
+                        },
+                    },
+                    form_dismissal: {
+                        en: 'Click anywhere on the warning to dismiss it.',
+                        pt: 'Clique no aviso para o remover.'
+                    },
                     pageTitle: {
                         en: "New Location",
                         pt: 'Novo Local',
@@ -811,6 +874,10 @@
 
 <style scoped>
 
+* {
+    color: #444444;
+}
+
 h1 {
   padding : 25px;
   margin : auto;
@@ -822,12 +889,40 @@ p {
 }
 
 .card {
-    width: 90%;
+    width: 70%;
     margin: 25px auto 25px;
     border-radius: 8px;
     border: 1px solid #d3d3d3;
     box-shadow: 0 0 9px 1px rgba(0, 0, 0, 0.2);
     background-color: white;
+}
+
+.alert {    
+    padding: 10px 5px;
+    margin: 0px auto;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333333;
+}
+
+.success {
+    border: 1px solid #3f682f;
+    background-color: #589D6D;
+}
+
+.success:hover {
+    background-color: #487E58;
+    transition: 0.3s;
+}
+
+.failure {
+    border: 1px solid #cb4444;
+    background-color: #d47575;
+}
+
+.failure:hover {
+    background-color: #b04c4c;
+    transition: 0.3s;
 }
 
 .form_button {
