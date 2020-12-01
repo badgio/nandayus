@@ -182,6 +182,131 @@ const routes = [
         }
     },
     {
+        path: '/rewards',
+        name: 'rewards',
+        component: () => import('../components/Templates.vue'),
+        props: {
+            language: {
+            pageTitle: {
+                en: 'Rewards',
+                pt: 'Recompensas',
+            },
+            filter_text: {
+                en: 'Filter your Rewards',
+                pt: 'Filtrar as suas Recompensas',
+            },
+            newButton: {
+                en: 'Create New Reward',
+                pt: 'Criar Nova Recompensa',
+            },
+            },
+            toLink: '/newreward',
+            prov_data: [
+            {
+                name: 'Reward #1',
+                statistics: {
+                    url: '/statistics/reward',
+                    text: {
+                        en: 'Statistics',
+                        pt: 'Estatísticas'
+                    }
+                },
+                management: {
+                    url:'/reward',
+                    text: {
+                        en: 'Management',
+                        pt: 'Gestão'
+                    }
+                },
+                url: '/newreward',
+                image_link: "https://media.istockphoto.com/photos/empty-coffee-shop-picture-id1154756901",
+            },
+            {
+                name: 'Reward #2',
+                statistics: {
+                    url: '/statistics/reward',
+                    text: {
+                        en: 'Statistics',
+                        pt: 'Estatísticas'
+                    }
+                },
+                management: {
+                    url:'/reward',
+                    text: {
+                        en: 'Management',
+                        pt: 'Gestão'
+                    }
+                },
+                url: '/newreward',
+                image_link: "https://media.istockphoto.com/photos/this-cafes-got-a-little-something-for-everyone-picture-id520497828",
+            },
+            {
+                name: 'Reward #3',
+                statistics: {
+                    url: '/statistics/reward',
+                    text: {
+                        en: 'Statistics',
+                        pt: 'Estatísticas'
+                    }
+                },
+                management: {
+                    url:'/reward',
+                    text: {
+                        en: 'Management',
+                        pt: 'Gestão'
+                    }
+                },
+                url: '/newreward',
+                image_link: "https://media.istockphoto.com/photos/old-church-picture-id816378880",
+            },
+            {
+                name: 'Reward #4',
+                statistics: {
+                    url: '/statistics/reward',
+                    text: {
+                        en: 'Statistics',
+                        pt: 'Estatísticas'
+                    }
+                },
+                management: {
+                    url:'/reward',
+                    text: {
+                        en: 'Management',
+                        pt: 'Gestão'
+                    }
+                },
+                url: '/newreward',
+                image_link: "https://images.pexels.com/photos/137038/pexels-photo-137038.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+            },
+            ]
+        }
+    },
+    {
+        path: '/reward',
+        name: 'reward',
+        component: () => import('../components/Reward.vue')
+    },
+    {
+        path: '/newreward',
+        name: 'newreward',
+        component: () => import('../components/Form.vue'),
+        props: {
+            pageTitle: {
+                en: 'New Reward',
+                pt: 'Nova Recompensa',
+            },
+            show_map: false,
+            show_location_attributes: false,
+            show_duration: true,
+            show_badge_attributes: true,
+            social_networks: false,
+            submit_object: {
+                en: 'Submit Reward',
+                pt: 'Submeter Recompensa'
+            },
+        }
+    },
+    {
         path: '/newlocation',
         name: 'newlocation',
         component: () => import('../components/Form.vue'),
@@ -521,6 +646,11 @@ const routes = [
         path: '/statistics/badge',
         name: 'badgesstatistics',
         component: () => import('../components/BadgeStatistics.vue')
+    },
+    {
+        path: '/statistics/reward',
+        name: 'rewardsstatistics',
+        component: () => import('../components/RewardStatistics.vue')
     },
     {
         path: '/contact-us',
