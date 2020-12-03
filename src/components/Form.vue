@@ -947,8 +947,10 @@ p {
 }
 
 label {
+    padding-top: 10px;
     text-align: left;
     font-weight: bold;
+    font-size: 16px;
 }
 
 select {
@@ -1026,7 +1028,7 @@ input[type='file'] {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    width: 175px;
+    min-width: 175px;
     min-height: 50px;
     margin: 10px auto 20px;
     cursor: pointer;
