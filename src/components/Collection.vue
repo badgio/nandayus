@@ -8,104 +8,6 @@
             v-bind:description="this.test_description"
             v-bind:social_networks="this.social_networks"
         />
-        <!--
-        <div
-            class="card collection_card"
-        >
-            <div
-                class="left_col_75"
-            >
-                <h3>
-                    {{this.collection.name}}
-                </h3>
-                <h6>
-                    {{language.state[this.selected_language]}}: {{this.collection.state}}
-                </h6>
-                <h6>
-                    {{language.validity[this.selected_language]}}: {{this.collection.validity}}
-                </h6>
-                <h6>
-                    {{language.description[this.selected_language]}}:
-                </h6>
-                <textarea
-                    name="description"
-                    id="description_1"
-                    class = "desc_textarea"
-                    :cols = "60"
-                    :rows = "8"
-                    required
-                    v-model="collection.description"
-                >
-                </textarea>
-            </div>
-            <div
-                class="right_col_25"
-            >
-                <div
-                    id="imgPreview"
-                >
-                    <br>
-                    <img
-                        class="card_image"
-                        src="https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038"
-                        width=160px
-                        height=135px
-                    />
-                    <br>
-                    <button
-                        class="submit_button"
-                    >
-                        {{language.browse_file[this.selected_language]}}
-                    </button>
-                </div>
-            </div>
-        </div>
-        <br>
-        <div
-            class="card social_networks_card"
-        >
-            <h6>
-                Website:
-            </h6>
-            <input
-                type="url"
-                id="site_name_input"
-                name="site_name"
-                v-model="collection.website"
-            >
-            <br>
-            <h6>
-                {{language.social_networks[this.selected_language]}}
-            </h6>
-            <p>
-                Facebook:
-            </p>
-            <input
-                type="url"
-                id="fb_input"
-                name="fb"
-                v-model="collection.social_networks.facebook"
-            >
-            <p>
-                Twitter:
-            </p>
-            <input
-                type="url"
-                id="tw_input"
-                name="tw"
-                v-model="collection.social_networks.twitter"
-            >
-            <p>
-                Instagram:
-            </p>
-            <input
-                type="url"
-                id="insta_input"
-                name="insta"
-                v-model="collection.social_networks.instagram"
-            >
-        </div>
-        -->
         <br>
         <div
             class="card badge_card"
@@ -442,36 +344,8 @@ h3, h6, p {
 
 .card {
     width: 85%;
-    margin: 0 auto;
+    margin: 10px auto 10px;
     border-radius: 5px;
-}
-
-.collection_card {
-    height: 300px;
-    display: grid;
-    grid-auto-columns: 60% 40%;
-}
-
-.left_col_75 {
-    grid-column: 1 / 2;
-}
-
-.right_col_25 {
-    grid-column: 2 / 3;
-}
-
-.card_image {
-    margin: 0px auto 0px;
-    width: 95%;
-    height: 65%;
-    max-width: 300px;
-    max-height: 350px;
-    min-width: 150px;
-    min-height: 165px;
-}
-
-.social_networks_card {
-    display: grid;
 }
 
 input {
@@ -480,10 +354,6 @@ input {
     border: 1px solid #999;
     border-radius: 5px;
     box-shadow: 4px 4px #ccc;
-}
-
-.social_networks_card > input {
-    width: 95%;
 }
 
 .badge_card {
@@ -549,32 +419,6 @@ input {
     .card {
         width: 95%;
     }
-
-    .collection_card {
-        height: 600px;
-        grid-auto-columns: 100%;
-        grid-auto-rows: 50% 50%;
-    }
-
-    .left_col_75 {
-        grid-row: 2 / 3;
-        width: 95%;
-        margin: 0 auto;
-        text-align: center;
-    }
-
-    .right_col_25 {
-        width: 95%;
-        margin: 0 auto;
-        grid-column: 1 / 2;
-    }
-
-    .card_image {
-        margin: 0px auto 0px;
-        width: 90%;
-        height: 85%;
-    }
-
 }
 
 #imgPreview {

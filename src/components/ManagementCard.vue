@@ -218,7 +218,7 @@ input[type=text] {
     height: 30px;
     width: 95%;
     margin: 5px 0px 5px 15px;
-    padding: 2px;
+    padding: 5px;
     border-radius: 8px;
     border: 1px solid #c8c8c8;
     background-color: #ececec;
@@ -231,6 +231,7 @@ input[type='file'] {
 textarea {
     width: 95%;
     margin: 5px 0px 5px 15px;
+    padding: 5px;
     border-radius: 8px;
     border: 1px solid #c8c8c8;
     background-color: #ececec;
