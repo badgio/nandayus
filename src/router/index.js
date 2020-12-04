@@ -523,6 +523,11 @@ const routes = [
         component: () => import('../components/BadgeStatistics.vue')
     },
     {
+        path: '/profile',
+        name: 'profile',
+        component: () => import('../components/Profile.vue')
+    },
+    {
         path: '/contact-us',
         name: 'contactform',
         component: () => import('../components/Contact.vue')
