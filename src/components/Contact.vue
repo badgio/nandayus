@@ -73,12 +73,16 @@
                 </textarea>
                 <br>
                 <br>
-                <input
-                    class="submit_button"
-                    type="button"
-                    :value="this.language.submit[selected_language]"
-                    v-on:click="sendMessage()"
+                <div
+                    class="buttonRow"
                 >
+                    <input
+                        class="submit_button"
+                        type="button"
+                        :value="this.language.submit[selected_language]"
+                        v-on:click="sendMessage()"
+                    >
+                </div>
             </form>
         </div>
     </div>
@@ -150,6 +154,7 @@
 .card {
     width: 90%;
     margin: 0 auto;
+    background-color: white;
     border-radius: 5px;
     border: 1px solid #b3b3b3;
     text-align: left;
@@ -159,8 +164,6 @@
 .pageTitle {
     text-align: center;
 }
-
-/**/
 
 input[type=text], select, textarea {
   width: 90%;
@@ -176,13 +179,22 @@ label {
     margin-left: 5%;
 }
 
+.buttonRow {
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    clear: both;
+}
+
 .submit_button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+    float: right;
+    background-color: #4CAF50;
+    color: white;
+    margin: 5px 0px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 .submit_button:hover {

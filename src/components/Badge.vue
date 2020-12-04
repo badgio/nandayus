@@ -1,60 +1,13 @@
 <template>
     <div>
-        <div
-            class="card badge_card"
-        >
-            <div
-                class="left_col_75"
-            >
-                <h3>
-                    {{this.badge.name}}
-                </h3>
-                <h6>
-                    {{language.state[this.selected_language]}}: {{this.badge.state}}
-                </h6>
-                <h6>
-                    {{language.location[this.selected_language]}}: {{this.badge.location}}
-                </h6>
-                <h6>
-                    {{language.validity[this.selected_language]}}: {{this.badge.validity}}
-                </h6>
-                <h6>
-                    {{language.description[this.selected_language]}}
-                </h6>
-                <textarea
-                    name="description"
-                    id="description_1"
-                    class = "desc_textarea"
-                    :cols = "60"
-                    :rows = "8"
-                    required
-                    v-model="badge.description"
-                >
-                </textarea>
-            </div>
-            
-            <div
-                class="right_col_25"
-            >
-                <div
-                    id="imgPreview"
-                >
-                    <br>
-                    <img
-                        class="card_image"
-                        src="https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038"
-                        width=160px
-                        height=135px
-                    />
-                    <br>
-                    <button
-                        class="submit_button"
-                    >
-                        {{language.browse_file[this.selected_language]}}
-                    </button>
-                </div>
-            </div>
-        </div>
+        <ManagementCard
+            title="Badge Badge Badgerino Testerino"
+            image="https://media.istockphoto.com/photos/cityscape-of-paris-picture-id1176360891"
+            v-bind:paragraphs="this.test_paragraphs"
+            v-bind:website="this.website"
+            v-bind:description="this.test_description"
+            v-bind:social_networks="this.socials"
+        />
         <br>
         <div
             class="card collection_card"
@@ -137,11 +90,13 @@
 <script>
 
     import CollectionCard from './CollectionCard.vue';
+    import ManagementCard from './ManagementCard.vue';
 
     export default {
         name: 'Badge',
         components: {
-            CollectionCard
+            CollectionCard,
+            ManagementCard,
         },
         data: () => {
             return {
@@ -196,6 +151,39 @@
                         en: 'All fields signaled by * are required.'
                     },
                 },
+                test_paragraphs: [
+                    {
+                        type: {
+                            en: 'Description',
+                            pt: 'Descrição',
+                        },
+                        text: 'Text Text Text Test Text Text Text Test Text Text Text Test Text Text Text Test'
+                    },
+                    {
+                        type: {
+                            en: 'Description',
+                            pt: 'Descrição',
+                        },
+                        text: 'Text Text Text Test Text Text Text Test Text Text Text Test Text Text Text Test'
+                    },
+                    {
+                        type: {
+                            en: 'Description',
+                            pt: 'Descrição',
+                        },
+                        text: 'Text Text Text Test Text Text Text Test Text Text Text Test Text Text Text Test'
+                    },
+                    {
+                        type: {
+                            en: 'Description',
+                            pt: 'Descrição',
+                        },
+                        text: 'Text Text Text Test Text Text Text Test Text Text Text Test Text Text Text Test'
+                    },
+                ],
+                test_description: 'Testerino descriptionerino',
+                website: 'Location\'s website',
+                socials: [],
                 all_collections: [
                     {
                         id: '1',
@@ -326,55 +314,18 @@ p {
 }
 
 h3, h6, p {
-    margin: 5px 0px 5px 15px;
+    margin: 10px 0px 10px 15px;
 }
 
 .card {
     width: 85%;
-    margin: 0 auto;
-    background-color: #eee;
-    border: 2px solid teal;
+    margin: 10px auto 10px;
     border-radius: 5px;
 }
 
-.badge_card {
-    height: 300px;
-    display: grid;
-    grid-auto-columns: 60% 40%;
-}
-
-.left_col_75 {
-    grid-column: 1 / 2;
-}
-
-.right_col_25 {
-    grid-column: 2 / 3;
-}
-
-.card_image {
-    margin: 0px auto 0px;
-    width: 95%;
-    height: 65%;
-    max-width: 300px;
-    max-height: 350px;
-    min-width: 150px;
-    min-height: 165px;
-}
-
-.social_networks_card {
-    display: grid;
-}
-
-input {
-    height: 35px;
-    margin: 0px 0px 10px 15px;
-    border: 1px solid #999;
-    border-radius: 5px;
-    box-shadow: 4px 4px #ccc;
-}
-
-.social_networks_card > input {
-    width: 95%;
+.collection_card {
+    background-color: white;
+    border: 2px solid #ddd;
 }
 
 .collection_card > .input_icons {
@@ -435,53 +386,6 @@ input {
     .card {
         width: 95%;
     }
-
-    .badge_card {
-        height: 600px;
-        grid-auto-columns: 100%;
-        grid-auto-rows: 50% 50%;
-    }
-
-    .left_col_75 {
-        grid-row: 2 / 3;
-        width: 95%;
-        margin: 0 auto;
-        text-align: center;
-    }
-
-    .right_col_25 {
-        width: 95%;
-        margin: 0 auto;
-        grid-column: 1 / 2;
-    }
-
-    .card_image {
-        margin: 0px auto 0px;
-        width: 90%;
-        height: 85%;
-    }
-
-}
-
-#imgPreview {
-    margin: 0 auto 0;
-    font-weight: bold;
-    text-align: center;
-}
-
-#imgPreview button {
-    width: 100;
-    margin: 0 auto;
-    text-align: center;
-}
-
-#imgPreview img {
-    border: 2px solid #0a4870;
-    border-radius: 5px;
-}
-
-input[type='file'] {
-  color: transparent;
 }
 
 .row {

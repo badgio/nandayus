@@ -1,114 +1,13 @@
 <template>
     <div>
-        <div
-            class="card location_card"
-        >
-            <div
-                class="left_col_75"
-            >
-                <h3>
-                    {{this.location.name}}
-                </h3>
-                <p>
-                    {{language.type[this.selected_language]}}: {{this.location.type}}
-                </p>
-                <p>
-                    {{language.address[this.selected_language]}}: {{this.location.address}}
-                </p>
-                <p>
-                    {{language.postal_code[this.selected_language]}}: {{this.location.postal_code}}
-                </p>
-                <p>
-                    {{language.district[this.selected_language]}}: {{this.location.district}}
-                </p>
-                <p>
-                    {{language.country[this.selected_language]}}: {{this.location.country}}
-                </p>
-                <h6>
-                    {{language.description[this.selected_language]}}
-                </h6>
-                <textarea
-                    name="description"
-                    id="description_1"
-                    class = "desc_textarea"
-                    :cols = "60"
-                    :rows = "4"
-                    required
-                    v-model="location.description"
-                ></textarea>
-            </div>
-            <div
-                class="right_col_25"
-            >
-                <div
-                    id="imgPreview"
-                >
-                    <br>
-                    <img
-                        class="card_image"
-                        src="https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038"
-                        width=160px
-                        height=135px
-                    />
-                    <br>
-                    <button
-                        class="submit_button"
-                    >
-                        {{language.browse_file[this.selected_language]}}
-                    </button>
-                </div>
-            </div>
-        </div>
-        <br>
-        <div
-            class="card social_networks_card"
-        >
-            <h6>
-                Website:
-            </h6>
-            <br>
-            <input
-                class="input_textfield"
-                type="url"
-                id="site_name_input"
-                name="site_name"
-                v-model="location.website"
-            >
-            <br>
-            <h6>
-                {{language.social_networks[this.selected_language]}}
-            </h6>
-            <p>
-                Facebook:
-            </p>
-            <input
-                class="input_textfield"
-                type="url"
-                id="fb_input"
-                name="fb"
-                v-model="location.social_networks.facebook"
-            >
-            <p>
-                Twitter:
-            </p>
-            <input
-                class="input_textfield"
-                type="url"
-                id="tw_input"
-                name="tw"
-                v-model="location.social_networks.twitter"
-            >
-            <p>
-                Instagram:
-            </p>
-            <input
-                class="input_textfield"
-                type="url"
-                id="insta_input"
-                name="insta"
-                v-model="location.social_networks.instagram"
-            >
-        </div>
+        <ManagementCard
+            title="Location Location Test"
+            image="https://media.istockphoto.com/photos/cityscape-of-paris-picture-id1176360891"
+            v-bind:paragraphs="this.test_paragraphs"
+            v-bind:website="this.website"
+            v-bind:description="this.test_description"
+            v-bind:social_networks="this.socials"
+        />
         <div
             class="row"
         >
@@ -122,8 +21,14 @@
 </template>
 
 <script>
+
+    import ManagementCard from './ManagementCard.vue';
+
     export default {
         name: 'Location',
+        components: {
+            ManagementCard,
+        },
         data: () => {
             return {
                 pageTitle: "Location",
@@ -169,6 +74,52 @@
                         en: 'All fields signaled by * are required.'
                     },
                 },
+                test_paragraphs: [
+                    {
+                        type: {
+                            en: 'Description',
+                            pt: 'Descrição',
+                        },
+                        text: 'Text Text Text Test Text Text Text Test Text Text Text Test Text Text Text Test'
+                    },
+                    {
+                        type: {
+                            en: 'Description',
+                            pt: 'Descrição',
+                        },
+                        text: 'Text Text Text Test Text Text Text Test Text Text Text Test Text Text Text Test'
+                    },
+                    {
+                        type: {
+                            en: 'Description',
+                            pt: 'Descrição',
+                        },
+                        text: 'Text Text Text Test Text Text Text Test Text Text Text Test Text Text Text Test'
+                    },
+                    {
+                        type: {
+                            en: 'Description',
+                            pt: 'Descrição',
+                        },
+                        text: 'Text Text Text Test Text Text Text Test Text Text Text Test Text Text Text Test'
+                    },
+                ],
+                test_description: 'Testerino descriptionerino',
+                website: 'Location\'s website',
+                socials: [
+                    {
+                        name: 'Instagram',
+                        link: '',
+                    },
+                    {
+                        name: 'Facebook',
+                        link: 'facebook.com/test',
+                    },
+                    {
+                        name: 'Twitter',
+                        link: '',
+                    },
+                ],
                 location: {
                     name: 'Location Location Location',
                     address: 'Main Street, number 1',
@@ -257,54 +208,8 @@ h3, h6, p {
 
 .card {
     width: 85%;
-    margin: 0 auto;
-    background-color: #eee;
-    border: 2px solid teal;
+    margin: 10px auto 10px;
     border-radius: 5px;
-}
-
-.location_card {
-    height: 300px;
-    display: grid;
-    grid-auto-columns: 60% 40%;
-}
-
-.location_card > .left_col_75 > textarea {
-    margin-left: 10px;
-}
-
-.left_col_75 {
-    grid-column: 1 / 2;
-}
-
-.right_col_25 {
-    grid-column: 2 / 3;
-}
-
-.card_image {
-    margin: 0px auto 0px;
-    width: 95%;
-    height: 65%;
-    max-width: 300px;
-    max-height: 350px;
-    min-width: 150px;
-    min-height: 165px;
-}
-
-.social_networks_card {
-    display: grid;
-}
-
-input {
-    height: 35px;
-    margin: 0px 0px 10px 15px;
-    border: 1px solid #999;
-    border-radius: 5px;
-    box-shadow: 4px 4px #ccc;
-}
-
-.social_networks_card > input {
-    width: 95%;
 }
 
 /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other (also change the direction - make the "cart" column go on top) */
@@ -312,48 +217,6 @@ input {
     .card {
         width: 95%;
     }
-
-    .location_card {
-        height: 600px;
-        grid-auto-columns: 100%;
-        grid-auto-rows: 50% 50%;
-    }
-
-    .left_col_75 {
-        grid-row: 2 / 3;
-        width: 95%;
-        margin: 0 auto;
-        text-align: center;
-    }
-
-    .right_col_25 {
-        width: 95%;
-        margin: 0 auto;
-        grid-column: 1 / 2;
-    }
-
-    .card_image {
-        margin: 0px auto 0px;
-        width: 90%;
-        height: 85%;
-    }
-}
-
-#imgPreview {
-    margin: 0 auto 0;
-    font-weight: bold;
-    text-align: center;
-}
-
-#imgPreview button {
-    width: 100;
-    margin: 0 auto;
-    text-align: center;
-}
-
-#imgPreview img {
-    border: 2px solid #0a4870;
-    border-radius: 5px;
 }
 
 input[type='file'] {
@@ -379,26 +242,6 @@ input[type='file'] {
     width: 150px;
     margin: 10px auto;
     cursor: pointer;
-}
-
-.desc_textarea {
-    width: 95%;
-    margin: 0 auto;
-    border: 1px solid #999;
-    border-radius: 5px;
-    box-shadow: 4px 4px #ccc;
-    text-indent: 1%;
-}
-
-.input_textfield {
-    width: 95%;
-    height: 35px;
-    margin: 0 auto 15px;
-    text-align: left;
-    border: 1px solid #999;
-    border-radius: 5px;
-    box-shadow: 4px 4px #ccc;
-    text-indent: 1%;
 }
 
 </style>

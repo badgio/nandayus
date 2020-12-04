@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '../store/index.js'
 Vue.use(VueRouter)
 
 const routes = [
     {
         path: '/',
-        name: 'Home',
+        name: 'home',
         component: () => import('../components/Home.vue')
     },
     {
@@ -22,6 +23,9 @@ const routes = [
         path: '/badges',
         name: 'badges',
         component: () => import('../components/Templates.vue'),
+        meta: {
+            requiresAuth: true,
+        },
         props: {
             language: {
             pageTitle: {
@@ -159,12 +163,18 @@ const routes = [
     {
         path: '/badge',
         name: 'badge',
-        component: () => import('../components/Badge.vue')
+        component: () => import('../components/Badge.vue'),
+        meta: {
+            requiresAuth: true,
+        },
     },
     {
         path: '/newbadge',
         name: 'newbadge',
         component: () => import('../components/Form.vue'),
+        meta: {
+            requiresAuth: true,
+        },
         props: {
             pageTitle: {
                 en: 'New Badge',
@@ -310,6 +320,9 @@ const routes = [
         path: '/newlocation',
         name: 'newlocation',
         component: () => import('../components/Form.vue'),
+        meta: {
+            requiresAuth: true,
+        },
         props: {
             pageTitle: {
                 en: 'New Location',
@@ -330,6 +343,9 @@ const routes = [
         path: '/locations',
         name: 'locations',
         component: () => import('../components/Templates.vue'),
+        meta: {
+            requiresAuth: true,
+        },
         props: {
             language: {
             pageTitle: {
@@ -467,17 +483,26 @@ const routes = [
     {
         path: '/location',
         name: 'location',
-        component: () => import('../components/Location.vue')
+        component: () => import('../components/Location.vue'),
+        meta: {
+            requiresAuth: true,
+        },
     },
     {
         path: '/statistics/location',
         name: 'locationstatistics',
-        component: () => import('../components/LocationStatistics.vue')
+        component: () => import('../components/LocationStatistics.vue'),
+        meta: {
+            requiresAuth: true,
+        },
     },
     {
         path: '/collections',
         name: 'collections',
         component: () => import('../components/Templates.vue'),
+        meta: {
+            requiresAuth: true,
+        },
         props: {
             language: {
             pageTitle: {
@@ -615,12 +640,18 @@ const routes = [
     {
         path: '/collection',
         name: 'collection',
-        component: () => import('../components/Collection.vue')
+        component: () => import('../components/Collection.vue'),
+        meta: {
+            requiresAuth: true,
+        },
     },
     {
         path: '/newcollection',
         name: 'newcollection',
         component: () => import('../components/Form.vue'),
+        meta: {
+            requiresAuth: true,
+        },
         props: {
             pageTitle: {
                 en: 'New Collection',
@@ -640,12 +671,26 @@ const routes = [
     {
         path: '/statistics/collection',
         name: 'collectionstatistics',
-        component: () => import('../components/CollectionStatistics.vue')
+        component: () => import('../components/CollectionStatistics.vue'),
+        meta: {
+            requiresAuth: true,
+        },
     },  
     {
         path: '/statistics/badge',
         name: 'badgesstatistics',
-        component: () => import('../components/BadgeStatistics.vue')
+        component: () => import('../components/BadgeStatistics.vue'),
+        meta: {
+            requiresAuth: true,
+        },
+    },
+    {
+        path: '/profile',
+        name: 'profile',
+        component: () => import('../components/Profile.vue'),
+        meta: {
+            requiresAuth: true,
+        },
     },
     {
         path: '/statistics/reward',
@@ -655,7 +700,7 @@ const routes = [
     {
         path: '/contact-us',
         name: 'contactform',
-        component: () => import('../components/Contact.vue')
+        component: () => import('../components/Contact.vue'),
     },
     {
         path: '*',
@@ -667,5 +712,22 @@ const routes = [
 const router = new VueRouter({
   routes
 })
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(route => route.meta.requiresAuth)) {
+      if (store.getters.user.loggedIn) {
+        next();
+      } 
+      else {
+        next(
+            {
+                path: '/signin'
+            }
+        );
+      }
+    }
+    next();
+  }
+);
 
 export default router
