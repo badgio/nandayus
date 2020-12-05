@@ -698,8 +698,71 @@ const routes = [
     },
     {
         path: '/statistics/reward',
+        name: 'rewardstatistics',
+        component: () => import('../components/RewardStatistics.vue'),
+        meta: {
+            requiresAuth: true,
+        },
+    },
+    {
+        path: '/statistics/rewards',
         name: 'rewardsstatistics',
-        component: () => import('../components/RewardStatistics.vue')
+        component: () => import('../components/Statistics.vue'),
+        meta: {
+            requiresAuth: true,
+        },
+        props: {
+            languageProp: {
+                pageTitle: {
+                    en: 'Statistics - Reward',
+                    pt: 'Estatísticas - Recompensa',
+                },
+                totalVisitors: {
+                    en: 'Total Visitors',
+                    pt: 'Nº Total de Visitantes',
+                },
+                nRedeemedRewards: {
+                    text: {
+                        en: 'Nº of Redeemed Rewards',
+                        pt: 'Nº de Recompensas Redimidas',
+                    },
+                },
+                chart: {
+                    en: 'Chart',
+                    pt: 'Gráfico',
+                },
+                general: {
+                    en: 'General',
+                    pt: 'Geral'
+                },
+                age: {
+                    en: 'Age Range',
+                    pt: 'Faixa Etária'
+                },
+                gender: {
+                    en: 'Gender',
+                    pt: 'Género'
+                },
+                nationality: {
+                    en: 'Nationality',
+                    pt: 'Nacionalidade'
+                },
+                table: {
+                    en: 'Table',
+                    pt: 'Tabela',
+                    location_name: {
+                        en: 'Location',
+                        pt: 'Local',
+                    },
+                    n_of_visitors: {
+                        en: 'Total Nº of Visitors',
+                        pt: 'Nº Total de Visitantes',
+                    },
+                },
+            },
+            twoCards: false,
+            showTable: false,
+        }
     },
     {
         path: '/contact-us',
