@@ -62,34 +62,51 @@
         <div
             class="buttons_container"
         >
-            <button
-                class="controller_button"
-                v-on:click="fillChartData('general')"
-            >
+            <label for="general_checkbox">
+                <input 
+                    type="radio"
+                    name="general_checkbox"
+                    v-on:click="fillChartData('general')"
+                    value="general"
+                    v-model="chart.pickedCheckbox"
+                >
                 {{languageProp.general[this.selected_language]}}
-            </button>
-            <button
-                class="controller_button"
-                v-on:click="fillChartData('age')"
-            >
+            </label>
+            <label for="age_checkbox">
+                <input 
+                    type="radio"
+                    name="age_checkbox"
+                    v-on:click="fillChartData('age')"
+                    value="age"
+                    v-model="chart.pickedCheckbox"
+                >
                 {{languageProp.age[this.selected_language]}}
-            </button>
-            <button
-                class="controller_button"
-                v-on:click="fillChartData('gender')"
-            >
+            </label>
+            <label for="gender_checkbox">
+                <input 
+                    type="radio"
+                    name="gender_checkbox"
+                    v-on:click="fillChartData('gender')"
+                    value="gender"
+                    v-model="chart.pickedCheckbox"
+                >
                 {{languageProp.gender[this.selected_language]}}
-            </button>
-            <button
-                class="controller_button"
-                v-on:click="fillChartData('nationality')"
-            >
+            </label>
+            <label for="nationality_checkbox">
+                <input 
+                    type="radio"
+                    name="nationality_checkbox"
+                    v-on:click="fillChartData('nationality')"
+                    value="nationality"
+                    v-model="chart.pickedCheckbox"
+                >
                 {{languageProp.nationality[this.selected_language]}}
-            </button>
+            </label>
         </div>
         <div
             v-if="showTable"
         >
+            <br>
             <hr>
             <h3>
                 {{languageProp.table[this.selected_language]}}
@@ -146,6 +163,7 @@
             return {
                 loaded: false,
                 chart: {
+                    pickedCheckbox: '',
                     data: {
                         dates: ['01-01-2021', '02-01-2021', '03-01-2021', '04-01-2021'],
                         general: [
