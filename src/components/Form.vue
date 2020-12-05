@@ -349,7 +349,7 @@
                     <br>
                 </div>
                 <div
-                    v-if="show_badge_attributes"
+                    v-if="show_multiple_collections"
                 >
                     <div
                         class = "grid-container-2"
@@ -381,26 +381,75 @@
                             </option>
                         </select>
                     </div>
-                </div>
-                <div
+                    <br>
+                    <div
                     class="grid-container-2"
-                >
-                    <label class="typo__label">{{language.collections[selected_language]}}:</label>
-                    <multiselect
-                        class="input_textfield" 
-                        v-model="object.collections" 
-                        tag-placeholder="Add this as new tag" 
-                        placeholder="Search or add a tag" 
-                        label="name"
-                        track-by="code" 
-                        :options="collections" 
-                        :multiple="true" 
-                        :taggable="true" 
-                        @tag="addTag">
-                    </multiselect>
+                    >
+                        <label class="typo__label">{{language.collections[selected_language]}}:</label>
+                        <multiselect
+                            v-model="object.collections" 
+                            label="name"
+                            track-by="code" 
+                            :options="collections" 
+                            :multiple="true" 
+                            :taggable="true" 
+                            @tag="addTag">
+                        </multiselect>
+                    </div>
                 </div>
                 <br>
                 <br>
+                <div
+                    v-if="show_multiple_badges"
+                >
+                    <div
+                        class = "grid-container-2"
+                    >
+                        <label
+                            for="location_select"
+                        >
+                            {{language.location[selected_language]}}*:
+                        </label>
+                        <select
+                            name="location_select"
+                            id="location_select"
+                            required
+                            v-model="object.location"
+                        >   
+                            <option
+                                value=""
+                                selected
+                                disabled
+                            >
+                                {{language.location[selected_language]}}
+                            </option>
+                            <option
+                                v-for="location in locations"
+                                :key=location.index
+                                :value="location.name"
+                            >
+                                {{location.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <br>
+                    <div
+                    class="grid-container-2"
+                    >
+                        <label class="typo__label">Badges:</label>
+                        <multiselect
+                            v-model="object.collections" 
+                            label="name"
+                            track-by="code" 
+                            :options="collections" 
+                            :multiple="true" 
+                            :taggable="true" 
+                            @tag="addTag">
+                        </multiselect>
+                    </div>
+                </div>
+                <br>
+ 
                 <div
                     v-if="social_networks"
                 >
@@ -534,7 +583,11 @@
                 type: Boolean,
                 required: true,
             },
-            show_badge_attributes: {
+            show_multiple_collections: {
+                type: Boolean,
+                required: true,
+            },
+            show_multiple_badges: {
                 type: Boolean,
                 required: true,
             },
@@ -691,7 +744,7 @@
                     end_date:'',
                     location: '',
                     collection: '',
-                    collections:[],
+                    collections:[{ name: 'Verde Cool', code: 've' }],
                     website: '',
                     social_networks: {
                         facebook: '',
