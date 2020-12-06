@@ -66,7 +66,7 @@
                 <input 
                     type="radio"
                     name="general_checkbox"
-                    v-on:click="fillChartData('general')"
+                    v-on:click="cat_name = 'general'; fillChartData('general', min_date_value, max_date_value)"
                     value="general"
                     v-model="chart.pickedCheckbox"
                 >
@@ -76,7 +76,7 @@
                 <input 
                     type="radio"
                     name="age_checkbox"
-                    v-on:click="fillChartData('age')"
+                    v-on:click="cat_name = 'age'; fillChartData('age', min_date_value, max_date_value)"
                     value="age"
                     v-model="chart.pickedCheckbox"
                 >
@@ -86,7 +86,7 @@
                 <input 
                     type="radio"
                     name="gender_checkbox"
-                    v-on:click="fillChartData('gender')"
+                    v-on:click="cat_name = 'gender'; fillChartData('gender', min_date_value, max_date_value)"
                     value="gender"
                     v-model="chart.pickedCheckbox"
                 >
@@ -96,7 +96,7 @@
                 <input 
                     type="radio"
                     name="nationality_checkbox"
-                    v-on:click="fillChartData('nationality')"
+                    v-on:click="cat_name = 'nationality'; fillChartData('nationality', min_date_value, max_date_value)"
                     value="nationality"
                     v-model="chart.pickedCheckbox"
                 >
@@ -113,18 +113,22 @@
                 type="date"
                 id="min_date"
                 name="min_date"
-                :value="convertDigitIn(this.chartdata.labels[0])"
-                :min="convertDigitIn(this.chartdata.labels[0])"
-                :max="convertDigitIn(this.chartdata.labels[this.chartdata.labels.length-2])"
+                ref="min_date"
+                :value="min_date_value"
+                :min="convertDigitIn(this.chart.data.dates[0])"
+                :max="max_date_value"
+                v-on:change="updateChart"
             >
             Finishing Date:
             <input
                 type="date"
                 id="max_date"
                 name="max_date"
-                :value="convertDigitIn(this.chartdata.labels[this.chartdata.labels.length-1])"
-                :min="convertDigitIn(this.chartdata.labels[1])"
-                :max="convertDigitIn(this.chartdata.labels[this.chartdata.labels.length-1])"
+                ref="max_date"
+                :value="max_date_value"
+                :min="min_date_value"
+                :max="convertDigitIn(this.chart.data.dates[this.chart.data.dates.length-1])"
+                v-on:change="updateChart"
             >
         </div>
         <div
@@ -196,7 +200,7 @@
                                     en: 'General',
                                     pt: 'Geral'
                                 },
-                                data: [],
+                                data: [99, 99, 99, 97],
                             },
                         ],
                         age: [
@@ -205,21 +209,21 @@
                                     en: '18-29 Years Old',
                                     pt: '18-29 Anos',
                                 },
-                                data: [],
+                                data: [101, 101, 101, 100],
                             },
                             {
                                 label: {
                                     en: '30-39 Years Old',
                                     pt: '30-39 Anos',
                                 },
-                                data: [],
+                                data: [105, 105, 105, 103],
                             },
                             {
                                 label: {
                                     en: '40-49 Years Old',
                                     pt: '40-49 Anos',
                                 },
-                                data: [],
+                                data: [107, 107, 107, 105],
                             },
                         ],
                         gender: [
@@ -228,21 +232,21 @@
                                     en: 'Female',
                                     pt: 'Feminino',
                                 },
-                                data: []
+                                data: [120, 120, 120, 119]
                             },
                             {
                                 label: {
                                     en: 'Male',
                                     pt: 'Masculino',
                                 },
-                                data: []
+                                data: [122, 122, 122, 123]
                             },
                             {
                                 label: {
                                     en: 'Other',
                                     pt: 'Outro',
                                 },
-                                data: []
+                                data: [124, 124, 124, 126]
                             }
                         ],
                         nationality: [
@@ -252,21 +256,21 @@
                                     pt: 'Portuguesa',
                                 },
                                 backgroundColor: '#5a5a5a',
-                                data: [],
+                                data: [200, 200, 200, 205],
                             },
                             {
                                 label: {
                                     en: 'Spanish',
                                     pt: 'Espanhola',
                                 },
-                                data: [],
+                                data: [140, 140, 140, 144],
                             },
                             {
                                 label: {
                                     en: 'Brazilian',
                                     pt: 'Brasileira',
                                 },
-                                data: [],
+                                data: [110, 110, 110, 123],
                             }
                         ]
                     },
@@ -299,6 +303,9 @@
                         ]
                     }
                 },
+                cat_name: '',
+                min_date_value: '',
+                max_date_value: '',
                 tabledata: [
                     {
                         name: 'Location #1',
@@ -331,37 +338,6 @@
                 ],
             }
         },
-        created() {
-            // general chart setup
-            // x axis
-            this.chartdata.labels = this.chart.data.dates;
-            var datasets = [];
-
-            console.log('min: ', this.chartdata.labels[0], ' & max: ', this.chartdata.labels[this.chartdata.labels.length-1])
-
-            // fill dataset
-            // y axis and line stylings
-            for (let obj of this.chart.data.general) {
-                var chosenColor = '#' + parseInt(Math.random() * 0xffffff).toString(16);
-                datasets.push(
-                    {
-                        label: obj.label[this.selected_language],
-                        fill: false,
-                        backgroundColor: chosenColor,
-                        borderColor: chosenColor,
-                        borderWidth: 3.5,
-                        data: [
-                            Math.floor((Math.random() * 100) + 1),
-                            Math.floor((Math.random() * 100) + 1),
-                            Math.floor((Math.random() * 100) + 1),
-                            Math.floor((Math.random() * 100) + 1),
-                        ],
-                    }
-                )
-            }
-
-            this.chartdata.datasets = datasets;
-        },
         computed: {
             selected_language() {
                 return this.$store.getters.getLanguage;
@@ -374,11 +350,17 @@
             },
         },
         methods: {
-            fillChartData(cat_name) {
-                
+            fillChartData(cat_name, min_date, max_date) {
+
                 this.chartdata.datasets = [];
                 
                 var datasets = [];
+
+                var min_index = this.chart.data.dates.findIndex(x => x == min_date.split('-').reverse().join('-'))
+
+                var max_index = this.chart.data.dates.findIndex(x => x == max_date.split('-').reverse().join('-'))
+
+                this.chartdata.labels = this.chart.data.dates.slice(min_index, max_index+1);
 
                 // fill dataset
                 for (let obj of this.chart.data[cat_name]) {
@@ -390,12 +372,7 @@
                             backgroundColor: chosenColor,
                             borderColor: chosenColor,
                             borderWidth: 3.5,
-                            data: [
-                                Math.floor((Math.random() * 100) + 1),
-                                Math.floor((Math.random() * 100) + 1),
-                                Math.floor((Math.random() * 100) + 1),
-                                Math.floor((Math.random() * 100) + 1),
-                            ],
+                            data: obj.data,
                         }
                     )
                 }
@@ -408,7 +385,56 @@
             },
             convertDigitIn(str){
                 return str.split('-').reverse().join('-');
+            },
+            updateChart(e) {
+                console.log('range: ', e.target.id, e.target.value);
+                if (e.target.id == 'min_date') {
+                    // min_date
+                    this.min_date_value = e.target.value;
+                }
+                else {
+                    // max_date
+                    this.max_date_value = e.target.value;
+                }
+                this.fillChartData(this.cat_name, this.min_date_value, this.max_date_value);
+            },
+            addToSelected(e) {
+                this.collection.badges.push(this.all_badges.splice(this.all_badges.findIndex(x => x.id == e), 1)[0]);
+                this.searchQuery = null;
+            },
+            removeFromSelected(e) {
+                this.all_badges.push(this.collection.badges.splice(this.collection.badges.findIndex(x => x.id == e), 1)[0]);
             }
+        },
+        created() {
+            // general chart setup
+            // x axis
+            this.chartdata.labels = this.chart.data.dates;
+            var datasets = [];
+            
+            // set min and max date 
+            this.cat_name = 'general';
+            this.min_date_value = this.chartdata.labels[0].split('-').reverse().join('-');
+            this.max_date_value = this.chartdata.labels[this.chartdata.labels.length-1].split('-').reverse().join('-');            
+
+
+            // fill dataset
+            // y axis and line stylings
+            for (let obj of this.chart.data.general) {
+                var chosenColor = '#' + parseInt(Math.random() * 0xffffff).toString(16);
+                datasets.push(
+                    {
+                        label: obj.label[this.selected_language],
+                        fill: false,
+                        backgroundColor: chosenColor,
+                        borderColor: chosenColor,
+                        borderWidth: 3.5,
+                        data: obj.data,
+                    }
+                )
+            }
+
+            this.chartdata.datasets = datasets;
         },
     }
 </script>
