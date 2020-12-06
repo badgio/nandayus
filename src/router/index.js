@@ -19,6 +19,9 @@ const routes = [
         name: 'signup',
         component: () => import('../components/SignUp.vue')
     },
+    /*
+        Badges
+    */
     {
         path: '/badges',
         name: 'badges',
@@ -193,6 +196,69 @@ const routes = [
         }
     },
     {
+        path: '/statistics/badge',
+        name: 'badgesstatistics',
+        component: () => import('../components/Statistics.vue'),
+        meta: {
+            requiresAuth: true,
+        },
+        props: {
+            languageProp: {
+                pageTitle: {
+                    en: 'Statistics - Badge',
+                    pt: 'Estatísticas - Badge',
+                },
+                totalVisitors: {
+                    en: 'Total Nº of Visitors',
+                    pt: 'Nº Total de Visitantes',
+                },
+                nRedeemedRewards: {
+                    text: {
+                        en: 'Nº of Redeemed Rewards',
+                        pt: 'Nº de Recompensas Redimidas',
+                    },
+                },
+                chart: {
+                    en: 'Chart',
+                    pt: 'Gráfico',
+                },
+                general: {
+                    en: 'General',
+                    pt: 'Geral'
+                },
+                age: {
+                    en: 'Age Range',
+                    pt: 'Faixa Etária'
+                },
+                gender: {
+                    en: 'Gender',
+                    pt: 'Género'
+                },
+                nationality: {
+                    en: 'Nationality',
+                    pt: 'Nacionalidade'
+                },
+                table: {
+                    en: 'Table',
+                    pt: 'Tabela',
+                    location_name: {
+                        en: 'Location',
+                        pt: 'Local',
+                    },
+                    n_of_visitors: {
+                        en: 'Total Nº of Visitors',
+                        pt: 'Nº Total de Visitantes',
+                    },
+                },
+            },
+            twoCards: true,
+            showTable: false,
+        }
+    },
+    /*
+        Rewards
+    */
+    {
         path: '/rewards',
         name: 'rewards',
         component: () => import('../components/Templates.vue'),
@@ -318,6 +384,65 @@ const routes = [
             },
         }
     },
+    {
+        path: '/statistics/reward',
+        name: 'rewardstatistics',
+        component: () => import('../components/Statistics.vue'),
+        meta: {
+            requiresAuth: true,
+        },
+        props: {
+            languageProp: {
+                pageTitle: {
+                    en: 'Statistics - Reward',
+                    pt: 'Estatísticas - Recompensa',
+                },
+                nRedeemedRewards: {
+                    text: {
+                        en: 'Nº of Redeemed Rewards',
+                        pt: 'Nº de Recompensas Redimidas',
+                    },
+                },
+                chart: {
+                    en: 'Chart',
+                    pt: 'Gráfico',
+                },
+                general: {
+                    en: 'General',
+                    pt: 'Geral'
+                },
+                age: {
+                    en: 'Age Range',
+                    pt: 'Faixa Etária'
+                },
+                gender: {
+                    en: 'Gender',
+                    pt: 'Género'
+                },
+                nationality: {
+                    en: 'Nationality',
+                    pt: 'Nacionalidade'
+                },
+                table: {
+                    en: 'Table',
+                    pt: 'Tabela',
+                    location_name: {
+                        en: 'Location',
+                        pt: 'Local',
+                    },
+                    n_of_visitors: {
+                        en: 'Total Nº of Visitors',
+                        pt: 'Nº Total de Visitantes',
+                    },
+                },
+            },
+            twoCards: false,
+            showTable: false,
+        }
+    },
+    /*
+        Locations
+    */
     {
         path: '/newlocation',
         name: 'newlocation',
@@ -493,12 +618,67 @@ const routes = [
     },
     {
         path: '/statistics/location',
-        name: 'locationstatistics',
-        component: () => import('../components/LocationStatistics.vue'),
+        name: 'locationsstatistics',
+        component: () => import('../components/Statistics.vue'),
         meta: {
             requiresAuth: true,
         },
+        props: {
+            languageProp: {
+                pageTitle: {
+                    en: 'Statistics - Location',
+                    pt: 'Estatísticas - Local',
+                },
+                totalVisitors: {
+                    en: 'Total Nº of Visitors',
+                    pt: 'Nº Total de Visitantes',
+                },
+                nRedeemedRewards: {
+                    text: {
+                        en: 'Nº of Redeemed Rewards',
+                        pt: 'Nº de Recompensas Redimidas',
+                    },
+                },
+                chart: {
+                    en: 'Chart',
+                    pt: 'Gráfico',
+                },
+                general: {
+                    en: 'General',
+                    pt: 'Geral'
+                },
+                age: {
+                    en: 'Age Range',
+                    pt: 'Faixa Etária'
+                },
+                gender: {
+                    en: 'Gender',
+                    pt: 'Género'
+                },
+                nationality: {
+                    en: 'Nationality',
+                    pt: 'Nacionalidade'
+                },
+                table: {
+                    en: 'Table',
+                    pt: 'Tabela',
+                    location_name: {
+                        en: 'Location',
+                        pt: 'Local',
+                    },
+                    n_of_visitors: {
+                        en: 'Total Nº of Visitors',
+                        pt: 'Nº Total de Visitantes',
+                    },
+                },
+            },
+            twoCards: true,
+            showTable: false,
+        }
     },
+    /*
+        Collections
+    */
     {
         path: '/collections',
         name: 'collections',
@@ -674,19 +854,63 @@ const routes = [
     },
     {
         path: '/statistics/collection',
-        name: 'collectionstatistics',
-        component: () => import('../components/CollectionStatistics.vue'),
+        name: 'collectionsstatistics',
+        component: () => import('../components/Statistics.vue'),
         meta: {
             requiresAuth: true,
         },
-    },  
-    {
-        path: '/statistics/badge',
-        name: 'badgesstatistics',
-        component: () => import('../components/BadgeStatistics.vue'),
-        meta: {
-            requiresAuth: true,
-        },
+        props: {
+            languageProp: {
+                pageTitle: {
+                    en: 'Statistics - Collection',
+                    pt: 'Estatísticas - Coleção',
+                },
+                totalVisitors: {
+                    en: 'Total Nº of Visitors',
+                    pt: 'Nº Total de Visitantes',
+                },
+                nRedeemedRewards: {
+                    text: {
+                        en: 'Nº of Redeemed Rewards',
+                        pt: 'Nº de Recompensas Redimidas',
+                    },
+                },
+                chart: {
+                    en: 'Chart',
+                    pt: 'Gráfico',
+                },
+                general: {
+                    en: 'General',
+                    pt: 'Geral'
+                },
+                age: {
+                    en: 'Age Range',
+                    pt: 'Faixa Etária'
+                },
+                gender: {
+                    en: 'Gender',
+                    pt: 'Género'
+                },
+                nationality: {
+                    en: 'Nationality',
+                    pt: 'Nacionalidade'
+                },
+                table: {
+                    en: 'Table',
+                    pt: 'Tabela',
+                    location_name: {
+                        en: 'Location',
+                        pt: 'Local',
+                    },
+                    n_of_visitors: {
+                        en: 'Total Nº of Visitors',
+                        pt: 'Nº Total de Visitantes',
+                    },
+                },
+            },
+            twoCards: true,
+            showTable: true,
+        }
     },
     {
         path: '/profile',
@@ -695,11 +919,6 @@ const routes = [
         meta: {
             requiresAuth: true,
         },
-    },
-    {
-        path: '/statistics/reward',
-        name: 'rewardsstatistics',
-        component: () => import('../components/RewardStatistics.vue')
     },
     {
         path: '/contact-us',
