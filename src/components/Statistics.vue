@@ -104,6 +104,30 @@
             </label>
         </div>
         <div
+            class="buttons_container"
+        >
+            Filter
+            <br>
+            Starting Date:
+            <input
+                type="date"
+                id="min_date"
+                name="min_date"
+                :value="convertDigitIn(this.chartdata.labels[0])"
+                :min="convertDigitIn(this.chartdata.labels[0])"
+                :max="convertDigitIn(this.chartdata.labels[this.chartdata.labels.length-2])"
+            >
+            Finishing Date:
+            <input
+                type="date"
+                id="max_date"
+                name="max_date"
+                :value="convertDigitIn(this.chartdata.labels[this.chartdata.labels.length-1])"
+                :min="convertDigitIn(this.chartdata.labels[1])"
+                :max="convertDigitIn(this.chartdata.labels[this.chartdata.labels.length-1])"
+            >
+        </div>
+        <div
             v-if="showTable"
         >
             <br>
@@ -163,7 +187,7 @@
             return {
                 loaded: false,
                 chart: {
-                    pickedCheckbox: '',
+                    pickedCheckbox: 'general',
                     data: {
                         dates: ['01-01-2021', '02-01-2021', '03-01-2021', '04-01-2021'],
                         general: [
@@ -172,8 +196,8 @@
                                     en: 'General',
                                     pt: 'Geral'
                                 },
-                                data: [50, 1, 2, 3]
-                            }
+                                data: [],
+                            },
                         ],
                         age: [
                             {
@@ -181,22 +205,22 @@
                                     en: '18-29 Years Old',
                                     pt: '18-29 Anos',
                                 },
-                                data: [0, 1, 2, 3]
+                                data: [],
                             },
                             {
                                 label: {
                                     en: '30-39 Years Old',
                                     pt: '30-39 Anos',
                                 },
-                                data: [4, 5, 6, 7]
+                                data: [],
                             },
                             {
                                 label: {
                                     en: '40-49 Years Old',
                                     pt: '40-49 Anos',
                                 },
-                                data: [8, 9, 10, 11]
-                            }
+                                data: [],
+                            },
                         ],
                         gender: [
                             {
@@ -204,21 +228,21 @@
                                     en: 'Female',
                                     pt: 'Feminino',
                                 },
-                                data: [0, 1, 2, 3]
+                                data: []
                             },
                             {
                                 label: {
                                     en: 'Male',
                                     pt: 'Masculino',
                                 },
-                                data: [4, 5, 6, 7]
+                                data: []
                             },
                             {
                                 label: {
                                     en: 'Other',
                                     pt: 'Outro',
                                 },
-                                data: [8, 9, 10, 11]
+                                data: []
                             }
                         ],
                         nationality: [
@@ -227,21 +251,22 @@
                                     en: 'Portuguese',
                                     pt: 'Portuguesa',
                                 },
-                                data: [0, 1, 2, 3]
+                                backgroundColor: '#5a5a5a',
+                                data: [],
                             },
                             {
                                 label: {
                                     en: 'Spanish',
                                     pt: 'Espanhola',
                                 },
-                                data: [4, 5, 6, 7]
+                                data: [],
                             },
                             {
                                 label: {
                                     en: 'Brazilian',
                                     pt: 'Brasileira',
                                 },
-                                data: [8, 9, 10, 11]
+                                data: [],
                             }
                         ]
                     },
@@ -308,15 +333,29 @@
         },
         created() {
             // general chart setup
+            // x axis
             this.chartdata.labels = this.chart.data.dates;
             var datasets = [];
 
+            console.log('min: ', this.chartdata.labels[0], ' & max: ', this.chartdata.labels[this.chartdata.labels.length-1])
+
             // fill dataset
+            // y axis and line stylings
             for (let obj of this.chart.data.general) {
+                var chosenColor = '#' + parseInt(Math.random() * 0xffffff).toString(16);
                 datasets.push(
                     {
                         label: obj.label[this.selected_language],
-                        data: obj.data
+                        fill: false,
+                        backgroundColor: chosenColor,
+                        borderColor: chosenColor,
+                        borderWidth: 3.5,
+                        data: [
+                            Math.floor((Math.random() * 100) + 1),
+                            Math.floor((Math.random() * 100) + 1),
+                            Math.floor((Math.random() * 100) + 1),
+                            Math.floor((Math.random() * 100) + 1),
+                        ],
                     }
                 )
             }
@@ -343,10 +382,20 @@
 
                 // fill dataset
                 for (let obj of this.chart.data[cat_name]) {
+                    var chosenColor = '#' + parseInt(Math.random() * 0xffffff).toString(16);
                     datasets.push(
                         {
                             label: obj.label[this.selected_language],
-                            data: obj.data
+                            fill: false,
+                            backgroundColor: chosenColor,
+                            borderColor: chosenColor,
+                            borderWidth: 3.5,
+                            data: [
+                                Math.floor((Math.random() * 100) + 1),
+                                Math.floor((Math.random() * 100) + 1),
+                                Math.floor((Math.random() * 100) + 1),
+                                Math.floor((Math.random() * 100) + 1),
+                            ],
                         }
                     )
                 }
@@ -357,6 +406,9 @@
                 this.$refs.lineChart.updateData();
 
             },
+            convertDigitIn(str){
+                return str.split('-').reverse().join('-');
+            }
         },
     }
 </script>
