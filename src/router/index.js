@@ -490,6 +490,7 @@ const routes = [
             },
             },
             toLink: '/newlocation',
+            getLink: 'http://localhost:8001/v0/locations/',
             prov_data: [
                 {
                 name: 'Location #1',

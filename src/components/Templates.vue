@@ -37,7 +37,7 @@
             >
         </div>
         <TemplateCard
-            :objects="this.result_data"
+            :objects="this.objects"
             :language="this.selected_language"
         />
     </div>
@@ -46,7 +46,9 @@
 <script>
  
     import TemplateCard from './TemplateCard.vue';
- 
+    import axios from 'axios';
+    import firebase from "firebase";
+
     export default {
         name: 'Location',
         components: {
@@ -65,11 +67,76 @@
                 type: Array,
                 required: true,
             },
+            getLink: {
+                type: String,
+                required: true,
+            },
+        },
+        async created() {
+
+            var idToken = '';
+
+            await firebase
+                .auth()
+                .currentUser
+                .getIdToken(true)
+                .then(
+                    function(res) {
+                        idToken = res
+                    }
+                );
+            
+
+            await axios
+                .get(this.getLink, {
+                        headers: {
+                            'Access-Control-Allow-Origin': '*',
+                            'Content-type': 'application/json',
+                            authorization: 'Bearer ' + idToken
+                        },
+                    }
+                )
+                .then((res) => {
+                        for (let obj of res.data) {
+                            this.objects.push(
+                                {
+                                    id: obj.uuid,
+                                    name: obj.name,
+                                    statistics: {
+                                        url: '/statistics/location',
+                                        text: {
+                                            en: 'Statistics',
+                                            pt: 'Estatísticas'
+                                        }
+                                    },
+                                    management: {
+                                        url: '/location',
+                                        text: {
+                                            en: 'Management',
+                                            pt: 'Gestão'
+                                        }
+                                    },
+                                    url: '/location',
+                                    image_link: obj.image,
+                                }
+                            );
+                        }
+                    }
+                )
+                .catch((err) => {
+                        console.error(err)
+                    }
+                );
+                
         },
         data: () => {
             return {
                 searchQuery: null,
+                objects:  [],
             }
+        },
+        mounted() {
+
         },
         computed: {
             selected_language() {

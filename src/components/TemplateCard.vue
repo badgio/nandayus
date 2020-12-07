@@ -9,7 +9,7 @@
                 class="id_card"
             >
                 <img
-                    :src="obj.image_link"
+                    v-bind:src="'data:image/jpeg;base64,' + obj.image_link"
                     alt="Avatar"
                 >
                 <div
