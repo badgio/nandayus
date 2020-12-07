@@ -45,6 +45,7 @@ const routes = [
             },
             },
             toLink: '/newbadge',
+            getLink: 'http://localhost:8001/v0/badges/',
             prov_data: [
             {
                 name: 'Badge #1',
