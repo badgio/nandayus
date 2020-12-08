@@ -31,19 +31,20 @@ const routes = [
         },
         props: {
             language: {
-            pageTitle: {
-                en: 'Badges',
-                pt: 'Badges',
+                pageTitle: {
+                    en: 'Badges',
+                    pt: 'Badges',
+                },
+                filter_text: {
+                    en: 'Filter your Badges',
+                    pt: 'Filtrar os seus Badges',
+                },
+                newButton: {
+                    en: 'Create New Badge',
+                    pt: 'Criar Novo Badge',
+                },
             },
-            filter_text: {
-                en: 'Filter your Badges',
-                pt: 'Filtrar os seus Badges',
-            },
-            newButton: {
-                en: 'Create New Badge',
-                pt: 'Criar Novo Badge',
-            },
-            },
+            type: 'location',
             toLink: '/newbadge',
             getLink: 'http://localhost:8001/v0/badges/',
         }
@@ -284,19 +285,20 @@ const routes = [
         },
         props: {
             language: {
-            pageTitle: {
-                en: 'Locations',
-                pt: 'Locais',
+                pageTitle: {
+                    en: 'Locations',
+                    pt: 'Locais',
+                },
+                filter_text: {
+                    en: 'Filter your Locations',
+                    pt: 'Filtrar os seus Locais',
+                },
+                newButton: {
+                    en: 'Create New Location',
+                    pt: 'Criar Novo Local',
+                },
             },
-            filter_text: {
-                en: 'Filter your Locations',
-                pt: 'Filtrar os seus Locais',
-            },
-            newButton: {
-                en: 'Create New Location',
-                pt: 'Criar Novo Local',
-            },
-            },
+            type: 'location',
             toLink: '/newlocation',
             getLink: 'http://localhost:8001/v0/locations/',
         },
@@ -313,7 +315,7 @@ const routes = [
         },
     },
     {
-        path: '/statistics/location',
+        path: '/statistics/location/:uuid',
         name: 'locationsstatistics',
         component: () => import('../components/Statistics.vue'),
         meta: {
@@ -322,8 +324,8 @@ const routes = [
         props: {
             languageProp: {
                 pageTitle: {
-                    en: 'Statistics - Location',
-                    pt: 'Estatísticas - Local',
+                    en: 'Statistics - Location ',
+                    pt: 'Estatísticas - Local ',
                 },
                 totalVisitors: {
                     en: 'Total Nº of Visitors',

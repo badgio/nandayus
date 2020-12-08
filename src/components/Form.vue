@@ -73,9 +73,9 @@
                         {{language.mapAdvisory[selected_language]}}
                     </p>
                     <p
-                        v-if="object.lattitude && object.longitude"
+                        v-if="object.latitude && object.longitude"
                     >
-                        {{language.curr_lattitude[selected_language]}} {{this.object.lattitude.toFixed(3)}} {{language.curr_longitude[selected_language]}} {{this.object.longitude.toFixed(3)}}
+                        {{language.curr_latitude[selected_language]}} {{this.object.latitude.toFixed(3)}} {{language.curr_longitude[selected_language]}} {{this.object.longitude.toFixed(3)}}
                     </p>
                     <br>
                     <div
@@ -98,8 +98,8 @@
                                 :attribution="map.attribution"
                             />
                             <l-marker
-                                v-if="object.lattitude && object.longitude"
-                                :lat-lng="[object.lattitude, object.longitude]"
+                                v-if="object.latitude && object.longitude"
+                                :lat-lng="[object.latitude, object.longitude]"
                             >
                             </l-marker>
                         </l-map>
@@ -467,7 +467,7 @@
                     <div>
                         <input
                             class="input_textfield"
-                            type="url"
+                            type="text"
                             id="site_name_input"
                             name="site_name"
                             v-model="object.website"
@@ -487,7 +487,7 @@
                         </label>
                         <input
                             class="input_textfield"
-                            type="url"
+                            type="text"
                             id="fb_input"
                             name="fb"
                             v-model="object.facebook"
@@ -505,7 +505,7 @@
                         <div>
                             <input
                                 class="input_textfield"
-                                type="url"
+                                type="text"
                                 id="tw_input"
                                 name="tw"
                                 v-model="object.twitter"
@@ -524,7 +524,7 @@
                         <div>
                             <input
                                 class="input_textfield"
-                                type="url"
+                                type="text"
                                 id="insta_input"
                                 name="insta"
                                 v-model="object.instagram"
@@ -656,7 +656,7 @@
                         en: 'Point your location on the map, double clicking it. Assure that you are as precise as possible, as that location defines where your location will be shown on Badgio.',
                         pt: 'Assinale a localização no mapa, através de um duplo clique. Assegure-se que é o mais preciso possível, uma vez que a localização que assinalar definirá onde esta será apresentada no Badgio.'
                     },
-                    curr_lattitude: {
+                    curr_latitude: {
                         en: 'Current location\'s Lattitude: ',
                         pt: 'Localização atual. Latitude: '
                     },
@@ -742,7 +742,7 @@
                 object: {
                     name: '',
                     address: '',
-                    lattitude: null,
+                    latitude: null,
                     longitude: null,
                     type: '',
                     postal_code: '',
@@ -917,7 +917,7 @@
                 this.showParagraph = !this.showParagraph;
             },
             addMarker(e) {
-                this.object.lattitude = e.latlng.lat;
+                this.object.latitude = e.latlng.lat;
                 this.object.longitude = e.latlng.lng;
             },
         },

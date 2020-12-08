@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>
-            {{languageProp.pageTitle[this.selected_language]}}
+            {{languageProp.pageTitle[this.selected_language]}} {{$route.params.uuid}}
         </h2>
         <div
             class="card_container"

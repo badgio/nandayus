@@ -67,6 +67,10 @@
                 type: String,
                 required: true,
             },
+            type: {
+                type: String,
+                required: true,
+            },
         },
         async created() {
 
@@ -99,20 +103,20 @@
                                     id: obj.uuid,
                                     name: obj.name,
                                     statistics: {
-                                        url: '/statistics/location',
+                                        url: '/statistics/' + this.type + '/' + obj.uuid,
                                         text: {
                                             en: 'Statistics',
                                             pt: 'Estatísticas'
                                         }
                                     },
                                     management: {
-                                        url: '/location/' + obj.uuid,
+                                        url: '/' + this.type + '/' + obj.uuid,
                                         text: {
                                             en: 'Management',
                                             pt: 'Gestão'
                                         }
                                     },
-                                    url: '/location/' + obj.uuid,
+                                    url: '/' + this.type + '/' + obj.uuid,
                                     image_link: obj.image,
                                 }
                             );
