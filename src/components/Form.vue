@@ -2,7 +2,11 @@
     <div
         class="card"
     >
-        <div class="alert success">
+        <div 
+            class="alert success"
+            v-if="success_banner"
+            v-on:click="success_banner=false;"
+        >
             <strong>
                 {{language.success_form.title[this.selected_language]}}
             </strong>
@@ -10,7 +14,11 @@
             <br>
             {{language.form_dismissal[this.selected_language]}}
         </div>
-        <div class="alert failure">
+        <div
+            class="alert failure"
+            v-if="error_banner"
+            v-on:click="error_banner=false;"
+        >
             <strong>
                 {{language.failure_form.title[this.selected_language]}}
             </strong>
@@ -65,9 +73,9 @@
                         {{language.mapAdvisory[selected_language]}}
                     </p>
                     <p
-                        v-if="object.position.lattitude && object.position.longitude"
+                        v-if="object.lattitude && object.longitude"
                     >
-                        {{language.curr_lattitude[selected_language]}} {{this.object.position.lattitude.toFixed(3)}} {{language.curr_longitude[selected_language]}} {{this.object.position.longitude.toFixed(3)}}
+                        {{language.curr_lattitude[selected_language]}} {{this.object.lattitude.toFixed(3)}} {{language.curr_longitude[selected_language]}} {{this.object.longitude.toFixed(3)}}
                     </p>
                     <br>
                     <div
@@ -90,8 +98,8 @@
                                 :attribution="map.attribution"
                             />
                             <l-marker
-                                v-if="object.position.lattitude && object.position.longitude"
-                                :lat-lng="[object.position.lattitude, object.position.longitude]"
+                                v-if="object.lattitude && object.longitude"
+                                :lat-lng="[object.lattitude, object.longitude]"
                             >
                             </l-marker>
                         </l-map>
@@ -482,7 +490,7 @@
                             type="url"
                             id="fb_input"
                             name="fb"
-                            v-model="object.social_networks.facebook"
+                            v-model="object.facebook"
                         >
                     </div>
                     <br>
@@ -500,7 +508,7 @@
                                 type="url"
                                 id="tw_input"
                                 name="tw"
-                                v-model="object.social_networks.twitter"
+                                v-model="object.twitter"
                             >
                         </div>
                     </div>
@@ -519,7 +527,7 @@
                                 type="url"
                                 id="insta_input"
                                 name="insta"
-                                v-model="object.social_networks.instagram"
+                                v-model="object.instagram"
                             >
                         </div>
                     </div>
@@ -549,6 +557,7 @@
 <script>
     
     import axios from 'axios';
+    import firebase from 'firebase';
     import { latLng } from "leaflet";
     import { LMap, LTileLayer, LMarker, LPopup, LTooltip } from "vue2-leaflet";
     import { OpenStreetMapProvider } from 'leaflet-geosearch';
@@ -599,6 +608,10 @@
                 type: Object,
                 required: true,
             },
+            postLink: {
+                type: String,
+                rquired: true,
+            }
         },
         data: () => {
             return {
@@ -616,7 +629,7 @@
                     failure_form: {
                         title: {
                             en: 'Failure',
-                            pt: 'Falha',
+                            pt: 'Erro',
                         },
                         text: {
                             en: 'The information has not been successfully submitted! Please try again!',
@@ -724,13 +737,13 @@
                         en: 'All fields signaled by * are required.'
                     },
                 },
+                success_banner: false,
+                error_banner: false,
                 object: {
                     name: '',
                     address: '',
-                    position: {
-                        lattitude: null,
-                        longitude: null
-                    },
+                    lattitude: null,
+                    longitude: null,
                     type: '',
                     postal_code: '',
                     district: '',
@@ -746,11 +759,9 @@
                     collection: '',
                     collections:[{ name: 'Verde Cool', code: 've' }],
                     website: '',
-                    social_networks: {
-                        facebook: '',
-                        instagram: '',
-                        twitter: '',
-                    }
+                    facebook: '',
+                    instagram: '',
+                    twitter: '',
                 },
                 types: [
                     {
@@ -843,27 +854,50 @@
             }
         },
         methods: {
-            submitForm(e) {
-                var URL = '';
-                let data = new FormData();
-                data.append('object', this.object);
+            async submitForm(e) {
+                var idToken = '';
+
+                var data = this.object;
+
+                await firebase
+                    .auth()
+                    .currentUser
+                    .getIdToken(true)
+                    .then(
+                        function(res) {
+                            idToken = res
+                        }
+                    );
+
                 let config = {
-                    header: {
-                        'Content-Type': 'image/png'
-                    }
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-type': 'application/json',
+                        authorization: 'Bearer ' + idToken
+                    },
                 };
 
-                console.log(data);
-                
-                axios.put(
-                    URL, 
+                await axios.post(
+                    this.postLink, 
                     data,
                     config
                 ).then(
                     response => {
-                        console.log('image upload response > ', response)
+                        if (response.status == 201) {
+                            this.success_banner = true;
+                        }
+                        else {
+                            this.error_banner = true;
+                        }
+                    }
+                ).catch(
+                    error => {
+                        console.log(error)
+                        this.error_banner;
                     }
                 )
+
+                window.scrollTo(0,0);
             },
             onFileChange(e) {
                 const image = e.target.files[0];
@@ -871,7 +905,6 @@
                 reader.readAsDataURL(image);
                 reader.onload = e =>{
                     this.object.image = e.target.result;
-                    console.log(this.object.image);
                 };
             },
             zoomUpdate(zoom) {
@@ -884,33 +917,8 @@
                 this.showParagraph = !this.showParagraph;
             },
             addMarker(e) {
-                console.log(e.latlng)
-                this.object.position.lattitude = e.latlng.lat;
-                this.object.position.longitude = e.latlng.lng;
-                this.getAddress()
-            },
-            async getAddress() {
-                this.loading = true;
-                let address = "Unresolved address";
-                try {
-                    var lat = this.object.position.lattitude;
-                    var lng = this.object.position.longitude;
-                    const result = await fetch(
-                        `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`
-                    );
-                    if (result.status === 200) {
-                        const body = await result.json();
-                        console.log(body)
-                        address = body.display_name;
-                        //this.object.postal_code = body.address.postcode
-                        //this.object.address = body.address.road + ', ' + body.address.house_number
-                        //console.log(address)
-                    }
-                } catch (e) {
-                    console.error("Reverse Geocode Error->", e);
-                }
-                this.loading = false;
-                return address;
+                this.object.lattitude = e.latlng.lat;
+                this.object.longitude = e.latlng.lng;
             },
         },
         mounted() {

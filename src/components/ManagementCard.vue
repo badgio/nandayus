@@ -61,7 +61,7 @@
                     </p>
                     <input
                         type="text"
-                        :placeholder="website"
+                        :value="website"
                     >
                 </div>
             </div>
@@ -81,7 +81,7 @@
                     id="description"
                     cols="30"
                     rows="10"
-                    :placeholder="this.description"
+                    :value="this.description"
                 >
                 </textarea>
             </div>
@@ -104,7 +104,7 @@
                         </p>
                         <input
                             type="text"
-                            :placeholder="social.link"
+                            :value  ="social.link"
                         >
                     </div>
                 </div>

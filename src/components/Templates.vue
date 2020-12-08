@@ -37,7 +37,7 @@
             >
         </div>
         <TemplateCard
-            :objects="this.objects"
+            :objects="this.result_data"
             :language="this.selected_language"
         />
     </div>
@@ -61,10 +61,6 @@
             },
             toLink: {
                 type: String,
-                required: true,
-            },
-            prov_data: {
-                type: Array,
                 required: true,
             },
             getLink: {
@@ -110,13 +106,13 @@
                                         }
                                     },
                                     management: {
-                                        url: '/location',
+                                        url: '/location/' + obj.uuid,
                                         text: {
                                             en: 'Management',
                                             pt: 'Gestão'
                                         }
                                     },
-                                    url: '/location',
+                                    url: '/location/' + obj.uuid,
                                     image_link: obj.image,
                                 }
                             );
@@ -144,12 +140,12 @@
             },
             result_data() {
                 if (this.searchQuery) {
-                    return this.prov_data.filter((item) => {
+                    return this.objects.filter((item) => {
                         return this.searchQuery.toLowerCase().split(' ').every(v => item.name.toLowerCase().includes(v));
                     })
                 }
                 else {
-                    return this.prov_data;
+                    return this.objects;
                 }
             }
         }
