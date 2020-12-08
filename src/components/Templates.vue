@@ -85,7 +85,6 @@
                         idToken = res
                     }
                 );
-            
 
             await axios
                 .get(this.getLink, {

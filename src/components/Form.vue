@@ -57,9 +57,9 @@
                             required
                             v-model="object.name"
                         >
+                        <br>
+                        <br>
                     </div>
-                    <br>
-                    <br>
                 </div>
                 <div
                     v-if="show_map"
@@ -114,26 +114,6 @@
                         class = "grid-container-2"
                     >
                         <label
-                            for="address_select"
-                        >
-                            {{language.address[selected_language]}}*:
-                        </label>
-                        <div>
-                            <input
-                                class="input_textfield"
-                                type="text"
-                                id="address_select"
-                                name="address_select"
-                                required
-                                v-model="object.address"
-                            >
-                        </div>
-                    </div>
-                    <br>
-                    <div
-                        class = "grid-container-2"
-                    >
-                        <label
                             for="type_select"
                         >
                             {{language.type[selected_language]}}*:
@@ -154,79 +134,11 @@
                             <option
                                 v-for="type in types"
                                 :key=type.index
-                                :value="type.name"
+                                :value="type.value"
                             >
                                 {{type.name[selected_language]}}
                             </option>
                         </select>
-                    </div>
-                    <br>
-                    <div
-                        class="grid-container-2"
-                    >
-                        <label
-                            for="postal_code_select"
-                        >
-                            {{language.postal_code[selected_language]}}*:
-                        </label>
-                        <input
-                            class="input_textfield"
-                            type="text"
-                            id="postal_code_select"
-                            name="postal_code_select"
-                            required
-                            v-model="object.postal_code"
-                        >
-                    </div>
-                    <br>
-                    <div
-                        class="grid-container-2"
-                    >
-                        <label
-                            for="district_select"
-                        >
-                            {{language.district[selected_language]}}*:
-                        </label>
-                        <input
-                            class="input_textfield"
-                            type="text"
-                            id="district_select"
-                            name="district_select"
-                            required
-                            v-model="object.district"
-                        >
-                    </div>
-                    <br>
-                    <div
-                        class="grid-container-2"
-                    >
-                        <label
-                            for="country_select"
-                        >
-                            {{language.country[selected_language]}}*:
-                        </label>
-                        <select
-                            name="country_select"
-                            id="country_select"
-                            required
-                            v-model="object.country"
-                        >
-                            <option
-                                value=""
-                                selected
-                                disabled
-                            >
-                                {{language.country[selected_language]}}
-                            </option>
-                            <option
-                                v-for="country in countries"
-                                :key=country.index
-                                :value="country.name"
-                            >
-                                {{country.name}}
-                            </option>
-                        </select>
-                        <br>
                     </div>
                     <br>
                     <br>
@@ -246,6 +158,7 @@
                         required
                         v-model="object.description"
                     ></textarea>
+                    <br>
                     <br>
                 </div>
                 <div
@@ -383,7 +296,7 @@
                             <option
                                 v-for="location in locations"
                                 :key=location.index
-                                :value="location.name"
+                                :value="location.uuid"
                             >
                                 {{location.name}}
                             </option>
@@ -434,7 +347,8 @@
                             <option
                                 v-for="location in locations"
                                 :key=location.index
-                                :value="location.name"
+                                :value="location.uuid"
+                                v-on:change="logger(location.uuid)"
                             >
                                 {{location.name}}
                             </option>
@@ -608,6 +522,10 @@
                 type: Object,
                 required: true,
             },
+            http_request: {
+                type: Object,
+                required: false,
+            },
             postLink: {
                 type: String,
                 rquired: true,
@@ -745,9 +663,6 @@
                     latitude: null,
                     longitude: null,
                     type: '',
-                    postal_code: '',
-                    district: '',
-                    country: '',
                     description: '',
                     image: '',
                     duration: '',
@@ -757,7 +672,7 @@
                     end_date:'',
                     location: '',
                     collection: '',
-                    collections:[{ name: 'Verde Cool', code: 've' }],
+                    collections:[],
                     website: '',
                     facebook: '',
                     instagram: '',
@@ -769,12 +684,14 @@
                             en: 'Touristic Attraction',
                             pt: 'Atração Turística',
                         },
+                        value: 'Touristic Attraction',
                     },
                     {
                         name: {
                             en: 'Commercial Establishment',
                             pt: 'Estabelecimento Comercial',
                         },
+                        value: 'Commercial Establishment',
                     }
                 ],
                 countries: [
@@ -825,23 +742,60 @@
                         autoCompleteDelay: 100
                     },
                 },
-                locations: [
-                    {
-                        name: 'Café do Sr.José'
-                    },
-                    {
-                        name: 'Taberna Belga'
-                    },
-                    {
-                        name: 'Bom Jesus'
-                    }
-                ],
+                locations: [],
                 collections: [
                     { name: 'Verde Cool', code: 've' },
                     { name: 'Semana da euforia', code: 'se' },
                     { name: 'Enterro da Gata', code: 'en' },
                     { name: 'Receção ao caloiro', code: 're' }
                 ],
+            }
+        },
+        async created() {
+            if (this.show_multiple_collections) {
+
+                // get jwt
+                var idToken = '';
+
+                await firebase
+                    .auth()
+                    .currentUser
+                    .getIdToken(true)
+                    .then(
+                        function(res) {
+                            idToken = res
+                        }
+                    );
+
+                console.log(idToken)
+
+                // get request to get locations
+                await axios
+                        .get(
+                            this.http_request.getLocations,
+                            {
+                                headers: {
+                                    'Access-Control-Allow-Origin': '*',
+                                    'Content-type': 'application/json',
+                                    authorization: 'Bearer ' + idToken
+                                },
+                            },
+                        )
+                        .then((res) => {
+                                for(let obj of res.data) {
+                                    this.locations.push(
+                                        {
+                                            name: obj.name,
+                                            uuid: obj.uuid,
+                                        }
+                                    );
+                                }
+                            }
+                        )
+                        .catch((err) => {
+                                console.log(err);
+                            }
+                        )
             }
         },
         computed: {
@@ -858,6 +812,12 @@
                 var idToken = '';
 
                 var data = this.object;
+
+                var data = {
+                    name: this.object.name,
+                    description: this.object.description,
+                    image: this.object.image,
+                }
 
                 await firebase
                     .auth()
@@ -877,12 +837,30 @@
                     },
                 };
 
+                if (this.show_map) {
+                    // add latitude and longitude to object
+                    data.latitude = this.object.latitude;
+                    data.longitude = this.object.longitude;
+                }
+
+                if (this.show_location_attributes) {
+                    // add type to object
+                    data.type = this.object.type;
+                }
+
+                if (this.show_multiple_collections) {
+                    // add location and collection to object
+                    data.location = this.object.location;
+                    data.collections = this.object.collection;
+                }
+
                 await axios.post(
                     this.postLink, 
                     data,
                     config
                 ).then(
                     response => {
+                        console.log('response', response)
                         if (response.status == 201) {
                             this.success_banner = true;
                         }
@@ -920,16 +898,17 @@
                 this.object.latitude = e.latlng.lat;
                 this.object.longitude = e.latlng.lng;
             },
-        },
-        mounted() {
-        },
-        addTag (newTag) {
-            const tag = {
-                name: newTag,
-                code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
-            }
-            this.collections.push(tag)
-            this.object.collections.push(tag)
+            logger(e) {
+                console.log(e)
+            },
+            addTag (newTag) {
+                const tag = {
+                    name: newTag,
+                    code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
+                }
+                this.collections.push(tag)
+                this.object.collections.push(tag)
+            },
         },
     }
  </script>

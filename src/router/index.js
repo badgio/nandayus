@@ -44,18 +44,23 @@ const routes = [
                     pt: 'Criar Novo Badge',
                 },
             },
-            type: 'location',
+            type: 'badge',
             toLink: '/newbadge',
             getLink: 'http://localhost:8001/v0/badges/',
         }
     },
     {
-        path: '/badge',
+        path: '/badge/:uuid',
         name: 'badge',
         component: () => import('../components/Badge.vue'),
         meta: {
             requiresAuth: true,
         },
+        props: {
+            http_requests: {
+                getBadge: 'http://localhost:8001/v0/badges/'
+            }
+        }
     },
     {
         path: '/newbadge',
@@ -79,6 +84,11 @@ const routes = [
                 en: 'Submit Badge',
                 pt: 'Submeter Badge'
             },
+            http_request: {
+                getLocations: 'http://localhost:8001/v0/locations/',
+                getCollections: '',
+            },
+            postLink: 'http://localhost:8001/v0/badges/'
         }
     },
     {
@@ -150,20 +160,21 @@ const routes = [
         component: () => import('../components/Templates.vue'),
         props: {
             language: {
-            pageTitle: {
-                en: 'Rewards',
-                pt: 'Recompensas',
-            },
-            filter_text: {
-                en: 'Filter your Rewards',
-                pt: 'Filtrar as suas Recompensas',
-            },
-            newButton: {
-                en: 'Create New Reward',
-                pt: 'Criar Nova Recompensa',
-            },
+                pageTitle: {
+                    en: 'Rewards',
+                    pt: 'Recompensas',
+                },
+                filter_text: {
+                    en: 'Filter your Rewards',
+                    pt: 'Filtrar as suas Recompensas',
+                },
+                newButton: {
+                    en: 'Create New Reward',
+                    pt: 'Criar Nova Recompensa',
+                },
             },
             toLink: '/newreward',
+            type: 'reward'
         }
     },
     {

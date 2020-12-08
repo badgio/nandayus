@@ -1,12 +1,15 @@
 <template>
     <div>
+        <h1>
+            {{$route.params.id}}
+        </h1>
         <ManagementCard
-            title="Badge Badge Badgerino Testerino"
-            image="https://media.istockphoto.com/photos/cityscape-of-paris-picture-id1176360891"
-            v-bind:paragraphs="this.test_paragraphs"
-            v-bind:website="this.website"
-            v-bind:description="this.test_description"
-            v-bind:social_networks="this.socials"
+            v-bind:title="this.badge.name"
+            v-bind:image="this.badge.image"
+            v-bind:paragraphs="this.badge.paragraphs"
+            v-bind:website="this.badge.website"
+            v-bind:description="this.badge.description"
+            v-bind:social_networks="this.badge.socials"
         />
         <br>
         <div
@@ -91,12 +94,20 @@
 
     import CollectionCard from './CollectionCard.vue';
     import ManagementCard from './ManagementCard.vue';
+    import axios from 'axios';
+    import firebase from 'firebase';
 
     export default {
         name: 'Badge',
         components: {
             CollectionCard,
             ManagementCard,
+        },
+        props: {
+            http_requests: {
+                type: Object,
+                required: true,
+            },
         },
         data: () => {
             return {
@@ -230,12 +241,14 @@
                 ],
                 searchQuery: null,
                 badge: {
-                    name: 'Badge X',
-                    state: 'Approved',
-                    location: 'Centro',
-                    validity: 'Permanent',
+                    name: '',
+                    state: '',
+                    validity: '',
                     description: '',
                     image: '',
+                    website: '',
+                    socials: [],
+                    paragraphs: [],
                     collections: [
                         {
                             id: '8',
@@ -262,6 +275,89 @@
                    en: 'All fields signaled by * are required.'
                 },
             }
+        },
+        async created() {
+            var idToken = '';
+
+            await firebase
+                .auth()
+                .currentUser
+                .getIdToken(true)
+                .then(
+                    function(res) {
+                        idToken = res
+                    }
+                );
+
+            console.log(this.http_requests.getBadge + this.$route.params.uuid)
+
+            await axios
+                .get(this.http_requests.getBadge + this.$route.params.uuid, {
+                        headers: {
+                            'Access-Control-Allow-Origin': '*',
+                            'Content-type': 'application/json',
+                            authorization: 'Bearer ' + idToken
+                        },
+                    }
+                )
+                .then((res) => {
+                        console.log(res)
+                        var bad = res.data;
+                        this.badge.uuid = bad.uuid;
+                        this.badge.name = bad.name;
+                        this.badge.image = bad.image;
+                        this.badge.description = bad.description;
+                        this.badge.paragraphs = [
+                            {
+                                type: {
+                                    en: 'Status',
+                                    pt: 'Estado',
+                                },
+                                text: bad.status,
+                            },
+                            {
+                                type: {
+                                    en: 'Type',
+                                    pt: 'Tipo',
+                                },
+                                text: 'Tourist Attraction',
+                            },
+                        ]
+                        if (bad.end_date == null) {
+                            this.badge.paragraphs.push(
+                                {
+                                    type: {
+                                        en: 'Duration',
+                                        pt: 'Duração',
+                                    },
+                                    text: 'Permanent'
+                                }
+                            )
+                        }
+                        else {
+                            this.badge.paragraphs.push(
+                                {
+                                    type: {
+                                        en: 'Duration',
+                                        pt: 'Duração',
+                                    },
+                                    text: 'Temporary'
+                                },
+                                {
+                                    type: {
+                                        en: 'Start',
+                                        pt: 'Início',
+                                    },
+                                    text: bad.end_date,
+                                },
+                            )
+                        }
+                    }
+                )
+                .catch((err) => {
+                        console.error(err)
+                    }
+                );
         },
         methods: {
             submitForm(e) {
