@@ -212,6 +212,18 @@ const routes = [
                     en: 'Total Nº of Visitors',
                     pt: 'Nº Total de Visitantes',
                 },
+                busiestDay: {
+                    text: {
+                        en: 'Day of the week with more visitors',
+                        pt: 'Dia da semana com mais visitantes',
+                    },
+                },
+                customerProfile: {
+                    text: {
+                        en: 'General customer profile',
+                        pt: 'Perfil geral do cliente',
+                    },
+                },
                 nRedeemedRewards: {
                     text: {
                         en: 'Nº of Redeemed Rewards',
@@ -633,6 +645,18 @@ const routes = [
                     en: 'Total Nº of Visitors',
                     pt: 'Nº Total de Visitantes',
                 },
+                busiestDay: {
+                    text: {
+                        en: 'Day of the week with more visitors',
+                        pt: 'Dia da semana com mais visitantes',
+                    },
+                },
+                customerProfile: {
+                    text: {
+                        en: 'General customer profile',
+                        pt: 'Perfil geral do cliente',
+                    },
+                },
                 nRedeemedRewards: {
                     text: {
                         en: 'Nº of Redeemed Rewards',
@@ -868,6 +892,18 @@ const routes = [
                 totalVisitors: {
                     en: 'Total Nº of Visitors',
                     pt: 'Nº Total de Visitantes',
+                },
+                busiestDay: {
+                    text: {
+                        en: 'Day of the week with more visitors',
+                        pt: 'Dia da semana com mais visitantes',
+                    },
+                },
+                customerProfile: {
+                    text: {
+                        en: 'General customer profile',
+                        pt: 'Perfil geral do cliente',
+                    },
                 },
                 nRedeemedRewards: {
                     text: {

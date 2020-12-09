@@ -3,53 +3,91 @@
         <h2>
             {{languageProp.pageTitle[this.selected_language]}}
         </h2>
+        <h3>
+            Relatório semanal
+        </h3> 
         <div
             class="card_container"
             v-if="twoCards"
         >
             <div
-                class="card"
+                class="card2"
             >
-                <h4>
+                <br>
+                <h3>
                     {{languageProp.totalVisitors[this.selected_language]}}
-                </h4>
-                <br>
-                <h5>
+                </h3>   
+                <h4>
                     10975
-                </h5>
-            </div>
-            <div
-                class="card"
-            >
-                <h4>
-                    {{languageProp.nRedeemedRewards.text[this.selected_language]}}
                 </h4>
                 <br>
-                <h5>
-                    3096
-                </h5>
-            </div>
-        </div>
-        <div
-            class="card_container"
-            v-else
-        >
-            <div
-                class="card"
-            >
+                <h3>
+                    {{languageProp.customerProfile.text[this.selected_language]}}
+                </h3>
                 <h4>
+                    Jovem Português
+                </h4>
+            </div>
+            <div
+                class="card2"
+            >
+                <br>
+                <h3>
                     {{languageProp.nRedeemedRewards.text[this.selected_language]}}
+                </h3>   
+                <h4>
+                    3096
                 </h4>
                 <br>
-                <h5>
-                    3096
-                </h5>
+                <h3>
+                    {{languageProp.busiestDay.text[this.selected_language]}}
+                </h3>
+                <h4>
+                    Sábado
+                </h4>
+            </div>
+            <div
+                class="chart_container2"
+            >
+                    Horas de maior movimento
+                <bar-chart></bar-chart>
             </div>
         </div>
         <hr>
         <h3>
             {{languageProp.chart[this.selected_language]}}
         </h3>
+        <div
+            class="buttons_container2"
+        >
+            <label>
+                Starting Date:
+            </label>
+            <input
+                type="date"
+                id="min_date"
+                name="min_date"
+                ref="min_date"
+                :value="min_date_value"
+                :min="convertDigitIn(this.chart.data.dates[0])"
+                :max="max_date_value"
+                v-on:change="updateChart"
+            >
+            <label>
+                Finishing Date:
+            </label>
+            <input
+                type="date"
+                id="max_date"
+                name="max_date"
+                ref="max_date"
+                :value="max_date_value"
+                :min="min_date_value"
+                :max="convertDigitIn(this.chart.data.dates[this.chart.data.dates.length-1])"
+                v-on:change="updateChart"
+            >
+        </div>
+        <br>
         <div
             class="chart_container"
         >
@@ -59,8 +97,9 @@
                 :options="options"
             />
         </div>
+        <br>
         <div
-            class="buttons_container"
+            class="buttons_container1"
         >
             <label for="general_checkbox">
                 <input 
@@ -104,34 +143,6 @@
             </label>
         </div>
         <div
-            class="buttons_container"
-        >
-            Filter
-            <br>
-            Starting Date:
-            <input
-                type="date"
-                id="min_date"
-                name="min_date"
-                ref="min_date"
-                :value="min_date_value"
-                :min="convertDigitIn(this.chart.data.dates[0])"
-                :max="max_date_value"
-                v-on:change="updateChart"
-            >
-            Finishing Date:
-            <input
-                type="date"
-                id="max_date"
-                name="max_date"
-                ref="max_date"
-                :value="max_date_value"
-                :min="min_date_value"
-                :max="convertDigitIn(this.chart.data.dates[this.chart.data.dates.length-1])"
-                v-on:change="updateChart"
-            >
-        </div>
-        <div
             v-if="showTable"
         >
             <br>
@@ -161,17 +172,33 @@
                 </tr>
             </table>
         </div>
+        <h3>Horario Semanal- Opçao 1</h3>
+        <div
+            class="chart_container"
+        >
+            <bubble-chart></bubble-chart>
+        </div>
+        <h3>Horario Semanal - Opçao 2</h3>
+        <div
+            class="chart_container"
+        >
+            <bar-chart></bar-chart>
+        </div>
     </div>
 </template>
 
 <script>
 
     import LineChart from './LineChart.vue';
+    import BubbleChart from './BubbleChart.vue'
+    import BarChart from './BarChart.vue';
 
     export default {
         name: 'Statistics',
         components: {
             LineChart,
+            BubbleChart,
+            BarChart,
         },
         props: {
             languageProp: {
@@ -336,7 +363,10 @@
                         visitors: 15,
                     },
                 ],
+        
+
             }
+
         },
         computed: {
             selected_language() {
@@ -458,14 +488,24 @@ h2, h3 {
 .card {
     width: 30%;
     min-width: 250px;
-    min-height: 150px;
-    max-height: 200px;
+    height: 150px;
     border: 2px solid #0a4870;
     border-radius: 5px;
-    background-color: #eee;
-    color: #3a3a3a;
+    background-color: #ccc;
+    color: white;
     margin: 10px auto 15px;
     text-align: center;
+}
+
+.card2 {
+    width: 20%;
+    margin: 25px auto 25px;
+    border-radius: 8px;
+    border: 1px solid #d3d3d3;
+    box-shadow: 0 0 9px 1px rgba(0, 0, 0, 0.2);
+    background-color:#fcf9f5;
+    text-align: center;
+    vertical-align: middle;
 }
 
 .chart_container {
@@ -474,9 +514,23 @@ h2, h3 {
     margin: 10px auto 10px;
 }
 
-.buttons_container {
+.chart_container2 {
+    width: 30%;
+    margin: 25px auto 25px;
+    
+}
+
+.buttons_container1 {
     width: 75%;
     margin: 0 auto 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.buttons_container2 {
+    width: 45%;
+    margin: 5px  auto 0px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
@@ -549,5 +603,35 @@ th {
     background-color: #4CAF50;
     color: white;
 }
+
+</style>
+
+<style scoped>
+
+* {
+    color: #444444;
+}
+
+h1 {
+  padding : 25px;
+  margin : auto;
+  text-align : center;
+}
+
+p {
+    font-size: 11px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 </style>
