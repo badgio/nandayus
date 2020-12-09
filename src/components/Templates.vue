@@ -46,7 +46,9 @@
 <script>
  
     import TemplateCard from './TemplateCard.vue';
- 
+    import axios from 'axios';
+    import firebase from "firebase";
+
     export default {
         name: 'Location',
         components: {
@@ -61,15 +63,79 @@
                 type: String,
                 required: true,
             },
-            prov_data: {
-                type: Array,
+            getLink: {
+                type: String,
                 required: true,
             },
+            type: {
+                type: String,
+                required: true,
+            },
+        },
+        async created() {
+
+            var idToken = '';
+
+            await firebase
+                .auth()
+                .currentUser
+                .getIdToken(true)
+                .then(
+                    function(res) {
+                        idToken = res
+                    }
+                );
+
+            await axios
+                .get(this.getLink, {
+                        headers: {
+                            'Access-Control-Allow-Origin': '*',
+                            'Content-type': 'application/json',
+                            authorization: 'Bearer ' + idToken
+                        },
+                    }
+                )
+                .then((res) => {
+                        for (let obj of res.data) {
+                            this.objects.push(
+                                {
+                                    id: obj.uuid,
+                                    name: obj.name,
+                                    statistics: {
+                                        url: '/statistics/' + this.type + '/' + obj.uuid,
+                                        text: {
+                                            en: 'Statistics',
+                                            pt: 'Estatísticas'
+                                        }
+                                    },
+                                    management: {
+                                        url: '/' + this.type + '/' + obj.uuid,
+                                        text: {
+                                            en: 'Management',
+                                            pt: 'Gestão'
+                                        }
+                                    },
+                                    url: '/' + this.type + '/' + obj.uuid,
+                                    image_link: obj.image,
+                                }
+                            );
+                        }
+                    }
+                )
+                .catch((err) => {
+                        console.error(err)
+                    }
+                );
+                
         },
         data: () => {
             return {
                 searchQuery: null,
+                objects:  [],
             }
+        },
+        mounted() {
+
         },
         computed: {
             selected_language() {
@@ -77,12 +143,12 @@
             },
             result_data() {
                 if (this.searchQuery) {
-                    return this.prov_data.filter((item) => {
+                    return this.objects.filter((item) => {
                         return this.searchQuery.toLowerCase().split(' ').every(v => item.name.toLowerCase().includes(v));
                     })
                 }
                 else {
-                    return this.prov_data;
+                    return this.objects;
                 }
             }
         }

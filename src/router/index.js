@@ -31,145 +31,36 @@ const routes = [
         },
         props: {
             language: {
-            pageTitle: {
-                en: 'Badges',
-                pt: 'Badges',
+                pageTitle: {
+                    en: 'Badges',
+                    pt: 'Badges',
+                },
+                filter_text: {
+                    en: 'Filter your Badges',
+                    pt: 'Filtrar os seus Badges',
+                },
+                newButton: {
+                    en: 'Create New Badge',
+                    pt: 'Criar Novo Badge',
+                },
             },
-            filter_text: {
-                en: 'Filter your Badges',
-                pt: 'Filtrar os seus Badges',
-            },
-            newButton: {
-                en: 'Create New Badge',
-                pt: 'Criar Novo Badge',
-            },
-            },
+            type: 'badge',
             toLink: '/newbadge',
-            prov_data: [
-            {
-                name: 'Badge #1',
-                statistics: {
-                    url: '/statistics/badge',
-                    text: {
-                        en: 'Statistics',
-                        pt: 'Estatísticas'
-                    }
-                },
-                management: {
-                    url:'/badge',
-                    text: {
-                        en: 'Management',
-                        pt: 'Gestão'
-                    }
-                },
-                url: '/newbadge',
-                image_link: "https://media.istockphoto.com/photos/empty-coffee-shop-picture-id1154756901",
-            },
-            {
-                name: 'Badge #2',
-                statistics: {
-                    url: '/statistics/badge',
-                    text: {
-                        en: 'Statistics',
-                        pt: 'Estatísticas'
-                    }
-                },
-                management: {
-                    url:'/badge',
-                    text: {
-                        en: 'Management',
-                        pt: 'Gestão'
-                    }
-                },
-                url: '/newbadge',
-                image_link: "https://media.istockphoto.com/photos/this-cafes-got-a-little-something-for-everyone-picture-id520497828",
-            },
-            {
-                name: 'Badge #3',
-                statistics: {
-                    url: '/statistics/badge',
-                    text: {
-                        en: 'Statistics',
-                        pt: 'Estatísticas'
-                    }
-                },
-                management: {
-                    url:'/badge',
-                    text: {
-                        en: 'Management',
-                        pt: 'Gestão'
-                    }
-                },
-                url: '/newbadge',
-                image_link: "https://media.istockphoto.com/photos/old-church-picture-id816378880",
-            },
-            {
-                name: 'Badge #4',
-                statistics: {
-                    url: '/statistics/badge',
-                    text: {
-                        en: 'Statistics',
-                        pt: 'Estatísticas'
-                    }
-                },
-                management: {
-                    url:'/badge',
-                    text: {
-                        en: 'Management',
-                        pt: 'Gestão'
-                    }
-                },
-                url: '/newbadge',
-                image_link: "https://images.pexels.com/photos/137038/pexels-photo-137038.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-            },
-            {
-                name: 'Badge #5',
-                statistics: {
-                    url: '/statistics/badge',
-                    text: {
-                        en: 'Statistics',
-                        pt: 'Estatísticas'
-                    }
-                },
-                management: {
-                    url:'/badge',
-                    text: {
-                        en: 'Management',
-                        pt: 'Gestão'
-                    }
-                },
-                url: '/newbadge',
-                image_link: "https://i.redd.it/lefp60p4bky51.jpg",
-            },
-            {
-                name: 'Badge Badge Badge Badge Badge #6',
-                statistics: {
-                    url: '/statistics/badge',
-                    text: {
-                        en: 'Statistics',
-                        pt: 'Estatísticas'
-                    }
-                },
-                management: {
-                    url:'/badge',
-                    text: {
-                        en: 'Management',
-                        pt: 'Gestão'
-                    }
-                },
-                url: '/newbadge',
-                image_link: "https://i.redd.it/8f8ync5fkhy51.jpg",
-            },
-            ]
+            getLink: 'http://localhost:8001/v0/badges/',
         }
     },
     {
-        path: '/badge',
+        path: '/badge/:uuid',
         name: 'badge',
         component: () => import('../components/Badge.vue'),
         meta: {
             requiresAuth: true,
         },
+        props: {
+            http_requests: {
+                getBadge: 'http://localhost:8001/v0/badges/'
+            }
+        }
     },
     {
         path: '/newbadge',
@@ -193,6 +84,11 @@ const routes = [
                 en: 'Submit Badge',
                 pt: 'Submeter Badge'
             },
+            http_request: {
+                getLocations: 'http://localhost:8001/v0/locations/',
+                getCollections: '',
+            },
+            postLink: 'http://localhost:8001/v0/badges/'
         }
     },
     {
@@ -276,98 +172,21 @@ const routes = [
         component: () => import('../components/Templates.vue'),
         props: {
             language: {
-            pageTitle: {
-                en: 'Rewards',
-                pt: 'Recompensas',
-            },
-            filter_text: {
-                en: 'Filter your Rewards',
-                pt: 'Filtrar as suas Recompensas',
-            },
-            newButton: {
-                en: 'Create New Reward',
-                pt: 'Criar Nova Recompensa',
-            },
+                pageTitle: {
+                    en: 'Rewards',
+                    pt: 'Recompensas',
+                },
+                filter_text: {
+                    en: 'Filter your Rewards',
+                    pt: 'Filtrar as suas Recompensas',
+                },
+                newButton: {
+                    en: 'Create New Reward',
+                    pt: 'Criar Nova Recompensa',
+                },
             },
             toLink: '/newreward',
-            prov_data: [
-            {
-                name: 'Reward #1',
-                statistics: {
-                    url: '/statistics/reward',
-                    text: {
-                        en: 'Statistics',
-                        pt: 'Estatísticas'
-                    }
-                },
-                management: {
-                    url:'/reward',
-                    text: {
-                        en: 'Management',
-                        pt: 'Gestão'
-                    }
-                },
-                url: '/newreward',
-                image_link: "https://media.istockphoto.com/photos/empty-coffee-shop-picture-id1154756901",
-            },
-            {
-                name: 'Reward #2',
-                statistics: {
-                    url: '/statistics/reward',
-                    text: {
-                        en: 'Statistics',
-                        pt: 'Estatísticas'
-                    }
-                },
-                management: {
-                    url:'/reward',
-                    text: {
-                        en: 'Management',
-                        pt: 'Gestão'
-                    }
-                },
-                url: '/newreward',
-                image_link: "https://media.istockphoto.com/photos/this-cafes-got-a-little-something-for-everyone-picture-id520497828",
-            },
-            {
-                name: 'Reward #3',
-                statistics: {
-                    url: '/statistics/reward',
-                    text: {
-                        en: 'Statistics',
-                        pt: 'Estatísticas'
-                    }
-                },
-                management: {
-                    url:'/reward',
-                    text: {
-                        en: 'Management',
-                        pt: 'Gestão'
-                    }
-                },
-                url: '/newreward',
-                image_link: "https://media.istockphoto.com/photos/old-church-picture-id816378880",
-            },
-            {
-                name: 'Reward #4',
-                statistics: {
-                    url: '/statistics/reward',
-                    text: {
-                        en: 'Statistics',
-                        pt: 'Estatísticas'
-                    }
-                },
-                management: {
-                    url:'/reward',
-                    text: {
-                        en: 'Management',
-                        pt: 'Gestão'
-                    }
-                },
-                url: '/newreward',
-                image_link: "https://images.pexels.com/photos/137038/pexels-photo-137038.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-            },
-            ]
+            type: 'reward'
         }
     },
     {
@@ -477,6 +296,7 @@ const routes = [
                 en: 'Submit Location',
                 pt: 'Submeter Local'
             },
+            postLink: 'http://localhost:8001/v0/locations/'
         }
     },
     {
@@ -488,148 +308,37 @@ const routes = [
         },
         props: {
             language: {
-            pageTitle: {
-                en: 'Locations',
-                pt: 'Locais',
+                pageTitle: {
+                    en: 'Locations',
+                    pt: 'Locais',
+                },
+                filter_text: {
+                    en: 'Filter your Locations',
+                    pt: 'Filtrar os seus Locais',
+                },
+                newButton: {
+                    en: 'Create New Location',
+                    pt: 'Criar Novo Local',
+                },
             },
-            filter_text: {
-                en: 'Filter your Locations',
-                pt: 'Filtrar os seus Locais',
-            },
-            newButton: {
-                en: 'Create New Location',
-                pt: 'Criar Novo Local',
-            },
-            },
+            type: 'location',
             toLink: '/newlocation',
-            prov_data: [
-                {
-                name: 'Location #1',
-                statistics: {
-                    url: '/statistics/location',
-                    text: {
-                        en: 'Statistics',
-                        pt: 'Estatísticas'
-                    }
-                },
-                management: {
-                    url: '/location',
-                    text: {
-                        en: 'Management',
-                        pt: 'Gestão'
-                    }
-                },
-                url: '/location',
-                image_link: "https://media.istockphoto.com/photos/empty-coffee-shop-picture-id1154756901",
-            },
-            {
-                name: 'Location #2',
-                statistics: {
-                    url: '/statistics/location',
-                    text: {
-                        en: 'Statistics',
-                        pt: 'Estatísticas'
-                    }
-                },
-                management: {
-                    url: '/location',
-                    text: {
-                        en: 'Management',
-                        pt: 'Gestão'
-                    }
-                },
-                url: '/location',
-                image_link: "https://media.istockphoto.com/photos/this-cafes-got-a-little-something-for-everyone-picture-id520497828",
-            },
-            {
-                name: 'Location #3',
-                statistics: {
-                    url: '/statistics/location',
-                    text: {
-                        en: 'Statistics',
-                        pt: 'Estatísticas'
-                    }
-                },
-                management: {
-                    url: '/location',
-                    text: {
-                        en: 'Management',
-                        pt: 'Gestão'
-                    }
-                },
-                url: '/location',
-                image_link: "https://media.istockphoto.com/photos/old-church-picture-id816378880",
-            },
-            {
-                name: 'Location #4',
-                statistics: {
-                    url: '/statistics/location',
-                    text: {
-                        en: 'Statistics',
-                        pt: 'Estatísticas'
-                    }
-                },
-                management: {
-                    url: '/location',
-                    text: {
-                        en: 'Management',
-                        pt: 'Gestão'
-                    }
-                },
-                url: '/location',
-                image_link: "https://images.pexels.com/photos/137038/pexels-photo-137038.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-            },
-            {
-                name: 'Location #5',
-                statistics: {
-                    url: '/statistics/location',
-                    text: {
-                        en: 'Statistics',
-                        pt: 'Estatísticas'
-                    }
-                },
-                management: {
-                    url: '/location',
-                    text: {
-                        en: 'Management',
-                        pt: 'Gestão'
-                    }
-                },
-                url: '/location',
-                image_link: "https://i.redd.it/lefp60p4bky51.jpg",
-            },
-            {
-                name: 'Location Location Location Location Location #6',
-                statistics: {
-                    url: '/statistics/location',
-                    text: {
-                        en: 'Statistics',
-                        pt: 'Estatísticas'
-                    }
-                },
-                management: {
-                    url: '/location',
-                    text: {
-                        en: 'Management',
-                        pt: 'Gestão'
-                    }
-                },
-                url: '/location',
-                image_link: "https://i.redd.it/8f8ync5fkhy51.jpg",
-            },
-            ]
+            getLink: 'http://localhost:8001/v0/locations/',
         },
     },
     {
-        path: '/location',
+        path: '/location/:uuid',
         name: 'location',
         component: () => import('../components/Location.vue'),
         meta: {
             requiresAuth: true,
         },
+        props: {
+            getLink: 'http://localhost:8001/v0/locations/',
+        },
     },
     {
-        path: '/statistics/location',
+        path: '/statistics/location/:uuid',
         name: 'locationsstatistics',
         component: () => import('../components/Statistics.vue'),
         meta: {
@@ -638,8 +347,8 @@ const routes = [
         props: {
             languageProp: {
                 pageTitle: {
-                    en: 'Statistics - Location',
-                    pt: 'Estatísticas - Local',
+                    en: 'Statistics - Location ',
+                    pt: 'Estatísticas - Local ',
                 },
                 totalVisitors: {
                     en: 'Total Nº of Visitors',
@@ -726,122 +435,6 @@ const routes = [
             },
             },
             toLink: '/newcollection',
-            prov_data: [
-            {
-                name: 'Collection #1',
-                statistics: {
-                    url: '/statistics/collection',
-                    text: {
-                        en: 'Statistics',
-                        pt: 'Estatísticas'
-                    }
-                },
-                management: {
-                    url:'/collection',
-                    text: {
-                        en: 'Management',
-                        pt: 'Gestão'
-                    }
-                },
-                url: '/newcollection',
-                image_link: "https://media.istockphoto.com/photos/empty-coffee-shop-picture-id1154756901",
-            },
-            {
-                name: 'Collection #2',
-                statistics: {
-                    url: '/statistics/collection',
-                    text: {
-                        en: 'Statistics',
-                        pt: 'Estatísticas'
-                    }
-                },
-                management: {
-                    url:'/collection',
-                    text: {
-                        en: 'Management',
-                        pt: 'Gestão'
-                    }
-                },
-                url: '/newcollection',
-                image_link: "https://media.istockphoto.com/photos/this-cafes-got-a-little-something-for-everyone-picture-id520497828",
-            },
-            {
-                name: 'Collection Collection Collection Collection Collection Collection Collection Collection Collection Collection Collection #3',
-                statistics: {
-                    url: '/statistics/collection',
-                    text: {
-                        en: 'Statistics',
-                        pt: 'Estatísticas'
-                    }
-                },
-                management: {
-                    url:'/collection',
-                    text: {
-                        en: 'Management',
-                        pt: 'Gestão'
-                    }
-                },
-                url: '/newcollection',
-                image_link: "https://media.istockphoto.com/photos/old-church-picture-id816378880",
-            },
-            {
-                name: 'Collection #4',
-                statistics: {
-                    url: '/statistics/collection',
-                    text: {
-                        en: 'Statistics',
-                        pt: 'Estatísticas'
-                    }
-                },
-                management: {
-                    url:'/collection',
-                    text: {
-                        en: 'Management',
-                        pt: 'Gestão'
-                    }
-                },
-                url: '/newcollection',
-                image_link: "https://images.pexels.com/photos/137038/pexels-photo-137038.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-            },
-            {
-                name: 'Collection #5',
-                statistics: {
-                    url: '/statistics/collection',
-                    text: {
-                        en: 'Statistics',
-                        pt: 'Estatísticas'
-                    }
-                },
-                management: {
-                    url:'/collection',
-                    text: {
-                        en: 'Management',
-                        pt: 'Gestão'
-                    }
-                },
-                url: '/newcollection',
-                image_link: "https://i.redd.it/lefp60p4bky51.jpg",
-            },
-            {
-                name: 'Collection Collection Collection Collection Collection #6',
-                statistics: {
-                    url: '/statistics/collection',
-                    text: {
-                        en: 'Statistics',
-                        pt: 'Estatísticas'
-                    }
-                },
-                management: {
-                    url:'/collection',
-                    text: {
-                        en: 'Management',
-                        pt: 'Gestão'
-                    }
-                },
-                url: '/newcollection',
-                image_link: "https://i.redd.it/8f8ync5fkhy51.jpg",
-            },
-            ]
         }
     },
     {

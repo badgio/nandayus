@@ -1,12 +1,12 @@
 <template>
     <div>
         <ManagementCard
-            title="Location Location Test"
-            image="https://media.istockphoto.com/photos/cityscape-of-paris-picture-id1176360891"
-            v-bind:paragraphs="this.test_paragraphs"
-            v-bind:website="this.website"
-            v-bind:description="this.test_description"
-            v-bind:social_networks="this.socials"
+            v-bind:title="this.location.name"
+            v-bind:image="this.location.image"
+            v-bind:paragraphs="this.location.paragraphs"
+            v-bind:website="this.location.website"
+            v-bind:description="this.location.description"
+            v-bind:social_networks="this.location.social_networks"
         />
         <div
             class="row"
@@ -23,11 +23,80 @@
 <script>
 
     import ManagementCard from './ManagementCard.vue';
+    import axios from 'axios';
+    import firebase from 'firebase';
 
     export default {
         name: 'Location',
         components: {
             ManagementCard,
+        },
+        props: {
+            getLink: {
+                type: String,
+                required: true,
+            },
+        },
+        async created() {
+            var idToken = '';
+
+            await firebase
+                .auth()
+                .currentUser
+                .getIdToken(true)
+                .then(
+                    function(res) {
+                        idToken = res
+                    }
+                );
+
+            await axios
+                .get(this.getLink + this.$route.params.uuid, {
+                        headers: {
+                            'Access-Control-Allow-Origin': '*',
+                            'Content-type': 'application/json',
+                            authorization: 'Bearer ' + idToken
+                        },
+                    }
+                )
+                .then((res) => {
+                       var loc = res.data;
+                       this.location.name = loc.name;
+                       this.location.image = loc.image;
+                       this.location.paragraphs = [
+                            {
+                                type: {
+                                    en: 'Status',
+                                    pt: 'Estado',
+                                },
+                                text: loc.status,
+                            },
+                            {
+                                type: {
+                                    en: 'Type',
+                                    pt: 'Tipo',
+                                },
+                                text: 'Tourist Attraction',
+                            },
+                       ]
+                       this.location.website = loc.website;
+                       this.location.description = loc.description;
+                       this.location.social_networks = [
+                            {
+                                name: 'Facebook',
+                                link: loc.facebook,
+                            },
+                            {
+                                name: 'Instagram',
+                                link: loc.instagram,
+                            },
+                       ]
+                    }
+                )
+                .catch((err) => {
+                        console.error(err)
+                    }
+                );
         },
         data: () => {
             return {
@@ -74,100 +143,14 @@
                         en: 'All fields signaled by * are required.'
                     },
                 },
-                test_paragraphs: [
-                    {
-                        type: {
-                            en: 'Description',
-                            pt: 'Descrição',
-                        },
-                        text: 'Text Text Text Test Text Text Text Test Text Text Text Test Text Text Text Test'
-                    },
-                    {
-                        type: {
-                            en: 'Description',
-                            pt: 'Descrição',
-                        },
-                        text: 'Text Text Text Test Text Text Text Test Text Text Text Test Text Text Text Test'
-                    },
-                    {
-                        type: {
-                            en: 'Description',
-                            pt: 'Descrição',
-                        },
-                        text: 'Text Text Text Test Text Text Text Test Text Text Text Test Text Text Text Test'
-                    },
-                    {
-                        type: {
-                            en: 'Description',
-                            pt: 'Descrição',
-                        },
-                        text: 'Text Text Text Test Text Text Text Test Text Text Text Test Text Text Text Test'
-                    },
-                ],
-                test_description: 'Testerino descriptionerino',
-                website: 'Location\'s website',
-                socials: [
-                    {
-                        name: 'Instagram',
-                        link: '',
-                    },
-                    {
-                        name: 'Facebook',
-                        link: 'facebook.com/test',
-                    },
-                    {
-                        name: 'Twitter',
-                        link: '',
-                    },
-                ],
                 location: {
-                    name: 'Location Location Location',
-                    address: 'Main Street, number 1',
-                    type: 'Touristic Atraction',
-                    postal_code: '4700-300',
-                    district: 'Braga',
-                    country: 'Portugal',
+                    name: '',
+                    paragraphs: [],
                     description: '',
                     image: '',
                     website: '',
-                    social_networks: {
-                        facebook: '',
-                        instagram: '',
-                        twitter: '',
-                    }
+                    social_networks: []
                 },
-                types: [
-                    {
-                        name: 'Atração Turística'
-                    },
-                    {
-                        name: 'Estabelecimento Comercial'
-                    }
-                ],
-                postal_codes : [
-                    {
-                        number: '4710-340'
-                    },
-                    {
-                        number: '9000-276'
-                    }
-                ],
-                districts: [
-                    {
-                        name: 'Braga'
-                    },
-                    {
-                        name: 'Região Autónoma da Madeira'
-                    }
-                ],
-                countries: [
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'Espanha'
-                    },
-                ],
             }
         },
         computed: {
