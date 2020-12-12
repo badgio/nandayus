@@ -73,7 +73,7 @@
                 required: true,
             },
         },
-        async created() {   
+        async created() {
             this.getObjects();
         },
         data: () => {

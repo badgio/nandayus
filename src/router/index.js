@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '../store/index.js';
-import VueCookies from 'vue-cookies';
 Vue.use(VueRouter)
 
 const routes = [
@@ -93,7 +92,7 @@ const routes = [
         }
     },
     {
-        path: '/statistics/badge',
+        path: '/statistics/badge/:uuid',
         name: 'badgesstatistics',
         component: () => import('../components/Statistics.vue'),
         meta: {
