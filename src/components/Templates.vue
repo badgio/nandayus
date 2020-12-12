@@ -73,69 +73,13 @@
             },
         },
         async created() {
-
-            var idToken = '';
-
-            await firebase
-                .auth()
-                .currentUser
-                .getIdToken(true)
-                .then(
-                    function(res) {
-                        idToken = res
-                    }
-                );
-
-            await axios
-                .get(this.getLink, {
-                        headers: {
-                            'Access-Control-Allow-Origin': '*',
-                            'Content-type': 'application/json',
-                            authorization: 'Bearer ' + idToken
-                        },
-                    }
-                )
-                .then((res) => {
-                        for (let obj of res.data) {
-                            this.objects.push(
-                                {
-                                    id: obj.uuid,
-                                    name: obj.name,
-                                    statistics: {
-                                        url: '/statistics/' + this.type + '/' + obj.uuid,
-                                        text: {
-                                            en: 'Statistics',
-                                            pt: 'Estatísticas'
-                                        }
-                                    },
-                                    management: {
-                                        url: '/' + this.type + '/' + obj.uuid,
-                                        text: {
-                                            en: 'Management',
-                                            pt: 'Gestão'
-                                        }
-                                    },
-                                    url: '/' + this.type + '/' + obj.uuid,
-                                    image_link: obj.image,
-                                }
-                            );
-                        }
-                    }
-                )
-                .catch((err) => {
-                        console.error(err)
-                    }
-                );
-                
+            this.getObjects();    
         },
         data: () => {
             return {
                 searchQuery: null,
                 objects:  [],
             }
-        },
-        mounted() {
-
         },
         computed: {
             selected_language() {
@@ -151,7 +95,63 @@
                     return this.objects;
                 }
             }
-        }
+        },
+        methods: {
+            async getObjects() {
+                var idToken = '';
+
+                await firebase
+                    .auth()
+                    .currentUser
+                    .getIdToken(true)
+                    .then(
+                        function(res) {
+                            idToken = res
+                        }
+                    );
+
+                await axios
+                    .get(this.getLink, {
+                            headers: {
+                                'Access-Control-Allow-Origin': '*',
+                                'Content-type': 'application/json',
+                                authorization: 'Bearer ' + idToken
+                            },
+                        }
+                    )
+                    .then((res) => {
+                            for (let obj of res.data) {
+                                this.objects.push(
+                                    {
+                                        id: obj.uuid,
+                                        name: obj.name,
+                                        statistics: {
+                                            url: '/statistics/' + this.type + '/' + obj.uuid,
+                                            text: {
+                                                en: 'Statistics',
+                                                pt: 'Estatísticas'
+                                            }
+                                        },
+                                        management: {
+                                            url: '/' + this.type + '/' + obj.uuid,
+                                            text: {
+                                                en: 'Management',
+                                                pt: 'Gestão'
+                                            }
+                                        },
+                                        url: '/' + this.type + '/' + obj.uuid,
+                                        image_link: obj.image,
+                                    }
+                                );
+                            }
+                        }
+                    )
+                    .catch((err) => {
+                            console.error(err)
+                        }
+                    );
+            }
+        },
     }
 </script>
 
