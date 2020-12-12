@@ -48,6 +48,7 @@
 
 <script>
 import firebase from "firebase";
+import store from '../store/index.js';
 
 export default {
   data() {
@@ -75,7 +76,7 @@ export default {
   },
   computed: {
     selected_language() {
-      return this.$store.getters.getLanguage;
+      return store.getters.getLanguage;
     },
   },
   methods: {
@@ -84,17 +85,15 @@ export default {
         .auth()
         .signInWithEmailAndPassword(this.form.email, this.form.password)
         .then(data => {
-          console.log("Sign-In")
-          console.log("Refresh Token");
-          console.log(data.user.refreshToken);
+          console.log("Refresh Token", data.user.refreshToken);
           firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
-            console.log("Id Token")
-            console.log(idToken);
+            console.log("Id Token", idToken);
+            console.log(store.dispatch('setToken', idToken));
           })
           .catch(function(error) {
             this.error = err.message;
           });
-          this.$router.replace({ name: "Home" });
+          this.$router.replace({ name: "home" });
         })
         .catch(err => {
           this.error = err.message;

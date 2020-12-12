@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import store from '../store/index.js'
+import store from '../store/index.js';
+import VueCookies from 'vue-cookies';
 Vue.use(VueRouter)
 
 const routes = [
@@ -567,19 +568,17 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(route => route.meta.requiresAuth)) {
-      if (store.getters.user.loggedIn) {
-        next();
-      } 
-      else {
-        next(
-            {
+        if (store.getters.user.idToken != '' && store.getters.user.idToken) {
+            next();
+        }
+        else {
+            next({
                 path: '/signin'
-            }
-        );
-      }
+            });
+        }
     }
-    next();
-  }
+        next();
+    }
 );
 
 export default router

@@ -12,7 +12,8 @@
         class="table_cell"
       >
         <router-view
-        class="router"
+          class="router"
+          :key="$route.path"
         >
         </router-view>
       </div>
