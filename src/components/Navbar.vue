@@ -260,6 +260,7 @@ export default {
   }
   .nav > .nav-links {
     position: absolute;
+    z-index: 5;
     display: block;
     width: 100%;
     background-color: #333;
