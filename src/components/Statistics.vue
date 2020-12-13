@@ -192,7 +192,6 @@
         name: 'Statistics',
         components: {
             LineChart,
-            BubbleChart,
             BarChart,
         },
         props: {
