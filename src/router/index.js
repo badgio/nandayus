@@ -422,18 +422,18 @@ const routes = [
         },
         props: {
             language: {
-            pageTitle: {
-                en: 'Collections',
-                pt: 'Coleções',
-            },
-            filter_text: {
-                en: 'Filter your Collections',
-                pt: 'Filtrar as suas Coleções',
-            },
-            newButton: {
-                en: 'Create New Collection',
-                pt: 'Criar Nova Coleção',
-            },
+                pageTitle: {
+                    en: 'Collections',
+                    pt: 'Coleções',
+                },
+                filter_text: {
+                    en: 'Filter your Collections',
+                    pt: 'Filtrar as suas Coleções',
+                },
+                newButton: {
+                    en: 'Create New Collection',
+                    pt: 'Criar Nova Coleção',
+                },
             },
             toLink: '/newcollection',
         }
@@ -467,6 +467,10 @@ const routes = [
             submit_object: {
                 en: 'Submit Collection',
                 pt: 'Submeter Coleção'
+            },
+            http_request: {
+                getLocations: 'http://localhost:8001/v0/locations/',
+                getCollections: '',
             },
         }
     },
@@ -568,6 +572,7 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
     if (to.matched.some(route => route.meta.requiresAuth)) {
+        
         var idToken = store.getters.getToken;
 
         var storedUser = store.getters.user;
