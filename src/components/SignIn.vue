@@ -86,17 +86,21 @@ export default {
         .signInWithEmailAndPassword(this.form.email, this.form.password)
         .then(data => {
           console.log("Refresh Token", data.user.refreshToken);
-          firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
+          firebase
+          .auth()
+          .currentUser
+          .getIdToken(true)
+          .then(idToken => {
             console.log("Id Token", idToken);
-            console.log(store.dispatch('setToken', idToken));
+            store.dispatch('setToken', idToken);
+            this.$router.replace({ name: "home" });
           })
-          .catch(function(error) {
-            this.error = err.message;
+          .catch(err1 => {
+            console.error(err1);
           });
-          this.$router.replace({ name: "home" });
         })
-        .catch(err => {
-          this.error = err.message;
+        .catch(err2 => {
+          console.error(err2);
         });
     }
   }

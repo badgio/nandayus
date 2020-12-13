@@ -99,55 +99,49 @@
         },
         methods: {
             async getObjects() {
-
                 var idToken = store.getters.getToken;
 
-                if (idToken) {
-                    await axios
-                        .get(this.getLink, {
-                                headers: {
-                                    'Access-Control-Allow-Origin': '*',
-                                    'Content-type': 'application/json',
-                                    authorization: 'Bearer ' + idToken
-                                },
-                            }
-                        )
-                        .then((res) => {
-                                for (let obj of res.data) {
-                                    this.objects.push(
-                                        {
-                                            id: obj.uuid,
-                                            name: obj.name,
-                                            statistics: {
-                                                url: '/statistics/' + this.type + '/' + obj.uuid,
-                                                text: {
-                                                    en: 'Statistics',
-                                                    pt: 'Estatísticas'
-                                                }
-                                            },
-                                            management: {
-                                                url: '/' + this.type + '/' + obj.uuid,
-                                                text: {
-                                                    en: 'Management',
-                                                    pt: 'Gestão'
-                                                }
-                                            },
+                await axios
+                    .get(this.getLink, {
+                            headers: {
+                                'Access-Control-Allow-Origin': '*',
+                                'Content-type': 'application/json',
+                                authorization: 'Bearer ' + idToken
+                            },
+                        }
+                    )
+                    .then((res) => {
+                            for (let obj of res.data) {
+                                this.objects.push(
+                                    {
+                                        id: obj.uuid,
+                                        name: obj.name,
+                                        statistics: {
+                                            url: '/statistics/' + this.type + '/' + obj.uuid,
+                                            text: {
+                                                en: 'Statistics',
+                                                pt: 'Estatísticas'
+                                            }
+                                        },
+                                        management: {
                                             url: '/' + this.type + '/' + obj.uuid,
-                                            image_link: obj.image,
-                                        }
-                                    );
-                                }
+                                            text: {
+                                                en: 'Management',
+                                                pt: 'Gestão'
+                                            }
+                                        },
+                                        url: '/' + this.type + '/' + obj.uuid,
+                                        image_link: obj.image,
+                                    }
+                                );
                             }
-                        )
-                        .catch((err) => {
-                                console.error(err)
-                            }
-                        );
-                }
-                else {
-                    this.$router.push('signin')
-                }
-            }
+                        }
+                    )
+                    .catch((err) => {
+                            console.error(err)
+                        }
+                    );
+            },
         },
     }
 </script>

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '../store/index.js';
+import firebase from 'firebase';
 Vue.use(VueRouter)
 
 const routes = [
@@ -565,15 +566,31 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
     if (to.matched.some(route => route.meta.requiresAuth)) {
-        if (store.getters.user.idToken != '' && store.getters.user.idToken) {
+        var idToken = store.getters.getToken;
+
+        var storedUser = store.getters.user;
+
+        var currTime = new Date().getTime();
+
+        if (idToken && currTime < storedUser.idTokenValidity) {
+            // if idToken exists and token is still valid, then proceed to the desired page
             next();
         }
         else {
-            next({
-                path: '/signin'
-            });
+            var user = await firebase.auth().currentUser;
+            if (user) {
+                // user is logged in
+                var refToken = await user.getIdToken()
+                store.dispatch('setToken',  refToken);
+            }
+            else {
+                // user is not logged in
+                next({
+                    path: '/signin'
+                });
+            }
         }
     }
         next();

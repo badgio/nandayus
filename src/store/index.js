@@ -11,6 +11,8 @@ export default new Vuex.Store({
       loggedIn: false,
       data: null,
       idToken: '',
+      idTokenCreation: '',
+      idTokenValidity: '',
     }
   },
   getters: {
@@ -35,7 +37,17 @@ export default new Vuex.Store({
       state.user.data = data;
     },
     SET_TOKEN(state, value) {
-      state.user.idToken = value; 
+      if (value != '') {
+        var duration = 60*60*1000; // 1 hour
+        state.user.idToken = value;
+        state.user.idTokenCreation = new Date().getTime();
+        state.user.idTokenValidity = state.user.idTokenCreation + duration;
+      }
+      else {
+        state.user.idToken = '';
+        state.user.idTokenCreation = null;
+        state.user.idTokenValidity = null;
+      }
     }
   },
   actions: {
