@@ -186,7 +186,6 @@
 <script>
 
     import LineChart from './LineChart.vue';
-    import BubbleChart from './BubbleChart.vue'
     import BarChart from './BarChart.vue';
 
     export default {
