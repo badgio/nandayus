@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import store from '../store/index.js'
+import store from '../store/index.js';
+import firebase from 'firebase';
 Vue.use(VueRouter)
 
 const routes = [
@@ -92,7 +93,7 @@ const routes = [
         }
     },
     {
-        path: '/statistics/badge',
+        path: '/statistics/badge/:uuid',
         name: 'badgesstatistics',
         component: () => import('../components/Statistics.vue'),
         meta: {
@@ -421,18 +422,18 @@ const routes = [
         },
         props: {
             language: {
-            pageTitle: {
-                en: 'Collections',
-                pt: 'Coleções',
-            },
-            filter_text: {
-                en: 'Filter your Collections',
-                pt: 'Filtrar as suas Coleções',
-            },
-            newButton: {
-                en: 'Create New Collection',
-                pt: 'Criar Nova Coleção',
-            },
+                pageTitle: {
+                    en: 'Collections',
+                    pt: 'Coleções',
+                },
+                filter_text: {
+                    en: 'Filter your Collections',
+                    pt: 'Filtrar as suas Coleções',
+                },
+                newButton: {
+                    en: 'Create New Collection',
+                    pt: 'Criar Nova Coleção',
+                },
             },
             toLink: '/newcollection',
         }
@@ -466,6 +467,10 @@ const routes = [
             submit_object: {
                 en: 'Submit Collection',
                 pt: 'Submeter Coleção'
+            },
+            http_request: {
+                getLocations: 'http://localhost:8001/v0/locations/',
+                getCollections: '',
             },
         }
     },
@@ -565,21 +570,36 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
     if (to.matched.some(route => route.meta.requiresAuth)) {
-      if (store.getters.user.loggedIn) {
-        next();
-      } 
-      else {
-        next(
-            {
-                path: '/signin'
+        
+        var idToken = store.getters.getToken;
+
+        var storedUser = store.getters.user;
+
+        var currTime = new Date().getTime();
+
+        if (idToken && currTime < storedUser.idTokenValidity) {
+            // if idToken exists and token is still valid, then proceed to the desired page
+            next();
+        }
+        else {
+            var user = await firebase.auth().currentUser;
+            if (user) {
+                // user is logged in
+                var refToken = await user.getIdToken()
+                store.dispatch('setToken',  refToken);
             }
-        );
-      }
+            else {
+                // user is not logged in
+                next({
+                    path: '/signin'
+                });
+            }
+        }
     }
-    next();
-  }
+        next();
+    }
 );
 
 export default router

@@ -62,30 +62,30 @@
         >
             <label>
                 Starting Date:
+                <input
+                    type="date"
+                    id="min_date"
+                    name="min_date"
+                    ref="min_date"
+                    :value="min_date_value"
+                    :min="convertDigitIn(this.chart.data.dates[0])"
+                    :max="max_date_value"
+                    v-on:change="updateChart"
+                >
             </label>
-            <input
-                type="date"
-                id="min_date"
-                name="min_date"
-                ref="min_date"
-                :value="min_date_value"
-                :min="convertDigitIn(this.chart.data.dates[0])"
-                :max="max_date_value"
-                v-on:change="updateChart"
-            >
             <label>
                 Finishing Date:
+                <input
+                    type="date"
+                    id="max_date"
+                    name="max_date"
+                    ref="max_date"
+                    :value="max_date_value"
+                    :min="min_date_value"
+                    :max="convertDigitIn(this.chart.data.dates[this.chart.data.dates.length-1])"
+                    v-on:change="updateChart"
+                >
             </label>
-            <input
-                type="date"
-                id="max_date"
-                name="max_date"
-                ref="max_date"
-                :value="max_date_value"
-                :min="min_date_value"
-                :max="convertDigitIn(this.chart.data.dates[this.chart.data.dates.length-1])"
-                v-on:change="updateChart"
-            >
         </div>
         <br>
         <div
@@ -172,13 +172,9 @@
                 </tr>
             </table>
         </div>
-        <h3>Horario Semanal- Opçao 1</h3>
-        <div
-            class="chart_container"
-        >
-            <bubble-chart></bubble-chart>
-        </div>
-        <h3>Horario Semanal - Opçao 2</h3>
+        <br>
+        <hr>
+        <h3>Horário Semanal</h3>
         <div
             class="chart_container"
         >
@@ -190,14 +186,12 @@
 <script>
 
     import LineChart from './LineChart.vue';
-    import BubbleChart from './BubbleChart.vue'
     import BarChart from './BarChart.vue';
 
     export default {
         name: 'Statistics',
         components: {
             LineChart,
-            BubbleChart,
             BarChart,
         },
         props: {
@@ -471,10 +465,20 @@
 
 <style scoped>
 
-h2, h3 {
+h2 {
     padding: 25px 0px 0px 25px;
     color: #0a4870;
     font-weight: bold;
+}
+
+h3 {
+    margin: 10px 25px 10px;
+    color: #0a4870;
+    font-weight: bold;
+}
+
+hr {
+    margin: 25px 0px 25px 0px;
 }
 
 .card_container {
@@ -498,8 +502,10 @@ h2, h3 {
 }
 
 .card2 {
-    width: 20%;
-    margin: 25px auto 25px;
+    width: 350px;
+    min-width: 250px;
+    height: 300px;
+    margin: 25px 10px 25px;
     border-radius: 8px;
     border: 1px solid #d3d3d3;
     box-shadow: 0 0 9px 1px rgba(0, 0, 0, 0.2);
@@ -515,7 +521,7 @@ h2, h3 {
 }
 
 .chart_container2 {
-    width: 30%;
+    width: 500px;
     margin: 25px auto 25px;
     
 }
@@ -604,10 +610,6 @@ th {
     color: white;
 }
 
-</style>
-
-<style scoped>
-
 * {
     color: #444444;
 }
@@ -622,16 +624,10 @@ p {
     font-size: 11px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
+@media (max-width: 1030px) {
+    input[type=date] {
+        margin: 15px 5px 15px 5px;
+    }
+}
 
 </style>

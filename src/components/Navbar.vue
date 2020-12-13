@@ -55,6 +55,8 @@
 <script>
 import { mapGetters } from "vuex";
 import firebase from "firebase";
+import store from '../store/index.js';
+
 export default {
   name : "Navbar",
     data :() => ({
@@ -145,7 +147,7 @@ export default {
     }),
     computed: {
       selected_language() {
-          return this.$store.getters.getLanguage;
+          return store.getters.getLanguage;
       },
     ...mapGetters({
       // map `this.user` to `this.$store.getters.user`
@@ -154,12 +156,12 @@ export default {
   },
   methods: {
     signOut() {
-      console.log("acedendo firebase")
       firebase
         .auth()
         .signOut()
         .then(() => {
-          console.log("log out")
+          //sessionStorage.clear();
+          store.dispatch('setToken', ''); 
           this.$router.replace({
             name: "Home"
           });
@@ -258,6 +260,7 @@ export default {
   }
   .nav > .nav-links {
     position: absolute;
+    z-index: 5;
     display: block;
     width: 100%;
     background-color: #333;

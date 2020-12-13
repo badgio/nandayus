@@ -1,13 +1,18 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import createPersistedState from 'vuex-persistedstate'
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  plugins: [createPersistedState()],
   state: {
     language: 'pt',
     user: {
       loggedIn: false,
-      data: null
+      data: null,
+      idToken: '',
+      idTokenCreation: '',
+      idTokenValidity: '',
     }
   },
   getters: {
@@ -16,6 +21,9 @@ export default new Vuex.Store({
     },
     user(state){
       return state.user;
+    },
+    getToken(state) {
+      return state.user.idToken;
     }
   },
   mutations: {
@@ -27,6 +35,19 @@ export default new Vuex.Store({
     },
     SET_USER(state, data) {
       state.user.data = data;
+    },
+    SET_TOKEN(state, value) {
+      if (value != '') {
+        var duration = 60*60*1000; // 1 hour
+        state.user.idToken = value;
+        state.user.idTokenCreation = new Date().getTime();
+        state.user.idTokenValidity = state.user.idTokenCreation + duration;
+      }
+      else {
+        state.user.idToken = '';
+        state.user.idTokenCreation = null;
+        state.user.idTokenValidity = null;
+      }
     }
   },
   actions: {
@@ -38,12 +59,19 @@ export default new Vuex.Store({
       commit("SET_LOGGED_IN", user !== null);
       if (user) {
         commit("SET_USER", {
-          // displayName: user.displayName,
-          email: user.email
+          loggedIn: true,
+          email: user.email,
         });
       } else {
-        commit("SET_USER", null);
+        console.log('user is not true')
+        commit("SET_USER", {
+          loggedIn: false,
+          email: '',
+        });
       }
+    },
+    setToken({commit}, value) {
+      commit('SET_TOKEN', value);
     }
   }
 });

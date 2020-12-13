@@ -118,27 +118,20 @@
                         >
                             {{language.type[selected_language]}}*:
                         </label>
-                        <select
-                            name="type_select"
-                            id="type_select"
-                            required
-                            v-model="object.type"
+                        <multiselect
+                            v-model="object.type" 
+                            :custom-label="customLabel"
+                            value="value"
+                            track-by="value"
+                            :options="types" 
+                            :searchable="true"
+                            :close-on-select="true"
+                            :multiple="false"
+                            :allow-empty="false"
+                            placeholder="Select One"
+                            style="width: 95%; margin: 5px 0px 5px 15px;"
                         >
-                            <option
-                                value=""
-                                selected
-                                disabled
-                            >
-                                {{language.location_type[selected_language]}}
-                            </option>
-                            <option
-                                v-for="type in types"
-                                :key=type.index
-                                :value="type.value"
-                            >
-                                {{type.name[selected_language]}}
-                            </option>
-                        </select>
+                        </multiselect>
                     </div>
                     <br>
                     <br>
@@ -280,27 +273,19 @@
                         >
                             {{language.location[selected_language]}}*:
                         </label>
-                        <select
-                            name="location_select"
-                            id="location_select"
-                            required
-                            v-model="object.location"
-                        >   
-                            <option
-                                value=""
-                                selected
-                                disabled
-                            >
-                                {{language.location[selected_language]}}
-                            </option>
-                            <option
-                                v-for="location in locations"
-                                :key=location.index
-                                :value="location.uuid"
-                            >
-                                {{location.name}}
-                            </option>
-                        </select>
+                        <multiselect
+                            v-model="object.location" 
+                            :custom-label="customLabelName"
+                            track-by="uuid"
+                            :options="locations" 
+                            :searchable="true"
+                            :close-on-select="true"
+                            :multiple="false"
+                            :allow-empty="false"
+                            placeholder="Select One"
+                            style="width: 95%; margin: 5px 0px 5px 15px;"
+                        >
+                        </multiselect>
                     </div>
                     <br>
                     <div
@@ -308,13 +293,16 @@
                     >
                         <label class="typo__label">{{language.collections[selected_language]}}:</label>
                         <multiselect
+                            class="multi_select"
                             v-model="object.collections" 
                             label="name"
                             track-by="code" 
                             :options="collections" 
                             :multiple="true" 
                             :taggable="true" 
-                            @tag="addTag">
+                            @tag="addTag"
+                            style="width: 95%; margin: 5px 0px 5px 15px;"
+                        >
                         </multiselect>
                     </div>
                 </div>
@@ -331,28 +319,19 @@
                         >
                             {{language.location[selected_language]}}*:
                         </label>
-                        <select
-                            name="location_select"
-                            id="location_select"
-                            required
-                            v-model="object.location"
-                        >   
-                            <option
-                                value=""
-                                selected
-                                disabled
-                            >
-                                {{language.location[selected_language]}}
-                            </option>
-                            <option
-                                v-for="location in locations"
-                                :key=location.index
-                                :value="location.uuid"
-                                v-on:change="logger(location.uuid)"
-                            >
-                                {{location.name}}
-                            </option>
-                        </select>
+                        <multiselect
+                            v-model="object.location" 
+                            :custom-label="customLabelName"
+                            track-by="uuid"
+                            :options="locations" 
+                            :searchable="true"
+                            :close-on-select="true"
+                            :multiple="false"
+                            :allow-empty="false"
+                            placeholder="Select One"
+                            style="width: 95%; margin: 5px 0px 5px 15px;"
+                        >
+                        </multiselect>
                     </div>
                     <br>
                     <div
@@ -360,13 +339,16 @@
                     >
                         <label class="typo__label">Badges:</label>
                         <multiselect
+                            class="multi_select"
                             v-model="object.collections" 
                             label="name"
                             track-by="code" 
                             :options="collections" 
                             :multiple="true" 
                             :taggable="true" 
-                            @tag="addTag">
+                            @tag="addTag"
+                            style="width: 95%; margin: 5px 0px 5px 15px;"
+                        >
                         </multiselect>
                     </div>
                 </div>
@@ -472,6 +454,7 @@
     
     import axios from 'axios';
     import firebase from 'firebase';
+    import store from '../store/index.js';
     import { latLng } from "leaflet";
     import { LMap, LTileLayer, LMarker, LPopup, LTooltip } from "vue2-leaflet";
     import { OpenStreetMapProvider } from 'leaflet-geosearch';
@@ -752,22 +735,22 @@
             }
         },
         async created() {
+            if (this.show_map) {
+
+            }
+
+            if (this.show_location_attributes) {
+
+            }
+
+            if (this.show_duration) {
+
+            }
+
             if (this.show_multiple_collections) {
 
                 // get jwt
-                var idToken = '';
-
-                await firebase
-                    .auth()
-                    .currentUser
-                    .getIdToken(true)
-                    .then(
-                        function(res) {
-                            idToken = res
-                        }
-                    );
-
-                console.log(idToken)
+                var idToken = store.getters.getToken;
 
                 // get request to get locations
                 await axios
@@ -796,7 +779,44 @@
                                 console.log(err);
                             }
                         )
+
+                console.log(this.locations)
             }
+            if (this.show_multiple_badges) {
+                // get jwt
+                var idToken = store.getters.getToken;
+
+                // get request to get locations
+                await axios
+                        .get(
+                            this.http_request.getLocations,
+                            {
+                                headers: {
+                                    'Access-Control-Allow-Origin': '*',
+                                    'Content-type': 'application/json',
+                                    authorization: 'Bearer ' + idToken
+                                },
+                            },
+                        )
+                        .then((res) => {
+                                for(let obj of res.data) {
+                                    this.locations.push(
+                                        {
+                                            name: obj.name,
+                                            uuid: obj.uuid,
+                                        }
+                                    );
+                                }
+                            }
+                        )
+                        .catch((err) => {
+                                console.log(err);
+                            }
+                        )
+
+                console.log(this.locations)
+            }
+
         },
         computed: {
             selected_language() {
@@ -819,15 +839,7 @@
                     image: this.object.image,
                 }
 
-                await firebase
-                    .auth()
-                    .currentUser
-                    .getIdToken(true)
-                    .then(
-                        function(res) {
-                            idToken = res
-                        }
-                    );
+                var idToken = store.getters.getToken;
 
                 let config = {
                     headers: {
@@ -850,9 +862,11 @@
 
                 if (this.show_multiple_collections) {
                     // add location and collection to object
-                    data.location = this.object.location;
+                    data.location = this.object.location.uuid;
                     data.collections = this.object.collection;
                 }
+
+                console.log(data)
 
                 await axios.post(
                     this.postLink, 
@@ -908,6 +922,12 @@
                 }
                 this.collections.push(tag)
                 this.object.collections.push(tag)
+            },
+            customLabel (option) {
+                return `${option.name[this.selected_language]}`
+            },
+            customLabelName (option) {
+                return `${option.name}`
             },
         },
     }
@@ -994,18 +1014,6 @@ label {
     font-size: 16px;
 }
 
-select {
-    width: 95%;
-    margin: 5px 0px 5px 15px;
-    height: 35px;
-    font-size: 18px;
-    overflow: auto;
-    border-radius: 8px;
-    border: 1px solid #c8c8c8;
-    background-color: #ececec;
-    text-indent: 1%;
-}
-
 #imgPreview {
     margin: 0 auto 0;
     font-weight: bold;
@@ -1044,7 +1052,7 @@ input[type='file'] {
     margin: 5px 0px 5px 15px;
     border-radius: 8px;
     border: 1px solid #c8c8c8;
-    background-color: #ececec;
+    background-color: #fff;
 }
 
 .input_textfield {
@@ -1054,7 +1062,7 @@ input[type='file'] {
     padding: 2px;
     border-radius: 8px;
     border: 1px solid #c8c8c8;
-    background-color: #ececec;
+    background-color: #fff;
     text-align: left;
     text-indent: 1%;
 }
@@ -1077,6 +1085,70 @@ input[type='file'] {
 
 </style>
 
+<style>
 
+/* Multi-select */
+
+/* fix multiselect weird height when using a placeholder */
+.multiselect__placeholder {
+  display: inline-block !important;
+  margin-bottom: 0px !important;
+  padding-top: 0px !important;
+}
+
+/* error class on multiselect */
+.multiselect.invalid .multiselect__tags {
+  border: 1px solid #f86c6b !important;
+}
+
+/* override default multiselect styles */
+.multiselect__option--highlight {
+  background: #ececec !important;
+  color: #333 !important;
+}
+
+.multiselect__option--highlight:after {
+  background: #ececec !important;
+}
+
+.multiselect__tags {
+  padding: 5px !important;
+  min-height: 10px;
+}
+
+.multiselect__placeholder{
+  margin-left: 10px;
+  margin-top: 2px;
+}
+
+.multiselect__tag {
+  background: #ececec !important;
+  border: 1px solid rgba(60, 60, 60, 0.26) !important;
+  color: #333 !important;
+  margin-bottom: 0px !important;
+  margin-right: 5px !important;
+}
+
+.multiselect__tag-icon:after {
+  color: rgba(60, 60, 60, 0.5) !important;
+}
+
+.multiselect__tag-icon:focus,
+.multiselect__tag-icon:hover {
+  background: #ececec !important;
+}
+
+.multiselect__tag-icon:focus:after,
+.multiselect__tag-icon:hover:after {
+  color: red !important;
+}
+
+.multiselect.invalid .multiselect__tags,
+.multiselect.invalid .multiselect__tags span,
+.multiselect.invalid .multiselect__tags input {
+  background:red;
+}
+
+</style>
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
