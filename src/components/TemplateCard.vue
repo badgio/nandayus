@@ -15,7 +15,6 @@
                         v-bind:src="obj.image_link"
                         alt="Avatar"
                     >
-                    <hr>
                 </div>
                 <div
                     class="row"

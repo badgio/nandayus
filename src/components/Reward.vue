@@ -1,60 +1,16 @@
 <template>
     <div>
-        <div
-            class="card badge_card"
-        >
-            <div
-                class="left_col_75"
-            >
-                <h3>
-                    {{this.reward.name}}
-                </h3>
-                <h6>
-                    {{language.state[this.selected_language]}}: {{this.reward.state}}
-                </h6>
-                <h6>
-                    {{language.location[this.selected_language]}}: {{this.reward.location}}
-                </h6>
-                <h6>
-                    {{language.validity[this.selected_language]}}: {{this.reward.validity}}
-                </h6>
-                <h6>
-                    {{language.description[this.selected_language]}}
-                </h6>
-                <textarea
-                    name="description"
-                    id="description_1"
-                    class = "desc_textarea"
-                    :cols = "60"
-                    :rows = "8"
-                    required
-                    v-model="reward.description"
-                >
-                </textarea>
-            </div>
-            
-            <div
-                class="right_col_25"
-            >
-                <div
-                    id="imgPreview"
-                >
-                    <br>
-                    <img
-                        class="card_image"
-                        src="https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038"
-                        width=160px
-                        height=135px
-                    />
-                    <br>
-                    <button
-                        class="submit_button"
-                    >
-                        {{language.browse_file[this.selected_language]}}
-                    </button>
-                </div>
-            </div>
-        </div>
+        <h1>
+            {{$route.params.id}}
+        </h1>
+        <ManagementCard
+            v-bind:title="this.reward.description"
+            v-bind:paragraphs="this.reward.paragraphs"
+            v-bind:website="this.reward.website"
+            v-bind:social_networks="this.reward.socials"
+            v-bind:delete_text="this.language.delete_text"
+            v-bind:delete_link="this.getLink + this.$route.params.uuid"
+        />
         <br>
         <div
             class="card collection_card"
@@ -110,6 +66,7 @@
                     :name="collection.name"
                     :description="collection.description"
                     :imageURL="collection.image"
+                    :location="collection.location"
                     v-on:eventRemoveCollection="removeFromSelected"
                 />
             </div>
@@ -136,12 +93,23 @@
 
 <script>
 
+    import axios from 'axios';
+    import firebase from "firebase";
+    import store from '../store/index.js';
     import CollectionCard from './CollectionCard.vue';
+    import ManagementCard from './ManagementCard.vue';
 
     export default {
         name: 'Reward',
         components: {
-            CollectionCard
+            CollectionCard,
+            ManagementCard,
+        },
+        props: {
+            getLink: {
+                type: String,
+                required: true,
+            },
         },
         data: () => {
             return {
@@ -195,6 +163,10 @@
                         pt: 'Todos os campos assinalados com * são de preenchimento obrigatório.',
                         en: 'All fields signaled by * are required.'
                     },
+                    delete_text: {
+                        pt: 'Apagar Badge',
+                        en: 'Delete Badge',
+                    },
                 },
                 all_collections: [
                     {
@@ -242,30 +214,33 @@
                 ],
                 searchQuery: null,
                 reward: {
-                    name: 'Reward X',
-                    state: 'Approved',
-                    location: 'Centro',
-                    validity: 'Permanent',
+                    state: '',
+                    location: '',
+                    validity: '',
                     description: '',
-                    image: '',
+                    socials: [],
+                    paragraphs: [],
                     collections: [
                         {
                             id: '8',
                             name: 'Collection Collection Collection #1',
                             description: 'Description Description Description Description Description Description Description Description Description Description #1',
-                            image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
+                            image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038',
+                            location: 'adasdasd'
                         },
                         {
                             id: '9',
                             name: 'Collection Collection Collection #2',
                             description: 'Description Description Description Description Description Description Description Description Description Description #2',
-                            image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
+                            image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038',
+                            location: 'adasdasd'
                         },
                         {
                             id: '10',
                             name: 'Collection Collection Collection #3',
                             description: 'Description Description Description Description Description Description Description Description Description Description #3',
-                            image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
+                            image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038',
+                            location: 'adasdasd'
                         },
                     ],
                 },
@@ -275,9 +250,71 @@
                 },
             }
         },
+        async created() {
+            await this.getObjects();
+        },
         methods: {
-            submitForm(e) {
-                console.log('All gucci')
+            async getObjects() {
+                var idToken = store.getters.getToken;
+
+                console.log(this.getLink, this.$route.params.uuid)
+
+                await axios
+                    .get(this.getLink + this.$route.params.uuid, {
+                            headers: {
+                                'Access-Control-Allow-Origin': '*',
+                                'Content-type': 'application/json',
+                                authorization: 'Bearer ' + idToken
+                            },
+                        }
+                    )
+                    .then((res) => {
+                            console.log(res);
+                            this.reward.description = res.data.description;
+                            this.reward.paragraphs = [        
+                                {
+                                    type: {
+                                        en: 'Status',
+                                        pt: 'Estado',
+                                    },
+                                    text: res.data.status,
+                                },
+                                {
+                                    type: {
+                                        en: 'Location',
+                                        pt: 'Local',
+                                    },
+                                    text: res.data.location
+                                },
+                            ]
+                            if (res.data.time_redeem == undefined) {
+                                this.reward.paragraphs.push(
+                                    {
+                                        type: {
+                                            en: 'Duration',
+                                            pt: 'duração',
+                                        },
+                                        text: 'Permanent',
+                                    }
+                                )
+                            }
+                            else {
+                                this.reward.paragraphs.push(
+                                    {
+                                        type: {
+                                            en: 'Duration',
+                                            pt: 'duração',
+                                        },
+                                        text: 'Temporary',
+                                    }
+                                )
+                            }
+                        }
+                    )
+                    .catch((err) => {
+                            console.error(err)
+                        }
+                    );
             },
             onFileChange(e) {
                 const file = e.target.files[0];
@@ -326,55 +363,18 @@ p {
 }
 
 h3, h6, p {
-    margin: 5px 0px 5px 15px;
+    margin: 10px 0px 10px 15px;
 }
 
 .card {
     width: 85%;
-    margin: 0 auto;
-    background-color: #eee;
-    border: 2px solid teal;
+    margin: 10px auto 10px;
     border-radius: 5px;
 }
 
-.badge_card {
-    height: 300px;
-    display: grid;
-    grid-auto-columns: 60% 40%;
-}
-
-.left_col_75 {
-    grid-column: 1 / 2;
-}
-
-.right_col_25 {
-    grid-column: 2 / 3;
-}
-
-.card_image {
-    margin: 0px auto 0px;
-    width: 95%;
-    height: 65%;
-    max-width: 300px;
-    max-height: 350px;
-    min-width: 150px;
-    min-height: 165px;
-}
-
-.social_networks_card {
-    display: grid;
-}
-
-input {
-    height: 35px;
-    margin: 0px 0px 10px 15px;
-    border: 1px solid #999;
-    border-radius: 5px;
-    box-shadow: 4px 4px #ccc;
-}
-
-.social_networks_card > input {
-    width: 95%;
+.collection_card {
+    background-color: white;
+    border: 2px solid #ddd;
 }
 
 .collection_card > .input_icons {
@@ -435,53 +435,6 @@ input {
     .card {
         width: 95%;
     }
-
-    .badge_card {
-        height: 600px;
-        grid-auto-columns: 100%;
-        grid-auto-rows: 50% 50%;
-    }
-
-    .left_col_75 {
-        grid-row: 2 / 3;
-        width: 95%;
-        margin: 0 auto;
-        text-align: center;
-    }
-
-    .right_col_25 {
-        width: 95%;
-        margin: 0 auto;
-        grid-column: 1 / 2;
-    }
-
-    .card_image {
-        margin: 0px auto 0px;
-        width: 90%;
-        height: 85%;
-    }
-
-}
-
-#imgPreview {
-    margin: 0 auto 0;
-    font-weight: bold;
-    text-align: center;
-}
-
-#imgPreview button {
-    width: 100;
-    margin: 0 auto;
-    text-align: center;
-}
-
-#imgPreview img {
-    border: 2px solid #0a4870;
-    border-radius: 5px;
-}
-
-input[type='file'] {
-  color: transparent;
 }
 
 .row {

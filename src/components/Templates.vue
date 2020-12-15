@@ -118,7 +118,7 @@
                                         name: obj.name,
                                         description: obj.description,
                                         statistics: {
-                                            url: '/statistics/' + this.type + '/' + obj.uuid,
+                                            url: '/' + this.type + '/' + obj.uuid + '/statistics/',
                                             text: {
                                                 en: 'Statistics',
                                                 pt: 'Estatísticas'

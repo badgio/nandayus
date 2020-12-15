@@ -162,37 +162,6 @@
                         en: 'All fields signaled by * are required.'
                     },
                 },
-                test_paragraphs: [
-                    {
-                        type: {
-                            en: 'Description',
-                            pt: 'Descrição',
-                        },
-                        text: 'Text Text Text Test Text Text Text Test Text Text Text Test Text Text Text Test'
-                    },
-                    {
-                        type: {
-                            en: 'Description',
-                            pt: 'Descrição',
-                        },
-                        text: 'Text Text Text Test Text Text Text Test Text Text Text Test Text Text Text Test'
-                    },
-                    {
-                        type: {
-                            en: 'Description',
-                            pt: 'Descrição',
-                        },
-                        text: 'Text Text Text Test Text Text Text Test Text Text Text Test Text Text Text Test'
-                    },
-                    {
-                        type: {
-                            en: 'Description',
-                            pt: 'Descrição',
-                        },
-                        text: 'Text Text Text Test Text Text Text Test Text Text Text Test Text Text Text Test'
-                    },
-                ],
-                test_description: 'Testerino descriptionerino',
                 website: 'Location\'s website',
                 socials: [],
                 all_collections: [

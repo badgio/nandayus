@@ -45,13 +45,13 @@ const routes = [
                     pt: 'Criar Novo Badge',
                 },
             },
-            type: 'badge',
+            type: 'badges',
             toLink: '/newbadge',
             getLink: 'http://localhost:8001/v0/badges/',
         }
     },
     {
-        path: '/badge/:uuid',
+        path: '/badges/:uuid',
         name: 'badge',
         component: () => import('../components/Badge.vue'),
         meta: {
@@ -94,7 +94,7 @@ const routes = [
         }
     },
     {
-        path: '/statistics/badge/:uuid',
+        path: '/badges/:uuid/statistics',
         name: 'badgesstatistics',
         component: () => import('../components/Statistics.vue'),
         meta: {
@@ -188,15 +188,18 @@ const routes = [
                 },
             },
             toLink: '/newreward',
-            type: 'reward',
+            type: 'rewards',
             getLink: 'http://localhost:8001/v0/rewards/',
 
         }
     },
     {
-        path: '/reward',
+        path: '/rewards/:uuid',
         name: 'reward',
-        component: () => import('../components/Reward.vue')
+        component: () => import('../components/Reward.vue'),
+        props: {
+            getLink: 'http://localhost:8001/v0/rewards/',
+        },
     },
     {
         path: '/newreward',
@@ -226,7 +229,7 @@ const routes = [
         }
     },
     {
-        path: '/statistics/reward',
+        path: '/rewards/:uuid/statistics',
         name: 'rewardstatistics',
         component: () => import('../components/Statistics.vue'),
         meta: {
@@ -332,13 +335,13 @@ const routes = [
                     pt: 'Criar Novo Local',
                 },
             },
-            type: 'location',
+            type: 'locations',
             toLink: '/newlocation',
             getLink: 'http://localhost:8001/v0/locations/',
         },
     },
     {
-        path: '/location/:uuid',
+        path: '/locations/:uuid',
         name: 'location',
         component: () => import('../components/Location.vue'),
         meta: {
@@ -349,7 +352,7 @@ const routes = [
         },
     },
     {
-        path: '/statistics/location/:uuid',
+        path: '/locations/:uuid/statistics',
         name: 'locationsstatistics',
         component: () => import('../components/Statistics.vue'),
         meta: {

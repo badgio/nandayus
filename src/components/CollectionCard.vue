@@ -57,6 +57,10 @@
                 type: String,
                 default: true
             },
+            location: {
+                type: String,
+                required: false,
+            }
         },
         data () {
             return {
