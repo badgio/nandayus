@@ -14,7 +14,7 @@ This project was carried out in the first semester of the fifth year of informat
 
 ### How to start the project
 
-1. Clone the repo
+1. Clone the repo ` git clone https://github.com/badgio/nandayus.git`
 2. Cd into it `cd nandayus`
 3. Install dependencies `npm i`
 4. Run the Web App `npm run serve`
@@ -30,7 +30,7 @@ This project was carried out in the first semester of the fifth year of informat
 | /locations/:id/statistics  |   &#x2612;    |       -       |       -       |       -       |       -       |
 | /badges                    |   &#x2611;    |       -       |       -       |       -       |       -       |
 | /newbadge                  |   &#x2612;    |   &#x2611;    |       -       |       -       |       -       |
-| /badges/:id                |   &#x2611;    |       -       |   &#x2612;    |       -       |       -       |
+| /badges/:id                |   &#x2611;    |       -       |   &#x2612;    |       -       |    &#x2611;   |
 | /badges/:id/statistics     |   &#x2612;    |       -       |       -       |       -       |       -       |
 | /collections               |   &#x2612;    |       -       |       -       |       -       |       -       |
 | /newcollection             |   &#x2612;    |   &#x2612;    |       -       |       -       |       -       |

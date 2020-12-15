@@ -232,10 +232,19 @@
                 };
             },
             async deleteObject(e) {
+                var idToken = store.getters.getToken;
+
                 console.log(this.delete_link)
-                const res = await axios.delete(this.delete_link);
+
+                const res = await axios.delete(this.delete_link, {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-type': 'application/json',
+                        authorization: 'Bearer ' + idToken
+                    },
+                });
                 if (res.status == 200) {
-                    this.$router.push('rewards')
+                    this.$router.push({ path: '/rewards' })
                 }
                 else {
                     console.log('Something went wrong... HTTP Status [', res.status, ']');

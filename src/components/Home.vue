@@ -3,28 +3,6 @@
         <h1>
             {{pageTitle}}
         </h1>
-        <ManagementCard
-            title="Location Location Test"
-            image="https://cdn.pixabay.com/photo/2018/07/14/15/27/cafe-3537801_1280.jpg"
-            v-bind:paragraphs="this.test_paragraphs"
-            v-bind:website="this.website"
-            v-bind:social_networks="this.socials"
-        />
-        <ManagementCard
-            title="Location Location Test"
-            image="https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038"
-            v-bind:paragraphs="this.test_paragraphs"
-            v-bind:description="this.description"
-            v-bind:social_networks="this.socials"
-        />
-        <ManagementCard
-            title="Location Location Test"
-            image="https://media.istockphoto.com/photos/cityscape-of-paris-picture-id1176360891"
-            v-bind:paragraphs="this.test_paragraphs"
-            v-bind:website="this.website"
-            v-bind:description="this.description"
-            v-bind:social_networks="this.social_networks"
-        />
     </div>
 </template>
 
