@@ -156,6 +156,7 @@
                 </div>
                 <div
                     class="grid-container-2"
+                    v-if="show_image"
                 >
                     <div
                         id="imgPreview"
@@ -485,6 +486,10 @@
                 type: Boolean,
                 required: true,
             },
+            show_image: {
+                type: Boolean,
+                required: true,
+            },
             show_duration: {
                 type: Boolean,
                 required: true,
@@ -743,6 +748,10 @@
 
             }
 
+            if (this.show_image) {
+
+            }
+
             if (this.show_duration) {
 
             }
@@ -836,7 +845,6 @@
                 var data = {
                     name: this.object.name,
                     description: this.object.description,
-                    image: this.object.image,
                 }
 
                 var idToken = store.getters.getToken;
@@ -858,6 +866,10 @@
                 if (this.show_location_attributes) {
                     // add type to object
                     data.type = this.object.type;
+                }
+
+                if (this.show_image) {
+                    data.image = this.object.image;
                 }
 
                 if (this.show_multiple_collections) {

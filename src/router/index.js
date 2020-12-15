@@ -76,6 +76,7 @@ const routes = [
                 pt: 'Novo Badge',
             },
             show_map: false,
+            show_image: true,
             show_duration: true,
             show_location_attributes: false,
             show_multiple_collections: true,
@@ -187,7 +188,9 @@ const routes = [
                 },
             },
             toLink: '/newreward',
-            type: 'reward'
+            type: 'reward',
+            getLink: 'http://localhost:8001/v0/rewards/',
+
         }
     },
     {
@@ -205,6 +208,7 @@ const routes = [
                 pt: 'Nova Recompensa',
             },
             show_map: false,
+            show_image: false,
             show_duration: true,
             show_location_attributes: false,
             show_multiple_collections: true,
@@ -214,6 +218,11 @@ const routes = [
                 en: 'Submit Reward',
                 pt: 'Submeter Recompensa'
             },
+            http_request: {
+                getLocations: 'http://localhost:8001/v0/locations/',
+                getCollections: '',
+            },
+            postLink: 'http://localhost:8001/v0/rewards/'
         }
     },
     {
@@ -288,6 +297,7 @@ const routes = [
                 pt: 'Novo Local',
             },
             show_map: true,
+            show_image: true,
             show_duration: false,
             show_location_attributes: true,
             show_multiple_collections: false,
@@ -459,6 +469,7 @@ const routes = [
                 pt: 'Nova Coleção',
             },
             show_map: false,
+            show_image: true,
             show_duration: true,
             show_location_attributes: false,
             show_multiple_collections: false,

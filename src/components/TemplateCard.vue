@@ -8,17 +8,31 @@
                 :key="obj.index"
                 class="id_card"
             >
-                <img
-                    v-bind:src="obj.image_link"
-                    alt="Avatar"
+                <div
+                    v-if="obj.image_link != undefined"
                 >
+                    <img
+                        v-bind:src="obj.image_link"
+                        alt="Avatar"
+                    >
+                    <hr>
+                </div>
                 <div
                     class="row"
                 >
                     <br>
-                    <h4>
+                    <h4
+                        v-if="obj.name"
+                    >
                         <b>
                             {{obj.name}}
+                        </b>
+                    </h4>
+                    <h4
+                        v-else
+                    >
+                        <b>
+                            {{obj.description}}
                         </b>
                     </h4>
                 </div>
@@ -119,7 +133,6 @@ hr {
     border-radius: 8px;
     border-style: solid;
     border-width: 2px;
-    min-height: 450px;
     width: 320px;
     margin: 20px auto 20px;
 }

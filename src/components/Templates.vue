@@ -116,6 +116,7 @@
                                     {
                                         id: obj.uuid,
                                         name: obj.name,
+                                        description: obj.description,
                                         statistics: {
                                             url: '/statistics/' + this.type + '/' + obj.uuid,
                                             text: {
@@ -135,6 +136,7 @@
                                     }
                                 );
                             }
+                            console.log(this.objects)
                         }
                     )
                     .catch((err) => {
