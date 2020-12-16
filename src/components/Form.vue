@@ -878,6 +878,13 @@
                     data.collections = this.object.collection;
                 }
 
+                if (this.social_networks) {
+                    data.website = this.object.website;
+                    data.facebook = this.object.facebook;
+                    data.twitter = this.object.facebook;
+                    data.instagram = this.object.instagram;
+                }
+
                 console.log(data)
 
                 await axios.post(

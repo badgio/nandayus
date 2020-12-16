@@ -101,12 +101,14 @@
                     <div
                         v-if="this.object.website"
                     >
+                        <br>
                         <p>
                             Website
                         </p>
                         <input
                             type="text"
                             :value="this.object.website"
+                            v-on:change="object.website = $event.srcElement.value;"
                         >
                     </div>
                 </div>
@@ -127,6 +129,7 @@
                         cols="30"
                         rows="10"
                         :value="this.object.description"
+                        v-on:change ="object.description = $event.srcElement.value;"
                     >
                     </textarea>
                 </div>
@@ -141,8 +144,8 @@
                         v-if="this.object.social_networks.length > 0"
                     >
                         <div
-                            v-for="social in this.object.social_networks"
-                            :key="social.index"
+                            v-for="(social, index) in this.object.social_networks"
+                            :key="index"
                         >
                             <p>
                                 {{social.name}}
@@ -150,6 +153,7 @@
                             <input
                                 type="text"
                                 :value="social.link"
+                                v-on:change="object.social_networks[index].link = $event.srcElement.value;"
                             >
                         </div>
                     </div>
@@ -252,8 +256,8 @@
                 },
                 displayModal: false,
                 object: {
-                    name: 'Location name ....',
-                    description: 'Location\'s description',
+                    name: '',
+                    description: '',
                     image: '',
                     paragraphs: [],
                     website: '',
@@ -340,19 +344,25 @@
                                 Location's Attributes
                             */
                             
-                            if (this.type == 'Location') {
+                            if (this.type.en == 'Location') {
                                 this.object.website = res.data.website;
                                 this.object.social_networks.push(
                                     {
                                         name: 'Facebook',
-                                        link: res.data.facebook || 'a',
+                                        link: res.data.facebook || '',
                                     },
                                     {
                                         name: 'Instagram',
-                                        link: res.data.instagram || 's',
+                                        link: res.data.instagram || '',
+                                    },
+                                    {
+                                        name: 'Twitter',
+                                        link: res.data.twitter || '',
                                     },
                                 )
                             }
+
+                            console.log(this.object.social_networks)
 
                             /*
                                 Reward's Attributes
@@ -365,7 +375,17 @@
                     );
             },
             async submitForm(e) {
-                console.log(this.object);
+                
+                var data = {
+                    name: this.object.name,
+                    description: this.object.description,
+                    image: this.object.image,
+                    website: this.object.website,
+                    facebook: this.object.social_networks[0].link,
+                    instagram: this.object.social_networks[1].link,
+                    twitter: this.object.social_networks[2].link,
+                };
+                console.log(data)
             },
             onFileChange(e) {
                 const file = e.target.files[0];
@@ -389,6 +409,10 @@
                     console.log('Something went wrong... HTTP Status [', res.status, ']');
                 }
             },
+            inputFunc(value, element) {
+                console.log(element, value)
+                element = value;
+            }
         },
         /*
             Rendering:
