@@ -58,9 +58,7 @@
                         <div
                             class="overlay-image"
                         >
-                            <div
-                                v-on:click="onFileChange"
-                            >
+                            <div>
                                 <img
                                     class="image" 
                                     :src="this.object.image" 
@@ -549,7 +547,7 @@
                 
                 var toSend = {
                     description: this.object.description,
-                    //image: this.object.image,
+                    image: this.object.image,
                 };
 
                 /* 
@@ -596,8 +594,12 @@
 
             },
             onFileChange(e) {
-                const file = e.target.files[0];
-                this.object.image = URL.createObjectURL(file);
+                const image = e.target.files[0];
+                const reader = new FileReader();
+                reader.readAsDataURL(image);
+                reader.onload = e =>{
+                    this.object.image = e.target.result;
+                };
             },
             async deleteObject(e) {
                 var idToken = store.getters.getToken;

@@ -94,11 +94,45 @@
     import ManagementCard from './ManagementCard.vue';
 
     export default {
+        /*
+            Global Awareness:
+                1. name
+        */
         name: 'Collection',
+        /*
+            Template Modifiers:
+                1. delimiters
+        */
+        /*
+            Template Dependencies:
+                1. components
+                2. directives
+        */
         components: {
             BadgeCard,
             ManagementCard,
         },
+        /*
+            Composition:
+                1. extends
+                2. mixin
+                3. provide / inject
+        */
+        /*
+            Interface:
+                1. inheritAttrs
+                2. props
+                3. emits
+        */
+        /*
+            Composition API:
+                1. setup
+        */
+        /*
+            Local State
+                1. data
+                2. computed
+        */
         data: () => {
             return {
                 language: {
@@ -288,6 +322,46 @@
                 },
             }
         },
+        computed: {
+            selected_language() {
+                return this.$store.getters.getLanguage;
+            },
+            result_badges() {
+                if (this.searchQuery) {
+                    return this.all_badges.filter((item) => {
+                        return this.searchQuery.toLowerCase().split(' ').every(v => item.name.toLowerCase().includes(v));
+                    })
+                }
+                else {
+                    return this.all_badges;
+                }
+            }
+        },
+        /*
+            Events:
+                1. watch
+            
+            &
+
+            Lifecycle Events ( by the order in which they are called ):
+                1. beforeCreate
+                2. created
+                3. beforeMount
+                4. mounted
+                5. beforeUpdate
+                6. updated
+                7. activated
+                8. deactivated
+                9. beforeUnmount
+                10. unmounted
+                11. errorCaptured
+                12. renderTracked
+                13. renderTriggered
+        */
+        /*
+            Reactive Properties:
+                1. methods
+        */
         methods: {
             submitForm(e) {
                 console.log('All gucci')
@@ -304,21 +378,10 @@
                 this.all_badges.push(this.collection.badges.splice(this.collection.badges.findIndex(x => x.id == e), 1)[0]);
             }
         },
-        computed: {
-            selected_language() {
-                return this.$store.getters.getLanguage;
-            },
-            result_badges() {
-                if (this.searchQuery) {
-                    return this.all_badges.filter((item) => {
-                        return this.searchQuery.toLowerCase().split(' ').every(v => item.name.toLowerCase().includes(v));
-                    })
-                }
-                else {
-                    return this.all_badges;
-                }
-            }
-        }
+        /*
+            Rendering:
+                1. template / render
+        */
     }
 </script>
 
