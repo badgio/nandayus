@@ -38,5 +38,5 @@ This project was carried out in the first semester of the fifth year of informat
 | /collections/:id/statistics|   &#x2612;    |       -       |       -       |       -       |       -       |
 | /rewards                   |   &#x2611;    |       -       |       -       |       -       |       -       |
 | /newreward                 |   &#x2612;    |   &#x2611;    |       -       |       -       |       -       |
-| /rewards/:id               |   &#x2611;    |       -       |   &#x2612;    |       -       |    &#x2611;   |
+| /rewards/:id               |   &#x2611;    |       -       |   &#x2611;    |       -       |    &#x2611;   |
 | /rewards/:id/statistics    |   &#x2612;    |       -       |       -       |       -       |       -       |

@@ -532,6 +532,10 @@
                             /*
                                 Reward's Attributes
                             */
+
+                            if (this.type.en == 'Reward') {
+
+                            }
                         }
                     )
                     .catch((err) => {
@@ -562,10 +566,10 @@
                 */
 
                 if (this.type.en == 'Location') {
-                    data.website = this.object.website;
-                    data.facebook = this.object.social_networks[0].link;
-                    data.instagram = this.object.social_networks[1].link;
-                    data.twitter = this.object.social_networks[2].link;
+                    toSend.website = this.object.website;
+                    toSend.facebook = this.object.social_networks[0].link;
+                    toSend.instagram = this.object.social_networks[1].link;
+                    toSend.twitter = this.object.social_networks[2].link;
                 }
 
                 let config = {

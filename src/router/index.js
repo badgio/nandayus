@@ -216,11 +216,37 @@ const routes = [
     },
     {
         path: '/rewards/:uuid',
-        name: 'reward',
-        component: () => import('../components/Reward.vue'),
+        name: 'rewards',
+        component: () => import('../components/ObjectPage.vue'),
         props: {
+            delete_text: {
+                en: 'Delete Reward',
+                pt: 'Apagar Recompensa',
+            },
+            modal_text: {
+                certainty:  {
+                    en: 'Are you sure that you want to delete this Reward?',
+                    pt: 'Tem a certeza que pretende apagar esta Recompensa?',
+                },
+                yes: {
+                    en: 'Yes, I\'m sure.',
+                    pt: 'Sim, tenho a certeza.',
+                },
+                no: {
+                    en: 'No, please take me back.',
+                    pt: 'Não, por favor recuar.',
+                },
+            },
+            type: {
+                path: '/rewards',
+                en: 'Reward',
+                pt: 'a Recompensa',
+            },
             getLink: 'http://localhost:8001/v0/rewards/',
         },
+        meta: {
+            requiresAuth: true,
+        }
     },
     {
         path: '/newreward',
