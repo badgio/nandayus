@@ -55,7 +55,7 @@ export default {
       Global Awareness:
           1. name
   */
-  name: 'signin'
+  name: 'signin',
   /*
       Template Modifiers:
           1. delimiters

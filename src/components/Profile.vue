@@ -118,7 +118,7 @@
                 },
                 showPassword: false,
             }
-        }
+        },
         computed: {
             selected_language() {
                 return this.$store.getters.getLanguage;
