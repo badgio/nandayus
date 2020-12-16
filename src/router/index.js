@@ -58,9 +58,7 @@ const routes = [
             requiresAuth: true,
         },
         props: {
-            http_requests: {
-                getBadge: 'http://localhost:8001/v0/badges/'
-            }
+            getLink: 'http://localhost:8001/v0/badges/',
         }
     },
     {
@@ -558,6 +556,40 @@ const routes = [
             },
             twoCards: true,
             showTable: true,
+        }
+    },
+    {
+        path: '/objects/:uuid',
+        name: 'object',
+        component: () => import('../components/ObjectPage.vue'),
+        props: {
+            delete_text: {
+                en: 'Delete Location',
+                pt: 'Apagar Local',
+            },
+            modal_text: {
+                certainty:  {
+                    en: 'Are you sure that you want to delete this Location?',
+                    pt: 'Tem a certeza que pretende apagar o Local?',
+                },
+                yes: {
+                    en: 'Yes, I\'m sure.',
+                    pt: 'Sim, tenho a certeza.',
+                },
+                no: {
+                    en: 'No, please take me back.',
+                    pt: 'Não, por favor recuar.',
+                },
+            },
+            type: {
+                path: '/locations',
+                en: 'Location',
+                pt: 'o Local',
+            },
+            getLink: 'http://localhost:8001/v0/locations/',
+        },
+        meta: {
+            requiresAuth: true,
         }
     },
     {

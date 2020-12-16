@@ -7,12 +7,16 @@
             v-bind:website="this.location.website"
             v-bind:description="this.location.description"
             v-bind:social_networks="this.location.social_networks"
+            v-bind:delete_text="this.language.delete_text"
+            v-bind:delete_link="this.getLink + this.$route.params.uuid"
+            v-bind:redirect_link="'/locations'"
         />
         <div
             class="row"
         >
             <button
                 class="submit_button"
+                v-on:click="submitForm"
             >
                 {{language.submit_changes[this.selected_language]}}
             </button>
@@ -142,6 +146,10 @@
                         pt: 'Todos os campos assinalados com * são de preenchimento obrigatório.',
                         en: 'All fields signaled by * are required.'
                     },
+                    delete_text: {
+                        pt: 'Apagar Local',
+                        en: 'Delete Location',
+                    },
                 },
                 location: {
                     name: '',
@@ -160,7 +168,7 @@
         },
         methods: {
             submitForm(e) {
-                console.log('All gucci')
+                console.log(this.location)
             },
             onFileChange(e) {
                 const file = e.target.files[0];

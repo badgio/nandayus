@@ -10,6 +10,9 @@
             v-bind:website="this.badge.website"
             v-bind:description="this.badge.description"
             v-bind:social_networks="this.badge.socials"
+            v-bind:delete_text="this.language.delete_text"
+            v-bind:delete_link="this.getLink + this.$route.params.uuid"
+            v-bind:redirect_link="'/badges'"
         />
         <br>
         <div
@@ -104,7 +107,7 @@
             ManagementCard,
         },
         props: {
-            http_requests: {
+            getLink: {
                 type: Object,
                 required: true,
             },
@@ -160,6 +163,10 @@
                     obligatory_warning: {
                         pt: 'Todos os campos assinalados com * são de preenchimento obrigatório.',
                         en: 'All fields signaled by * are required.'
+                    },
+                    delete_text: {
+                        pt: 'Apagar Badge',
+                        en: 'Delete Badge',
                     },
                 },
                 website: 'Location\'s website',
@@ -258,10 +265,10 @@
                     }
                 );
 
-            console.log(this.http_requests.getBadge + this.$route.params.uuid)
+            console.log(this.getLink + this.$route.params.uuid)
 
             await axios
-                .get(this.http_requests.getBadge + this.$route.params.uuid, {
+                .get(this.getLink + this.$route.params.uuid, {
                         headers: {
                             'Access-Control-Allow-Origin': '*',
                             'Content-type': 'application/json',
@@ -330,7 +337,7 @@
         },
         methods: {
             submitForm(e) {
-                console.log('All gucci')
+                console.log(this.badge);
             },
             onFileChange(e) {
                 const file = e.target.files[0];

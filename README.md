@@ -26,7 +26,7 @@ This project was carried out in the first semester of the fifth year of informat
 | -------------------------- | ------------- | ------------- | ------------- | ------------- |:-------------:|
 | /locations                 |   &#x2611;    |       -       |       -       |       -       |       -       |
 | /newlocation               |       -       |   &#x2611;    |       -       |       -       |       -       |
-| /locations/:id             |   &#x2611;    |       -       |   &#x2612;    |       -       |       -       |
+| /locations/:id             |   &#x2611;    |       -       |   &#x2612;    |       -       |    &#x2611;   |
 | /locations/:id/statistics  |   &#x2612;    |       -       |       -       |       -       |       -       |
 | /badges                    |   &#x2611;    |       -       |       -       |       -       |       -       |
 | /newbadge                  |   &#x2612;    |   &#x2611;    |       -       |       -       |       -       |
@@ -34,9 +34,9 @@ This project was carried out in the first semester of the fifth year of informat
 | /badges/:id/statistics     |   &#x2612;    |       -       |       -       |       -       |       -       |
 | /collections               |   &#x2612;    |       -       |       -       |       -       |       -       |
 | /newcollection             |   &#x2612;    |   &#x2612;    |       -       |       -       |       -       |
-| /collections/:id           |   &#x2612;    |       -       |   &#x2612;    |       -       |       -       |
+| /collections/:id           |   &#x2612;    |       -       |   &#x2612;    |       -       |    &#x2612;   |
 | /collections/:id/statistics|   &#x2612;    |       -       |       -       |       -       |       -       |
 | /rewards                   |   &#x2611;    |       -       |       -       |       -       |       -       |
 | /newreward                 |   &#x2612;    |   &#x2611;    |       -       |       -       |       -       |
-| /rewards/:id               |   &#x2611;    |       -       |   &#x2612;    |       -       |       -       |
+| /rewards/:id               |   &#x2611;    |       -       |   &#x2612;    |       -       |    &#x2611;   |
 | /rewards/:id/statistics    |   &#x2612;    |       -       |       -       |       -       |       -       |

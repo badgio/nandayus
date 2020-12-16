@@ -21,23 +21,23 @@
                     <br>
                     <br>
                     <h6>
-                        Are you sure you want to delete the Badge?
+                        {{modal_text.certainty[this.selected_language]}}
                     </h6>
                     <br>
                     <div
                         class="row"
                     >
                         <button
-                            class="submit_button"
+                            class="submit_button red_button right_float"
                             v-on:click="deleteObject"
                         >
-                            Yes, I'm sure
+                            {{modal_text.yes[this.selected_language]}}
                         </button>
                         <button
-                            class="submit_button"
+                            class="submit_button green_button left_float"
                             v-on:click="displayModal = !displayModal"
                         >
-                            No, please take me back
+                            {{modal_text.no[this.selected_language]}}
                         </button>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                     class="column half image_container"
                 >
                     <div
-                        v-if="this.image != undefined"
+                        v-if="this.object.image != undefined"
                     >
                         <div
                             class="overlay-image"
@@ -63,8 +63,8 @@
                             >
                                 <img
                                     class="image" 
-                                    :src="this.image" 
-                                    alt="Alt text"
+                                    :src="this.object.image" 
+                                    alt="Image failed to load."
                                 />
                                 <div 
                                     class="hover"
@@ -76,7 +76,6 @@
                                             type="file"
                                             id="myFile"
                                             name="filename"
-                                            value="SSSSSubmit"
                                             style="width: 100px; margin: 0 auto;"
                                             required
                                             v-on:change="onFileChange"
@@ -91,43 +90,43 @@
                     class="column half"
                 >
                     <h3>
-                        {{title}}
+                        {{this.object.name}}
                     </h3>
                     <p
-                        v-for="par in paragraphs"
+                        v-for="par in this.object.paragraphs"
                         :key="par.index"
                     >
-                        {{par.type['en']}}: {{par.text}}
+                        {{par.type['en']}} {{par.text}}
                     </p>
                     <div
-                        v-if="website"
+                        v-if="this.object.website"
                     >
                         <p>
                             Website
                         </p>
                         <input
                             type="text"
-                            :value="website"
+                            :value="this.object.website"
                         >
                     </div>
                 </div>
             </div>
             <div
                 class="row"
-                v-if="description"
+                v-if="this.object.description"
             >
                 <div
                     class="column full"
                 >
                     <p>
-                        Description:
+                        {{this.language.description[this.selected_language]}}
                     </p>
                     <textarea
                         name="description"
                         id="description"
                         cols="30"
                         rows="10"
-                        :value="this.description"
+                        :value="this.object.description"
                     >
                     </textarea>
                 </div>
@@ -139,10 +138,10 @@
                     class="column full"
                 >
                     <div
-                        v-if="social_networks.length > 0"
+                        v-if="this.object.social_networks.length > 0"
                     >
                         <div
-                            v-for="social in social_networks"
+                            v-for="social in this.object.social_networks"
                             :key="social.index"
                         >
                             <p>
@@ -150,7 +149,7 @@
                             </p>
                             <input
                                 type="text"
-                                :value  ="social.link"
+                                :value="social.link"
                             >
                         </div>
                     </div>
@@ -163,7 +162,7 @@
                     class="submit_button green_button left_float"
                     v-on:click="submitForm"
                 >
-                    Submit Changes
+                    {{this.language.submitChanges[this.selected_language]}}
                 </button>
                 <button
                     class="submit_button red_button right_float"
@@ -179,51 +178,87 @@
 <script>
 
     import axios from 'axios';
+    import firebase from 'firebase';
     import store from '../store/index.js';
 
     export default {
-        name: 'ManagementCard',
+        /*
+            Global Awareness:
+                1. name
+        */
+        name: 'objectpage',
+        /*
+            Template Modifiers:
+                1. delimiters
+        */
+        /*
+            Template Dependencies:
+                1. components
+                2. directives
+        */
+        components: {
+
+        },
+        /*
+            Composition:
+                1. extends
+                2. mixin
+                3. provide / inject
+        */
+        /*
+            Interface:
+                1. inheritAttrs
+                2. props
+                3. emits
+        */
         props: {
-            title: {
-                type: String,
+            modal_text: {
+                type: Object,
                 required: true,
-            },
-            image: {
-                type: String,
-                required: false,
-            },
-            paragraphs: {
-                type: Array,
-                required: true,
-            },
-            description: {
-                type: String,
-                required: false
-            },
-            website: {
-                type: String,
-                required: false,
-            },
-            social_networks: {
-                type: Array,
-                required: false
             },
             delete_text: {
                 type: Object,
-                required: false,
+                required: true,
             },
-            delete_link: {
-                type: String,
-                required: false,
+            type: {
+                type: Object,
+                required: true,
             },
-            redirect_link: {
+            getLink: {
                 type: String,
-                required: false,
+                required: true,
             }
         },
+        /*
+            Composition API:
+                1. setup
+        */
+        /*
+            Local State
+                1. data
+                2. computed
+        */
         data: () => {
             return {
+                language: {
+                    description: {
+                        en: 'Description:',
+                        pt: 'Descrição:',
+                    },
+                    submitChanges: {
+                        en: 'Submit Changes',
+                        pt: 'Submeter Alterações',
+                    },
+                },
                 displayModal: false,
+                object: {
+                    name: 'Location name ....',
+                    description: 'Location\'s description',
+                    image: '',
+                    paragraphs: [],
+                    website: '',
+                    social_networks: [],
+                }
             }
         },
         computed: {
@@ -231,22 +266,115 @@
                 return this.$store.getters.getLanguage;
             },
         },
+        /*
+            Events:
+                1. watch
+            
+            &
+
+            Lifecycle Events ( by the order in which they are called ):
+                1. beforeCreate
+                2. created
+                3. beforeMount
+                4. mounted
+                5. beforeUpdate
+                6. updated
+                7. activated
+                8. deactivated
+                9. beforeUnmount
+                10. unmounted
+                11. errorCaptured
+                12. renderTracked
+                13. renderTriggered
+        */
+        watch: {
+
+        },
+        async created() {
+            await this.getObjects();
+        },
+        /*
+            Reactive Properties:
+                1. methods
+        */
         methods: {
+            async getObjects() {
+
+                var idToken = store.getters.getToken;
+
+                console.log(this.getLink, this.$route.params.uuid)
+
+                await axios
+                    .get(this.getLink + this.$route.params.uuid, {
+                            headers: {
+                                'Access-Control-Allow-Origin': '*',
+                                'Content-type': 'application/json',
+                                authorization: 'Bearer ' + idToken
+                            },
+                        }
+                    )
+                    .then((res) => {
+                            console.log(res);
+                            /*
+                                General Attributes    
+                            */
+                            this.object.name = res.data.name;
+                            this.object.description = res.data.description;
+                            this.object.image = res.data.image;
+                            this.object.paragraphs.push(
+                                {
+                                    type: {
+                                        en: 'Status:',
+                                        pt: 'Estado:',
+                                    },
+                                    text: res.data.status,
+                                },
+                            )
+                            /*
+                                Badge's Attributes
+                            */
+                            /*
+                                Collection's Attributes
+                            */
+                            /*
+                                Location's Attributes
+                            */
+                            
+                            if (this.type == 'Location') {
+                                this.object.website = res.data.website;
+                                this.object.social_networks.push(
+                                    {
+                                        name: 'Facebook',
+                                        link: res.data.facebook || 'a',
+                                    },
+                                    {
+                                        name: 'Instagram',
+                                        link: res.data.instagram || 's',
+                                    },
+                                )
+                            }
+
+                            /*
+                                Reward's Attributes
+                            */
+                        }
+                    )
+                    .catch((err) => {
+                            console.error(err)
+                        }
+                    );
+            },
+            async submitForm(e) {
+                console.log(this.object);
+            },
             onFileChange(e) {
-                const image = e.target.files[0];
-                const reader = new FileReader();
-                reader.readAsDataURL(image);
-                reader.onload = e => {
-                    this.image = e.target.result;
-                    
-                };
+                const file = e.target.files[0];
+                this.object.image = URL.createObjectURL(file);
             },
             async deleteObject(e) {
                 var idToken = store.getters.getToken;
 
-                console.log(this.delete_link)
-
-                const res = await axios.delete(this.delete_link, {
+                const res = await axios.delete(this.getLink + this.$route.params.uuid, {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
                         'Content-type': 'application/json',
@@ -254,23 +382,18 @@
                     },
                 });
 
-                var mySubString = this.delete_link.substring(
-                    this.delete_link.lastIndexOf("/") + 1, 
-                    this.delete_link.lastIndexOf("/")
-                );
-                console.log(mySubString)
-
                 if (res.status == 200) {
-                    this.$router.push({ path: this.redirect_link })
+                    this.$router.push({ path: this.type.path })
                 }
                 else {
                     console.log('Something went wrong... HTTP Status [', res.status, ']');
                 }
             },
-            submitForm(e) {
-                console.log('hello')
-            },
         },
+        /*
+            Rendering:
+                1. template / render
+        */
     }
 </script>
 
@@ -502,7 +625,8 @@ img {
   margin: auto;
   padding: 0;
   border: 1px solid #888;
-  width: 300px;
+  width: 500px;
+  text-align: center;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;

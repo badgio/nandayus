@@ -10,6 +10,7 @@
             v-bind:social_networks="this.reward.socials"
             v-bind:delete_text="this.language.delete_text"
             v-bind:delete_link="this.getLink + this.$route.params.uuid"
+            v-bind:redirect_link="'/rewards'"
         />
         <br>
         <div
@@ -164,8 +165,8 @@
                         en: 'All fields signaled by * are required.'
                     },
                     delete_text: {
-                        pt: 'Apagar Badge',
-                        en: 'Delete Badge',
+                        pt: 'Apagar Recompensa',
+                        en: 'Delete Reward',
                     },
                 },
                 all_collections: [
