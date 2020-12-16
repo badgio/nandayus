@@ -189,11 +189,36 @@
     import BarChart from './BarChart.vue';
 
     export default {
+        /*
+            Global Awareness:
+                1. name
+        */
         name: 'Statistics',
+        /*
+            Template Modifiers:
+                1. delimiters
+        */
+        /*
+            Template Dependencies:
+                1. components
+                2. directives
+        */
         components: {
             LineChart,
             BarChart,
         },
+        /*
+            Composition:
+                1. extends
+                2. mixin
+                3. provide / inject
+        */
+        /*
+            Interface:
+                1. inheritAttrs
+                2. props
+                3. emits
+        */
         props: {
             languageProp: {
                 type: Object,
@@ -208,6 +233,15 @@
                 required: true,
             },
         },
+        /*
+            Composition API:
+                1. setup
+        */
+        /*
+            Local State
+                1. data
+                2. computed
+        */
         data() {
             return {
                 loaded: false,
@@ -357,10 +391,7 @@
                         visitors: 15,
                     },
                 ],
-        
-
             }
-
         },
         computed: {
             selected_language() {
@@ -373,6 +404,59 @@
                 }
             },
         },
+        /*
+            Events:
+                1. watch
+            
+            &
+
+            Lifecycle Events ( by the order in which they are called ):
+                1. beforeCreate
+                2. created
+                3. beforeMount
+                4. mounted
+                5. beforeUpdate
+                6. updated
+                7. activated
+                8. deactivated
+                9. beforeUnmount
+                10. unmounted
+                11. errorCaptured
+                12. renderTracked
+                13. renderTriggered
+        */
+        created() {
+            // general chart setup
+            // x axis
+            this.chartdata.labels = this.chart.data.dates;
+            var datasets = [];
+            
+            // set min and max date 
+            this.cat_name = 'general';
+            this.min_date_value = this.chartdata.labels[0].split('-').reverse().join('-');
+            this.max_date_value = this.chartdata.labels[this.chartdata.labels.length-1].split('-').reverse().join('-');
+
+            // fill dataset
+            // y axis and line stylings
+            for (let obj of this.chart.data.general) {
+                var chosenColor = '#' + parseInt(Math.random() * 0xffffff).toString(16);
+                datasets.push(
+                    {
+                        label: obj.label[this.selected_language],
+                        fill: false,
+                        backgroundColor: chosenColor,
+                        borderColor: chosenColor,
+                        borderWidth: 3.5,
+                        data: obj.data,
+                    }
+                )
+            }
+            this.chartdata.datasets = datasets;
+        },
+        /*
+        Reactive Properties:
+            1. methods
+        */
         methods: {
             fillChartData(cat_name, min_date, max_date) {
 
@@ -430,36 +514,10 @@
                 this.all_badges.push(this.collection.badges.splice(this.collection.badges.findIndex(x => x.id == e), 1)[0]);
             }
         },
-        created() {
-            // general chart setup
-            // x axis
-            this.chartdata.labels = this.chart.data.dates;
-            var datasets = [];
-            
-            // set min and max date 
-            this.cat_name = 'general';
-            this.min_date_value = this.chartdata.labels[0].split('-').reverse().join('-');
-            this.max_date_value = this.chartdata.labels[this.chartdata.labels.length-1].split('-').reverse().join('-');            
-
-
-            // fill dataset
-            // y axis and line stylings
-            for (let obj of this.chart.data.general) {
-                var chosenColor = '#' + parseInt(Math.random() * 0xffffff).toString(16);
-                datasets.push(
-                    {
-                        label: obj.label[this.selected_language],
-                        fill: false,
-                        backgroundColor: chosenColor,
-                        borderColor: chosenColor,
-                        borderWidth: 3.5,
-                        data: obj.data,
-                    }
-                )
-            }
-
-            this.chartdata.datasets = datasets;
-        },
+        /*
+            Rendering:
+                1. template / render
+        */
     }
 </script>
 

@@ -51,10 +51,35 @@
     import store from '../store/index.js';
 
     export default {
+        /*
+            Global Awareness:
+                1. name
+        */
         name: 'Location',
+        /*
+            Template Modifiers:
+                1. delimiters
+        */
+        /*
+            Template Dependencies:
+                1. components
+                2. directives
+        */
         components: {
             TemplateCard,
         },
+        /*
+            Composition:
+                1. extends
+                2. mixin
+                3. provide / inject
+        */
+        /*
+            Interface:
+                1. inheritAttrs
+                2. props
+                3. emits
+        */
         props: {
             language: {
                 type: Object,
@@ -73,9 +98,15 @@
                 required: true,
             },
         },
-        async created() {
-            this.getObjects();
-        },
+        /*
+            Composition API:
+                1. setup
+        */
+        /*
+            Local State
+                1. data
+                2. computed
+        */
         data: () => {
             return {
                 searchQuery: null,
@@ -97,6 +128,34 @@
                 }
             }
         },
+        /*
+            Events:
+                1. watch
+            
+            &
+
+            Lifecycle Events ( by the order in which they are called ):
+                1. beforeCreate
+                2. created
+                3. beforeMount
+                4. mounted
+                5. beforeUpdate
+                6. updated
+                7. activated
+                8. deactivated
+                9. beforeUnmount
+                10. unmounted
+                11. errorCaptured
+                12. renderTracked
+                13. renderTriggered
+        */
+        async created() {
+            this.getObjects();
+        },
+        /*
+        Reactive Properties:
+            1. methods
+        */
         methods: {
             async getObjects() {
                 var idToken = store.getters.getToken;
@@ -116,8 +175,9 @@
                                     {
                                         id: obj.uuid,
                                         name: obj.name,
+                                        description: obj.description,
                                         statistics: {
-                                            url: '/statistics/' + this.type + '/' + obj.uuid,
+                                            url: '/' + this.type + '/' + obj.uuid + '/statistics/',
                                             text: {
                                                 en: 'Statistics',
                                                 pt: 'Estatísticas'
@@ -135,6 +195,7 @@
                                     }
                                 );
                             }
+                            console.log(this.objects)
                         }
                     )
                     .catch((err) => {
@@ -143,6 +204,10 @@
                     );
             },
         },
+        /*
+            Rendering:
+                1. template / render
+        */
     }
 </script>
 

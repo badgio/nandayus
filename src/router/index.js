@@ -45,22 +45,43 @@ const routes = [
                     pt: 'Criar Novo Badge',
                 },
             },
-            type: 'badge',
+            type: 'badges',
             toLink: '/newbadge',
             getLink: 'http://localhost:8001/v0/badges/',
         }
     },
     {
-        path: '/badge/:uuid',
-        name: 'badge',
-        component: () => import('../components/Badge.vue'),
+        path: '/badges/:uuid',
+        name: 'badges',
+        component: () => import('../components/ObjectPage.vue'),
+        props: {
+            delete_text: {
+                en: 'Delete Badge',
+                pt: 'Apagar Badge',
+            },
+            modal_text: {
+                certainty:  {
+                    en: 'Are you sure that you want to delete this Badge?',
+                    pt: 'Tem a certeza que pretende apagar este Badge?',
+                },
+                yes: {
+                    en: 'Yes, I\'m sure.',
+                    pt: 'Sim, tenho a certeza.',
+                },
+                no: {
+                    en: 'No, please take me back.',
+                    pt: 'Não, por favor recuar.',
+                },
+            },
+            type: {
+                path: '/badges',
+                en: 'Badge',
+                pt: 'o Badge',
+            },
+            getLink: 'http://localhost:8001/v0/badges/',
+        },
         meta: {
             requiresAuth: true,
-        },
-        props: {
-            http_requests: {
-                getBadge: 'http://localhost:8001/v0/badges/'
-            }
         }
     },
     {
@@ -76,6 +97,7 @@ const routes = [
                 pt: 'Novo Badge',
             },
             show_map: false,
+            show_image: true,
             show_duration: true,
             show_location_attributes: false,
             show_multiple_collections: true,
@@ -93,7 +115,7 @@ const routes = [
         }
     },
     {
-        path: '/statistics/badge/:uuid',
+        path: '/badges/:uuid/statistics',
         name: 'badgesstatistics',
         component: () => import('../components/Statistics.vue'),
         meta: {
@@ -187,13 +209,44 @@ const routes = [
                 },
             },
             toLink: '/newreward',
-            type: 'reward'
+            type: 'rewards',
+            getLink: 'http://localhost:8001/v0/rewards/',
+
         }
     },
     {
-        path: '/reward',
-        name: 'reward',
-        component: () => import('../components/Reward.vue')
+        path: '/rewards/:uuid',
+        name: 'rewards',
+        component: () => import('../components/ObjectPage.vue'),
+        props: {
+            delete_text: {
+                en: 'Delete Reward',
+                pt: 'Apagar Recompensa',
+            },
+            modal_text: {
+                certainty:  {
+                    en: 'Are you sure that you want to delete this Reward?',
+                    pt: 'Tem a certeza que pretende apagar esta Recompensa?',
+                },
+                yes: {
+                    en: 'Yes, I\'m sure.',
+                    pt: 'Sim, tenho a certeza.',
+                },
+                no: {
+                    en: 'No, please take me back.',
+                    pt: 'Não, por favor recuar.',
+                },
+            },
+            type: {
+                path: '/rewards',
+                en: 'Reward',
+                pt: 'a Recompensa',
+            },
+            getLink: 'http://localhost:8001/v0/rewards/',
+        },
+        meta: {
+            requiresAuth: true,
+        }
     },
     {
         path: '/newreward',
@@ -205,6 +258,7 @@ const routes = [
                 pt: 'Nova Recompensa',
             },
             show_map: false,
+            show_image: false,
             show_duration: true,
             show_location_attributes: false,
             show_multiple_collections: true,
@@ -214,10 +268,15 @@ const routes = [
                 en: 'Submit Reward',
                 pt: 'Submeter Recompensa'
             },
+            http_request: {
+                getLocations: 'http://localhost:8001/v0/locations/',
+                getCollections: '',
+            },
+            postLink: 'http://localhost:8001/v0/rewards/'
         }
     },
     {
-        path: '/statistics/reward',
+        path: '/rewards/:uuid/statistics',
         name: 'rewardstatistics',
         component: () => import('../components/Statistics.vue'),
         meta: {
@@ -288,6 +347,7 @@ const routes = [
                 pt: 'Novo Local',
             },
             show_map: true,
+            show_image: true,
             show_duration: false,
             show_location_attributes: true,
             show_multiple_collections: false,
@@ -322,24 +382,47 @@ const routes = [
                     pt: 'Criar Novo Local',
                 },
             },
-            type: 'location',
+            type: 'locations',
             toLink: '/newlocation',
             getLink: 'http://localhost:8001/v0/locations/',
         },
     },
     {
-        path: '/location/:uuid',
-        name: 'location',
-        component: () => import('../components/Location.vue'),
-        meta: {
-            requiresAuth: true,
-        },
+        path: '/locations/:uuid',
+        name: 'locations',
+        component: () => import('../components/ObjectPage.vue'),
         props: {
+            delete_text: {
+                en: 'Delete Location',
+                pt: 'Apagar Local',
+            },
+            modal_text: {
+                certainty:  {
+                    en: 'Are you sure that you want to delete this Location?',
+                    pt: 'Tem a certeza que pretende apagar o Local?',
+                },
+                yes: {
+                    en: 'Yes, I\'m sure.',
+                    pt: 'Sim, tenho a certeza.',
+                },
+                no: {
+                    en: 'No, please take me back.',
+                    pt: 'Não, por favor recuar.',
+                },
+            },
+            type: {
+                path: '/locations',
+                en: 'Location',
+                pt: 'o Local',
+            },
             getLink: 'http://localhost:8001/v0/locations/',
         },
+        meta: {
+            requiresAuth: true,
+        }
     },
     {
-        path: '/statistics/location/:uuid',
+        path: '/locations/:uuid/statistics',
         name: 'locationsstatistics',
         component: () => import('../components/Statistics.vue'),
         meta: {
@@ -459,6 +542,7 @@ const routes = [
                 pt: 'Nova Coleção',
             },
             show_map: false,
+            show_image: true,
             show_duration: true,
             show_location_attributes: false,
             show_multiple_collections: false,
