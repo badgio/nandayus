@@ -52,13 +52,36 @@ const routes = [
     },
     {
         path: '/badges/:uuid',
-        name: 'badge',
-        component: () => import('../components/Badge.vue'),
+        name: 'badges',
+        component: () => import('../components/ObjectPage.vue'),
+        props: {
+            delete_text: {
+                en: 'Delete Badge',
+                pt: 'Apagar Badge',
+            },
+            modal_text: {
+                certainty:  {
+                    en: 'Are you sure that you want to delete this Badge?',
+                    pt: 'Tem a certeza que pretende apagar este Badge?',
+                },
+                yes: {
+                    en: 'Yes, I\'m sure.',
+                    pt: 'Sim, tenho a certeza.',
+                },
+                no: {
+                    en: 'No, please take me back.',
+                    pt: 'Não, por favor recuar.',
+                },
+            },
+            type: {
+                path: '/badges',
+                en: 'Badge',
+                pt: 'o Badge',
+            },
+            getLink: 'http://localhost:8001/v0/badges/',
+        },
         meta: {
             requiresAuth: true,
-        },
-        props: {
-            getLink: 'http://localhost:8001/v0/badges/',
         }
     },
     {
@@ -340,14 +363,37 @@ const routes = [
     },
     {
         path: '/locations/:uuid',
-        name: 'location',
-        component: () => import('../components/Location.vue'),
-        meta: {
-            requiresAuth: true,
-        },
+        name: 'locations',
+        component: () => import('../components/ObjectPage.vue'),
         props: {
+            delete_text: {
+                en: 'Delete Location',
+                pt: 'Apagar Local',
+            },
+            modal_text: {
+                certainty:  {
+                    en: 'Are you sure that you want to delete this Location?',
+                    pt: 'Tem a certeza que pretende apagar o Local?',
+                },
+                yes: {
+                    en: 'Yes, I\'m sure.',
+                    pt: 'Sim, tenho a certeza.',
+                },
+                no: {
+                    en: 'No, please take me back.',
+                    pt: 'Não, por favor recuar.',
+                },
+            },
+            type: {
+                path: '/locations',
+                en: 'Location',
+                pt: 'o Local',
+            },
             getLink: 'http://localhost:8001/v0/locations/',
         },
+        meta: {
+            requiresAuth: true,
+        }
     },
     {
         path: '/locations/:uuid/statistics',
@@ -556,40 +602,6 @@ const routes = [
             },
             twoCards: true,
             showTable: true,
-        }
-    },
-    {
-        path: '/objects/:uuid',
-        name: 'object',
-        component: () => import('../components/ObjectPage.vue'),
-        props: {
-            delete_text: {
-                en: 'Delete Location',
-                pt: 'Apagar Local',
-            },
-            modal_text: {
-                certainty:  {
-                    en: 'Are you sure that you want to delete this Location?',
-                    pt: 'Tem a certeza que pretende apagar o Local?',
-                },
-                yes: {
-                    en: 'Yes, I\'m sure.',
-                    pt: 'Sim, tenho a certeza.',
-                },
-                no: {
-                    en: 'No, please take me back.',
-                    pt: 'Não, por favor recuar.',
-                },
-            },
-            type: {
-                path: '/locations',
-                en: 'Location',
-                pt: 'o Local',
-            },
-            getLink: 'http://localhost:8001/v0/locations/',
-        },
-        meta: {
-            requiresAuth: true,
         }
     },
     {

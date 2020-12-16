@@ -159,6 +159,71 @@
                     </div>
                 </div>
             </div>
+            <br>
+            <div
+                class="card collection_card"
+                v-if="this.type.en == 'Badge' || this.type.en == 'Reward'"
+            >
+                <h6>
+                    {{language.associated_collections[this.selected_language]}}
+                </h6>
+                <div
+                    class="input_icons"
+                >
+                    <i
+                        class="mdi mdi-magnify icon"
+                    > 
+                    </i>
+                    <input
+                        type="text"
+                        class="search_bar"
+                        :placeholder="language.search_collections[this.selected_language]"
+                        v-model="searchQuery"
+                    >
+                </div>
+                <div
+                    class="collection_results"
+                    v-if="this.searchQuery"
+                >
+                    <div
+                        class="queried_collection"
+                        v-for="(collection, index) in result_collections"
+                        :key="index"
+                    >
+                        <input
+                            class="collection_button"
+                            type="button"
+                            value="+"
+                            v-on:click="addToSelected(collection.id)"
+                        >
+                        <b>
+                            Collection: {{collection.name}}
+                        </b>
+                    </div>
+                </div>
+                <hr>
+                <div
+                    v-if="object.collections.length > 0"
+                >
+                    <CollectionCard
+                        v-for="collection in object.collections"
+                        :key="collection.index"
+                        :id="collection.id"
+                        :name="collection.name"
+                        :description="collection.description"
+                        :imageURL="collection.image"
+                        v-on:eventRemoveCollection="removeFromSelected"
+                    />
+                </div>
+                <div
+                    v-else
+                >
+                    <h6>
+                        {{language.no_collections[this.selected_language]}}
+                    </h6>
+                </div>
+            </div>
+            <br>
             <div
                 class="row"
             >
@@ -181,9 +246,13 @@
 
 <script>
 
+    /* Libraries */
     import axios from 'axios';
     import firebase from 'firebase';
     import store from '../store/index.js';
+
+    /* Components */
+    import CollectionCard from './CollectionCard.vue';
 
     export default {
         /*
@@ -201,7 +270,7 @@
                 2. directives
         */
         components: {
-
+            CollectionCard,
         },
         /*
             Composition:
@@ -249,12 +318,29 @@
                         en: 'Description:',
                         pt: 'Descrição:',
                     },
+                    associated_collections: {
+                        en: 'Collections associated with the Badge:',
+                        pt: 'Coleções associados à Badge:'
+                    },
+                    search_collections: {
+                        en: 'Search Collections',
+                        pt: 'Procurar Coleções',
+                    },
+                    add: {
+                        en: 'Add',
+                        pt: 'Adicionar',
+                    },
+                    no_collections: {
+                        en: 'You have no Collections associated with the Badge. Add some! If you don\'t have any, you can create some!',
+                        pt: 'Não tem Coleções associados à Badge. Adicione alguns! Se não tem nenhum, pode criá-los!'
+                    },
                     submitChanges: {
                         en: 'Submit Changes',
                         pt: 'Submeter Alterações',
                     },
                 },
                 displayModal: false,
+                searchQuery: null,
                 object: {
                     name: '',
                     description: '',
@@ -262,13 +348,69 @@
                     paragraphs: [],
                     website: '',
                     social_networks: [],
-                }
+                    collections: [],
+                    locations: [],
+                },
+                all_collections: [
+                    {
+                        id: '1',
+                        name: 'André Gonçalves',
+                        description: 'Description Description Description Description Description Description Description Description Description Description #1',
+                        image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
+                    },
+                    {
+                        id: '2',
+                        name: 'Diogo Gonçalves',
+                        description: 'Description Description Description Description Description Description Description Description Description Description #2',
+                        image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
+                    },
+                    {
+                        id: '3',
+                        name: 'Francisco Francisco Francisco Reinolds',
+                        description: 'Description Description Description Description Description Description Description Description Description Description #3',
+                        image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
+                    },
+                    {
+                        id: '4',
+                        name: 'José Costa',
+                        description: 'Description Description Description Description Description Description Description Description Description Description #1',
+                        image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
+                    },
+                    {
+                        id: '5',
+                        name: 'Luís Alves',
+                        description: 'Description Description Description Description Description Description Description Description Description Description #2',
+                        image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
+                    },
+                    {
+                        id: '6',
+                        name: 'Miguel Carvalho',
+                        description: 'Description Description Description Description Description Description Description Description Description Description #3',
+                        image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
+                    },
+                    {
+                        id: '7',
+                        name: 'Rafaela Rodrigues',
+                        description: 'Description Description Description Description Description Description Description Description Description Description #3',
+                        image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
+                    },
+                ]
             }
         },
         computed: {
             selected_language() {
                 return this.$store.getters.getLanguage;
             },
+            result_collections() {
+                if (this.searchQuery) {
+                    return this.all_collections.filter((item) => {
+                        return this.searchQuery.toLowerCase().split(' ').every(v => item.name.toLowerCase().includes(v));
+                    })
+                }
+                else {
+                    return this.all_collections;
+                }
+            }
         },
         /*
             Events:
@@ -334,9 +476,23 @@
                                     text: res.data.status,
                                 },
                             )
+                            
                             /*
                                 Badge's Attributes
                             */
+
+                            if (this.type.en == 'Badge') {
+                                this.object.paragraphs.push(
+                                    {
+                                        type: {
+                                            en: 'Duration:',
+                                            pt: 'Duração:',
+                                        },
+                                        text: res.data.duration,
+                                    },
+                                )
+                            }
+
                             /*
                                 Collection's Attributes
                             */
@@ -346,6 +502,15 @@
                             
                             if (this.type.en == 'Location') {
                                 this.object.website = res.data.website;
+                                this.object.paragraphs.push(
+                                    {
+                                        type: {
+                                            en: 'Type:',
+                                            pt: 'Tipo:',
+                                        },
+                                        text: res.data.type,
+                                    },
+                                )
                                 this.object.social_networks.push(
                                     {
                                         name: 'Facebook',
@@ -375,17 +540,56 @@
                     );
             },
             async submitForm(e) {
+
+                var idToken = store.getters.getToken;
                 
-                var data = {
-                    name: this.object.name,
+                var toSend = {
                     description: this.object.description,
-                    image: this.object.image,
-                    website: this.object.website,
-                    facebook: this.object.social_networks[0].link,
-                    instagram: this.object.social_networks[1].link,
-                    twitter: this.object.social_networks[2].link,
+                    //image: this.object.image,
                 };
-                console.log(data)
+
+                /* 
+                    Badge's Attributes
+                */
+
+                if (this.type.en == 'Badge') {
+                    // uncomment after collection's crud completion HAHAHAHAHAHAHAHAHAHAH
+                    //data.collections = this.object.collections;
+                }
+
+                /*
+                    Location's Attributes
+                */
+
+                if (this.type.en == 'Location') {
+                    data.website = this.object.website;
+                    data.facebook = this.object.social_networks[0].link;
+                    data.instagram = this.object.social_networks[1].link;
+                    data.twitter = this.object.social_networks[2].link;
+                }
+
+                let config = {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-type': 'application/json',
+                        authorization: 'Bearer ' + idToken
+                    },
+                };
+
+                await axios.patch(
+                        this.getLink + this.$route.params.uuid, 
+                        toSend, 
+                        config,
+                    )
+                    .then((res) => {
+                        console.log(res);
+                        this.$router.push({ path: this.type.path })
+                    })  
+                    .catch((err) => {
+                        console.error(err)
+                    })
+
+
             },
             onFileChange(e) {
                 const file = e.target.files[0];
@@ -412,6 +616,13 @@
             inputFunc(value, element) {
                 console.log(element, value)
                 element = value;
+            },
+            addToSelected(e) {
+                this.object.collections.push(this.all_collections.splice(this.all_collections.findIndex(x => x.id == e), 1)[0]);
+                this.searchQuery = null;
+            },
+            removeFromSelected(e) {
+                this.all_collections.push(this.object.collections.splice(this.object.collections.findIndex(x => x.id == e), 1)[0]);
             }
         },
         /*
@@ -554,6 +765,67 @@ img {
     max-height: 250px;
 }
 
+/*
+    Collection Card
+*/
+
+.collection_card {
+    background-color: white;
+    border: 2px solid #ddd;
+}
+
+.collection_card > .input_icons {
+    width: 100%;
+}
+
+.collection_card > .input_icons > input {
+    width: 75%;
+}
+
+.icon { 
+    padding: 10px; 
+    color: green; 
+    min-width: 50px; 
+    text-align: center; 
+} 
+
+.collection_card >.input_icons > button {
+    margin: 0px 0px 10px 15px;
+    width: 80px;
+    height: 35px;
+}
+
+.collection_card > .collection_results {
+    width: 65%;
+    min-width: 280px;
+    margin-left: 50px; 
+}
+
+.collection_card > .collection_results > .queried_collection {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    min-height: 40px;
+    margin: 5px auto 5px;
+    background-color: white;
+    border: 1px solid #0a4870;
+    border-radius: 5px;
+}
+
+.collection_card > .collection_results > .queried_collection > .collection_button {
+    width: 30px;
+    height: 30px;
+    font-size: 12pt;
+    font-weight: bold;
+    text-align: left;
+    margin: 5px;
+    border-radius: 50%;
+    border: 2px solid #0a4870;
+    box-shadow: 1px 1px #ccc;
+    background-color: #24702C;
+    color: white;
+}
 
 @media only screen and (max-width: 600px) {
     .column {
