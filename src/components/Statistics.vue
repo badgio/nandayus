@@ -452,6 +452,9 @@
                 )
             }
             this.chartdata.datasets = datasets;
+
+            console.log('datasets:', this.chartdata.datasets);
+            console.log('labels:', this.chartdata.labels);
         },
         /*
         Reactive Properties:

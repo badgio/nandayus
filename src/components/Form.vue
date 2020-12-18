@@ -15,6 +15,18 @@
             {{language.form_dismissal[this.selected_language]}}
         </div>
         <div
+            class="alert warning"
+            v-if="warning_banner"
+            v-on:click="warning_banner=false;"
+        >
+            <strong>
+                {{language.warning_form.title[this.selected_language]}}
+            </strong>
+            {{language.warning_form.text[this.selected_language]}}
+            <br>
+            {{language.form_dismissal[this.selected_language]}}
+        </div>
+        <div
             class="alert failure"
             v-if="error_banner"
             v-on:click="error_banner=false;"
@@ -264,7 +276,7 @@
                     <br>
                 </div>
                 <div
-                    v-if="show_multiple_collections"
+                    v-if="get_locations"
                 >
                     <div
                         class = "grid-container-2"
@@ -272,73 +284,35 @@
                         <label
                             for="location_select"
                         >
-                            {{language.location[selected_language]}}*:
+                            {{language.location[selected_language]}}:
                         </label>
                         <multiselect
-                            v-model="object.location" 
+                            v-model="object.locations" 
                             :custom-label="customLabelName"
                             track-by="uuid"
                             :options="locations" 
                             :searchable="true"
                             :close-on-select="true"
-                            :multiple="false"
+                            :multiple="this.multiple_locations"
                             :allow-empty="false"
-                            placeholder="Select One"
-                            style="width: 95%; margin: 5px 0px 5px 15px;"
-                        >
-                        </multiselect>
-                    </div>
-                    <br>
-                    <div
-                    class="grid-container-2"
-                    >
-                        <label class="typo__label">{{language.collections[selected_language]}}:</label>
-                        <multiselect
-                            class="multi_select"
-                            v-model="object.collections" 
-                            label="name"
-                            track-by="code" 
-                            :options="collections" 
-                            :multiple="true" 
-                            :taggable="true" 
+                            :taggable="true"
+                            placeholder="Select Option(s)"
                             @tag="addTag"
                             style="width: 95%; margin: 5px 0px 5px 15px;"
                         >
                         </multiselect>
                     </div>
+                    <br>
                 </div>
-                <br>
-                <br>
                 <div
-                    v-if="show_multiple_badges"
+                    v-if="get_collections"
                 >
-                    <div
-                        class = "grid-container-2"
-                    >
-                        <label
-                            for="location_select"
-                        >
-                            {{language.location[selected_language]}}*:
-                        </label>
-                        <multiselect
-                            v-model="object.location" 
-                            :custom-label="customLabelName"
-                            track-by="uuid"
-                            :options="locations" 
-                            :searchable="true"
-                            :close-on-select="true"
-                            :multiple="false"
-                            :allow-empty="false"
-                            placeholder="Select One"
-                            style="width: 95%; margin: 5px 0px 5px 15px;"
-                        >
-                        </multiselect>
-                    </div>
-                    <br>
                     <div
                     class="grid-container-2"
                     >
-                        <label class="typo__label">Badges:</label>
+                        <label class="typo__label">
+                            {{language.collection[selected_language]}}:
+                        </label>
                         <multiselect
                             class="multi_select"
                             v-model="object.collections" 
@@ -346,12 +320,39 @@
                             track-by="code" 
                             :options="collections" 
                             :multiple="true" 
-                            :taggable="true" 
+                            :taggable="true"
+                            placeholder="Select Option(s)"
                             @tag="addTag"
                             style="width: 95%; margin: 5px 0px 5px 15px;"
                         >
                         </multiselect>
                     </div>
+                    <br>
+                </div>
+                <div
+                    v-if="get_badges"
+                >
+                    <div
+                    class="grid-container-2"
+                    >
+                        <label class="typo__label">
+                            {{language.badge[this.selected_language]}}:
+                        </label>
+                        <multiselect
+                            class="multi_select"
+                            v-model="object.badges" 
+                            label="name"
+                            track-by="code" 
+                            :options="badges" 
+                            :multiple="true" 
+                            :taggable="true"
+                            placeholder="Select Option(s)"
+                            @tag="addTag"
+                            style="width: 95%; margin: 5px 0px 5px 15px;"
+                        >
+                        </multiselect>
+                    </div>
+                    <br>
                 </div>
                 <br>
  
@@ -527,11 +528,31 @@
                 type: Boolean,
                 required: true,
             },
-            show_multiple_collections: {
+            get_badges: {
                 type: Boolean,
                 required: true,
             },
-            show_multiple_badges: {
+            obligatory_badge: {
+                type: Boolean,
+                required: true,
+            },
+            get_collections: {
+                type: Boolean,
+                required: true,
+            },
+            obligatory_collection: {
+                type: Boolean,
+                required: true,
+            },
+            get_locations: {
+                type: Boolean,
+                required: true,
+            },
+            obligatory_location: {
+                type: Boolean,
+                required: true,
+            },
+            multiple_locations: {
                 type: Boolean,
                 required: true,
             },
@@ -574,9 +595,19 @@
                             pt: 'A informação foi submetida com sucesso!',
                         },
                     },
+                    warning_form: {
+                        title: {
+                            en: 'Warning',
+                            pt: 'Aviso',
+                        },
+                        text: {
+                            en: 'Not all the required fields are filled in. These are signaled with an asterisk (*). Please make sure you fill them before resubmitting the data.',
+                            pt: 'Existem campos obrigatórios sem dados. Estes estão assinalados com um asterisco (*). Por favor certifique-se que os preencheu antes da resubmissão dos dados.',
+                        },
+                    },
                     failure_form: {
                         title: {
-                            en: 'Failure',
+                            en: 'Error',
                             pt: 'Erro',
                         },
                         text: {
@@ -612,10 +643,6 @@
                         en: ' & Longitude: ',
                         pt: ' & Longitude: '
                     },
-                    address: {
-                        en: 'Address',
-                        pt: 'Morada',
-                    },
                     type: {
                         en: 'Type',
                         pt: 'Tipo',
@@ -623,18 +650,6 @@
                     location_type: {
                         en: 'Location Type',
                         pt: 'Tipo de Local'
-                    },
-                    postal_code: {
-                        en: 'Postal Code',
-                        pt: 'Código Postal',
-                    },
-                    district: {
-                        en: 'District',
-                        pt: 'Distrito',
-                    },
-                    country: {
-                        en: 'Country',
-                        pt: 'País',
                     },
                     description: {
                         en: 'Description',
@@ -664,17 +679,17 @@
                             pt: ' até ',
                         },
                     },
-                    location: {
-                        en: 'Location',
-                        pt: 'Local',
+                    badge: {
+                        en: 'Badges*',
+                        pt: 'Badges*',
                     },
                     collection: {
-                        en: 'Collection',
-                        pt: 'Coleção',
+                        en: 'Collections*',
+                        pt: 'Coleções*',
                     },
-                    collections: {
-                        en: 'Collections',
-                        pt: 'Coleções',
+                    location: {
+                        en: 'Locations*',
+                        pt: 'Locais*',
                     },
                     social_networks: {
                         en: 'Social Networks',
@@ -686,6 +701,7 @@
                     },
                 },
                 success_banner: false,
+                warning_banner: false,
                 error_banner: false,
                 object: {
                     name: '',
@@ -701,8 +717,9 @@
                     beg_date: '',
                     end_date:'',
                     location: '',
-                    collection: '',
+                    locations: [],
                     collections:[],
+                    badges: [],
                     website: '',
                     facebook: '',
                     instagram: '',
@@ -724,35 +741,6 @@
                         value: 'Commercial Establishment',
                     }
                 ],
-                countries: [
-                    {
-                        name: 'Portugal'
-                    },
-                    {
-                        name: 'España'
-                    },
-                    {
-                        name: 'France'
-                    },
-                    {
-                        name: 'Deutschland'
-                    },
-                    {
-                        name: 'Oesterreich'
-                    },
-                    {
-                        name: 'Schweiz'
-                    },
-                    {
-                        name: 'Italia'
-                    },
-                    {
-                        name: 'United Kingdom'
-                    },
-                    {
-                        name: 'Ireland'
-                    },
-                ],
                 map: {
                     zoom: 3,
                     center: latLng(41.55, -8.42), // Braga
@@ -772,13 +760,9 @@
                         autoCompleteDelay: 100
                     },
                 },
+                badges: [],
                 locations: [],
-                collections: [
-                    { name: 'Verde Cool', code: 've' },
-                    { name: 'Semana da euforia', code: 'se' },
-                    { name: 'Enterro da Gata', code: 'en' },
-                    { name: 'Receção ao caloiro', code: 're' }
-                ],
+                collections: [],
             }
         },
         computed: {
@@ -828,8 +812,7 @@
 
             }
 
-            if (this.show_multiple_collections) {
-
+            if (this.get_locations) {
                 // get jwt
                 var idToken = store.getters.getToken;
 
@@ -861,16 +844,16 @@
                             }
                         )
 
-                console.log(this.locations)
+                console.log('this.locations: ', this.locations)
             }
-            if (this.show_multiple_badges) {
+            if (this.get_badges) {
                 // get jwt
                 var idToken = store.getters.getToken;
 
-                // get request to get locations
+                // get request to get Badges
                 await axios
                         .get(
-                            this.http_request.getLocations,
+                            this.http_request.getBadges,
                             {
                                 headers: {
                                     'Access-Control-Allow-Origin': '*',
@@ -881,7 +864,7 @@
                         )
                         .then((res) => {
                                 for(let obj of res.data) {
-                                    this.locations.push(
+                                    this.badges.push(
                                         {
                                             name: obj.name,
                                             uuid: obj.uuid,
@@ -895,9 +878,42 @@
                             }
                         )
 
-                console.log(this.locations)
+                console.log('this.badges: ', this.badges)
             }
+            if(this.get_collections) {
+                // get jwt
+                var idToken = store.getters.getToken;
 
+                // get request to get Collections
+                await axios
+                        .get(
+                            this.http_request.getCollections,
+                            {
+                                headers: {
+                                    'Access-Control-Allow-Origin': '*',
+                                    'Content-type': 'application/json',
+                                    authorization: 'Bearer ' + idToken
+                                },
+                            },
+                        )
+                        .then((res) => {
+                                for(let obj of res.data) {
+                                    this.collections.push(
+                                        {
+                                            name: obj.name,
+                                            uuid: obj.uuid,
+                                        }
+                                    );
+                                }
+                            }
+                        )
+                        .catch((err) => {
+                                console.log(err);
+                            }
+                        )
+
+                console.log('this.collections: ' ,this.collections)
+            }
         },
         /*
             Reactive Properties:
@@ -905,8 +921,6 @@
         */
         methods: {
             async submitForm(e) {
-                var idToken = '';
-
                 var data = this.object;
 
                 var data = {
@@ -939,10 +953,55 @@
                     data.image = this.object.image;
                 }
 
-                if (this.show_multiple_collections) {
-                    // add location and collection to object
-                    data.location = this.object.location.uuid;
-                    data.collections = this.object.collection;
+                if (this.get_badges) {
+                    if (this.object.badges.length && this.obligatory_badge) {
+                        data.badges = []
+                        this.object.badges.forEach(x => 
+                            {
+                                data.badges.push(x.uuid);
+                            }
+                        );
+                    }
+                    else {
+                        this.warning_banner = true;
+                        window.scrollTo(0,0);
+                        return;
+                    }
+                }
+
+                if (this.get_collections) {
+                    if (this.object.collections.length && this.obligatory_collection) {
+                        data.collections = []
+                        this.object.collections.forEach(x => 
+                            {
+                                data.collections.push(x.uuid);
+                            }
+                        );
+                    }
+                    else {
+                        this.warning_banner = true;
+                        window.scrollTo(0,0);
+                        return;
+                    }
+                }
+
+                if (this.get_locations) {
+                    if (this.object.locations.length && this.obligatory_location) {
+                        data.locations = [];
+                        if (this.multiple_locations) {
+                                this.object.locations.forEach(x => 
+                                {
+                                    data.locations.push(x.uuid);
+                                }
+                            );
+                        }
+                        else data.locations.push(this.object.locations);
+                    }
+                    else {
+                        this.warning_banner = true;
+                        window.scrollTo(0,0);
+                        return;
+                    }
                 }
 
                 if (this.social_networks) {
@@ -951,8 +1010,6 @@
                     data.twitter = this.object.facebook;
                     data.instagram = this.object.instagram;
                 }
-
-                console.log(data)
 
                 await axios.post(
                     this.postLink, 
@@ -1064,6 +1121,11 @@ p {
 .success:hover {
     background-color: #487E58;
     transition: 0.3s;
+}
+
+.warning {
+    border: 1px solid #ffcb11;
+    background-color: #ffbf00;
 }
 
 .failure {
