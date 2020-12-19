@@ -295,9 +295,7 @@
                             :close-on-select="true"
                             :multiple="this.multiple_locations"
                             :allow-empty="false"
-                            :taggable="true"
-                            placeholder="Select Option(s)"
-                            @tag="addTag"
+                            placeholder="Select Option"
                             style="width: 95%; margin: 5px 0px 5px 15px;"
                         >
                         </multiselect>
@@ -317,12 +315,10 @@
                             class="multi_select"
                             v-model="object.collections" 
                             label="name"
-                            track-by="code" 
+                            track-by="uuid" 
                             :options="collections" 
-                            :multiple="true" 
-                            :taggable="true"
+                            :multiple="true"
                             placeholder="Select Option(s)"
-                            @tag="addTag"
                             style="width: 95%; margin: 5px 0px 5px 15px;"
                         >
                         </multiselect>
@@ -342,12 +338,13 @@
                             class="multi_select"
                             v-model="object.badges" 
                             label="name"
-                            track-by="code" 
-                            :options="badges" 
-                            :multiple="true" 
-                            :taggable="true"
+                            track-by="uuid" 
+                            :options="badges"
+                            :close-on-select="false"
+                            :clear-on-select="false"
+                            :preserve-search="true"
+                            :multiple="true"
                             placeholder="Select Option(s)"
-                            @tag="addTag"
                             style="width: 95%; margin: 5px 0px 5px 15px;"
                         >
                         </multiselect>
@@ -688,8 +685,8 @@
                         pt: 'Coleções*',
                     },
                     location: {
-                        en: 'Locations*',
-                        pt: 'Locais*',
+                        en: 'Location*',
+                        pt: 'Local*',
                     },
                     social_networks: {
                         en: 'Social Networks',
@@ -921,6 +918,14 @@
         */
         methods: {
             async submitForm(e) {
+
+                /*
+                 * Badge: 1 Location. Adicionado posteriormente no menu de gestão da Coleção.
+                 * Collection: n Badges. No seu menu de gestão, são adicionados n Badges e A REWARD ( SINGULAR ).
+                 * Location: nada.
+                 * Reward: 1 Location. Adicionada posteriormente no menu de gestão da Coleção.
+                */
+
                 var data = this.object;
 
                 var data = {
@@ -954,6 +959,7 @@
                 }
 
                 if (this.get_badges) {
+                    //console.log('this.object.badges: ', this.object.badges);
                     if (this.object.badges.length && this.obligatory_badge) {
                         data.badges = []
                         this.object.badges.forEach(x => 
@@ -963,6 +969,7 @@
                         );
                     }
                     else {
+                        //console.log('Badge error')
                         this.warning_banner = true;
                         window.scrollTo(0,0);
                         return;
@@ -979,6 +986,7 @@
                         );
                     }
                     else {
+                        //console.log('Collection error')
                         this.warning_banner = true;
                         window.scrollTo(0,0);
                         return;
@@ -986,18 +994,11 @@
                 }
 
                 if (this.get_locations) {
-                    if (this.object.locations.length && this.obligatory_location) {
-                        data.locations = [];
-                        if (this.multiple_locations) {
-                                this.object.locations.forEach(x => 
-                                {
-                                    data.locations.push(x.uuid);
-                                }
-                            );
-                        }
-                        else data.locations.push(this.object.locations);
+                    if (this.object.locations.uuid && this.obligatory_location) {
+                        data.location = this.object.locations.uuid;
                     }
                     else {
+                        //console.log('Location error')
                         this.warning_banner = true;
                         window.scrollTo(0,0);
                         return;
@@ -1010,6 +1011,8 @@
                     data.twitter = this.object.facebook;
                     data.instagram = this.object.instagram;
                 }
+
+                console.log(data)
 
                 await axios.post(
                     this.postLink, 
@@ -1057,14 +1060,6 @@
             },
             logger(e) {
                 console.log(e)
-            },
-            addTag (newTag) {
-                const tag = {
-                    name: newTag,
-                    code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
-                }
-                this.collections.push(tag)
-                this.object.collections.push(tag)
             },
             customLabel (option) {
                 return `${option.name[this.selected_language]}`
