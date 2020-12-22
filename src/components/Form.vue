@@ -956,6 +956,7 @@
 
                 if (this.show_image) {
                     data.image = this.object.image;
+                    console.log(this.object.image);
                 }
 
                 if (this.get_badges) {

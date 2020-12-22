@@ -78,6 +78,12 @@ const routes = [
                 en: 'Badge',
                 pt: 'o Badge',
             },
+            http_requests: {
+                getBadges: 'http://localhost:8001/v0/badges/',
+                getCollections: 'http://localhost:8001/v0/collections/',
+                getLocations: 'http://localhost:8001/v0/locations/',
+                getRewards: 'http://localhost:8001/v0/rewards/',
+            },
             getLink: 'http://localhost:8001/v0/badges/',
         },
         meta: {
@@ -246,6 +252,12 @@ const routes = [
                 path: '/rewards',
                 en: 'Reward',
                 pt: 'a Recompensa',
+            },
+            http_requests: {
+                getBadges: 'http://localhost:8001/v0/badges/',
+                getCollections: 'http://localhost:8001/v0/collections/',
+                getLocations: 'http://localhost:8001/v0/locations/',
+                getRewards: 'http://localhost:8001/v0/rewards/',
             },
             getLink: 'http://localhost:8001/v0/rewards/',
         },
@@ -430,6 +442,12 @@ const routes = [
                 en: 'Location',
                 pt: 'o Local',
             },
+            http_requests: {
+                getBadges: 'http://localhost:8001/v0/badges/',
+                getCollections: 'http://localhost:8001/v0/collections/',
+                getLocations: 'http://localhost:8001/v0/locations/',
+                getRewards: 'http://localhost:8001/v0/rewards/',
+            },
             getLink: 'http://localhost:8001/v0/locations/',
         },
         meta: {
@@ -566,6 +584,12 @@ const routes = [
                 path: '/collections',
                 en: 'Collection',
                 pt: 'a Coleção',
+            },
+            http_requests: {
+                getBadges: 'http://localhost:8001/v0/badges/',
+                getCollections: 'http://localhost:8001/v0/collections/',
+                getLocations: 'http://localhost:8001/v0/locations/',
+                getRewards: 'http://localhost:8001/v0/rewards/',
             },
             getLink: 'http://localhost:8001/v0/collections/',
         },

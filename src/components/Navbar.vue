@@ -117,17 +117,17 @@ export default {
             },
             {
               title: {
-                en: "Rewards",
-                pt: 'Recompensas',
-              },
-              link : "/rewards"
-            },
-            {
-              title: {
                 en: "Locations",
                 pt: 'Locais',
               },
               link : "/locations"
+            },
+            {
+              title: {
+                en: "Rewards",
+                pt: 'Recompensas',
+              },
+              link : "/rewards"
             },
         ],
         menu_manager : [
