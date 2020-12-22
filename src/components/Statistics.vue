@@ -4,7 +4,7 @@
             {{languageProp.pageTitle[this.selected_language]}} {{$route.params.uuid}}
         </h2>
         <h3>
-            Relatório semanal
+            {{this.translate['Week_report'][this.selected_language]}} 
         </h3> 
         <div
             class="card_container"
@@ -18,14 +18,17 @@
                     {{languageProp.totalVisitors[this.selected_language]}}
                 </h3>   
                 <h4>
-                    10975
+                    {{this.total_visitors}}
                 </h4>
                 <br>
                 <h3>
                     {{languageProp.customerProfile.text[this.selected_language]}}
                 </h3>
                 <h4>
-                    Jovem Português
+                    {{this.translate[this.most_common_age_range][this.selected_language]}} -
+                    {{this.translate[this.most_common_gender][this.selected_language]}} -   
+                    {{this.translate[this.most_common_country][this.selected_language]}}
+                    
                 </h4>
             </div>
             <div
@@ -36,21 +39,26 @@
                     {{languageProp.nRedeemedRewards.text[this.selected_language]}}
                 </h3>   
                 <h4>
-                    3096
+                    {{this.redeemed_rewards}}
                 </h4>
                 <br>
                 <h3>
                     {{languageProp.busiestDay.text[this.selected_language]}}
                 </h3>
                 <h4>
-                    Sábado
+                    {{this.translate[this.busiest_day][this.selected_language]}} 
                 </h4>
             </div>
             <div
                 class="chart_container2"
             >
-                    Horas de maior movimento
-                <bar-chart></bar-chart>
+                <bar-chart
+                    ref="barChart"
+                    :chartData="chartData_week"
+                    :options="options_week"
+                />
+                    
+               
             </div>
         </div>
         <hr>
@@ -61,20 +69,20 @@
             class="buttons_container2"
         >
             <label>
-                Starting Date:
+                {{languageProp.starting_date[this.selected_language]}}
                 <input
                     type="date"
                     id="min_date"
                     name="min_date"
                     ref="min_date"
                     :value="min_date_value"
-                    :min="convertDigitIn(this.chart.data.dates[0])"
+                    :min="this.chart.data.dates[0]"
                     :max="max_date_value"
                     v-on:change="updateChart"
                 >
             </label>
             <label>
-                Finishing Date:
+                 {{languageProp.finishing_date[this.selected_language]}}
                 <input
                     type="date"
                     id="max_date"
@@ -82,7 +90,7 @@
                     ref="max_date"
                     :value="max_date_value"
                     :min="min_date_value"
-                    :max="convertDigitIn(this.chart.data.dates[this.chart.data.dates.length-1])"
+                    :max="this.chart.data.dates[this.chart.data.dates.length-1]"
                     v-on:change="updateChart"
                 >
             </label>
@@ -105,7 +113,7 @@
                 <input 
                     type="radio"
                     name="general_checkbox"
-                    v-on:click="cat_name = 'general'; fillChartData('general', min_date_value, max_date_value)"
+                    v-on:click="fillChartData(['General'], min_date_value, max_date_value)"
                     value="general"
                     v-model="chart.pickedCheckbox"
                 >
@@ -115,7 +123,7 @@
                 <input 
                     type="radio"
                     name="age_checkbox"
-                    v-on:click="cat_name = 'age'; fillChartData('age', min_date_value, max_date_value)"
+                    v-on:click="fillChartData(['Young','Adult','Elder'], min_date_value, max_date_value)"
                     value="age"
                     v-model="chart.pickedCheckbox"
                 >
@@ -125,7 +133,7 @@
                 <input 
                     type="radio"
                     name="gender_checkbox"
-                    v-on:click="cat_name = 'gender'; fillChartData('gender', min_date_value, max_date_value)"
+                    v-on:click="fillChartData(['Male','Female'], min_date_value, max_date_value)"
                     value="gender"
                     v-model="chart.pickedCheckbox"
                 >
@@ -135,7 +143,7 @@
                 <input 
                     type="radio"
                     name="nationality_checkbox"
-                    v-on:click="cat_name = 'nationality'; fillChartData('nationality', min_date_value, max_date_value)"
+                    v-on:click="fillChartData(countries, min_date_value, max_date_value)"
                     value="nationality"
                     v-model="chart.pickedCheckbox"
                 >
@@ -173,18 +181,23 @@
             </table>
         </div>
         <br>
-        <hr>
-        <h3>Horário Semanal</h3>
+        <hr>    
         <div
             class="chart_container"
         >
-            <bar-chart></bar-chart>
+            <bar-chart
+                    ref="barChart2"
+                    :chartData="chartData2"
+                    :options="options2"
+            />
         </div>
     </div>
 </template>
 
 <script>
-
+    import axios from 'axios';
+    import firebase from "firebase";
+    import store from '../store/index.js';
     import LineChart from './LineChart.vue';
     import BarChart from './BarChart.vue';
 
@@ -232,6 +245,10 @@
                 type: Boolean,
                 required: true,
             },
+            getLink: {
+                type: String,
+                required: true,
+            },
         },
         /*
             Composition API:
@@ -248,93 +265,13 @@
                 chart: {
                     pickedCheckbox: 'general',
                     data: {
-                        dates: ['01-01-2021', '02-01-2021', '03-01-2021', '04-01-2021'],
+                        dates: [],
                         general: [
                             {
-                                label: {
-                                    en: 'General',
-                                    pt: 'Geral'
-                                },
-                                data: [99, 99, 99, 97],
+                                data: [],
                             },
                         ],
-                        age: [
-                            {
-                                label: {
-                                    en: '18-29 Years Old',
-                                    pt: '18-29 Anos',
-                                },
-                                data: [101, 101, 101, 100],
-                            },
-                            {
-                                label: {
-                                    en: '30-39 Years Old',
-                                    pt: '30-39 Anos',
-                                },
-                                data: [105, 105, 105, 103],
-                            },
-                            {
-                                label: {
-                                    en: '40-49 Years Old',
-                                    pt: '40-49 Anos',
-                                },
-                                data: [107, 107, 107, 105],
-                            },
-                        ],
-                        gender: [
-                            {
-                                label: {
-                                    en: 'Female',
-                                    pt: 'Feminino',
-                                },
-                                data: [120, 120, 120, 119]
-                            },
-                            {
-                                label: {
-                                    en: 'Male',
-                                    pt: 'Masculino',
-                                },
-                                data: [122, 122, 122, 123]
-                            },
-                            {
-                                label: {
-                                    en: 'Other',
-                                    pt: 'Outro',
-                                },
-                                data: [124, 124, 124, 126]
-                            }
-                        ],
-                        nationality: [
-                            {
-                                label: {
-                                    en: 'Portuguese',
-                                    pt: 'Portuguesa',
-                                },
-                                backgroundColor: '#5a5a5a',
-                                data: [200, 200, 200, 205],
-                            },
-                            {
-                                label: {
-                                    en: 'Spanish',
-                                    pt: 'Espanhola',
-                                },
-                                data: [140, 140, 140, 144],
-                            },
-                            {
-                                label: {
-                                    en: 'Brazilian',
-                                    pt: 'Brasileira',
-                                },
-                                data: [110, 110, 110, 123],
-                            }
-                        ]
                     },
-                    options: {
-                        yAxisLabel: {
-                            en: 'Nº of Visitors',
-                            pt: 'Nº de Visitantes'
-                        }
-                    }
                 },
                 options: {
                     responsive: true,
@@ -358,9 +295,140 @@
                         ]
                     }
                 },
+                options_week: {
+                    scales: {
+                        yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            display: true
+                        }
+                        }],
+                        xAxes: [{
+                        gridLines: {
+                            display: false
+                        }
+                        }]
+                    },
+                    legend: {
+                        display: true
+                    },
+                    responsive: true,
+                    maintainAspectRatio: false
+                },
+                translate: {
+                    Week_report: {
+                        en: 'Week report',
+                        pt: 'Relatório semanal'
+                    },
+                    Young: {
+                        en: 'Young',
+                        pt: 'Jovem'
+                    },
+                    Adult: {
+                        en: 'Adult',
+                        pt: 'Adulto'
+                    },
+                    Elder: {
+                        en: 'Elder',
+                        pt: 'Idoso'
+                    },
+                    Male: {
+                        en: 'Male',
+                        pt: 'Masculino'
+                    },
+                    Female: {
+                        en: 'Female',
+                        pt: 'Feminino'
+                    },
+                    General: {
+                        en: 'General',
+                        pt: 'Geral'
+                    },
+                    Monday: {
+                        en: 'Monday',
+                        pt: 'Segunda-feira'
+                    },
+                    Tuesday: {
+                        en: 'Tuesday',
+                        pt: 'Terça-feira'
+                    },
+                    Wednesday: {
+                        en: 'Wednesday',
+                        pt: 'Quarta-feira'
+                    },
+                    Thursday: {
+                        en: 'Thursday',
+                        pt: 'Quinta-feira'
+                    },
+                    Friday: {
+                        en: 'Friday',
+                        pt: 'Sexta-feira'
+                    },
+                    Saturday: {
+                        en: 'Saturday',
+                        pt: 'Sábado'
+                    },
+                    Sunday: {
+                        en: 'Sunday',
+                        pt: 'Domingo'
+                    },
+                    Portugal: {
+                        en: 'Portugal',
+                        pt: 'Portugal'
+                    },
+                    Espanha: {
+                        en: 'Spain',
+                        pt: 'Espanha'
+                    },
+                    Jamaica: {
+                        en: 'Jamaica',
+                        pt: 'Jamaica'
+                    },
+
+                },
                 cat_name: '',
+                total_visitors: '',
+                busiest_day: '',
+                most_common_age_range: '',
+                most_common_country: '',
+                most_common_gender:'',
+                redeemed_rewards: '',
+                week_stats: {},
+                second_chart_stats: {},
+                chartData_week: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Nº visitantes',
+                        borderWidth: 1,
+                        backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        ],
+                        borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255,99,132,1)',
+                        ],
+                        pointBorderColor: '#2554FF',
+                        data: []
+                    }]
+                },
                 min_date_value: '',
                 max_date_value: '',
+                dates:'',
+                countries:[],
+                general_data:'',
                 tabledata: [
                     {
                         name: 'Location #1',
@@ -391,13 +459,104 @@
                         visitors: 15,
                     },
                 ],
-            }
+                chartData2: {
+                    labels: ["0h-1h","1h-2h","2h-3h","3h-4h","4h-5h","5h-6h","6h-7h","7h-8h","8h-9h", "9h-10h", "10h-11h", "11h-12h", "12h-13h", "13h-14h", "14h-15h", "15h-16h", "16h-17h",
+                        "17h-18h", "18h-19h", "19h-20h","20h-21h", "21h-22h", "22h-23h","23h-24h"
+                    ],
+                    datasets: [{
+                        label: 'Nº visitantes',
+                        borderWidth: 1,
+                        backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        ],
+                        borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                        ],
+                        pointBorderColor: '#2554FF',
+                        data: []
+                    }]
+                    },
+                    options2: {
+                        scales: {
+                            yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            },
+                            gridLines: {
+                                display: true
+                            }
+                            }],
+                            xAxes: [{
+                            gridLines: {
+                                display: false
+                            }
+                            }]
+                        },
+                        legend: {
+                            display: true
+                        },
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                }
         },
         computed: {
             selected_language() {
                 return this.$store.getters.getLanguage;
             },
             chartdata() {
+                return {
+                    labels: [],
+                    datasets: [],
+                }
+            },
+            chartdata_week() {
                 return {
                     labels: [],
                     datasets: [],
@@ -425,74 +584,209 @@
                 12. renderTracked
                 13. renderTriggered
         */
-        created() {
-            // general chart setup
-            // x axis
+        async created() {
+            await this.getObjects();
+            console.log('in created');
             this.chartdata.labels = this.chart.data.dates;
             var datasets = [];
-            
-            // set min and max date 
-            this.cat_name = 'general';
-            this.min_date_value = this.chartdata.labels[0].split('-').reverse().join('-');
-            this.max_date_value = this.chartdata.labels[this.chartdata.labels.length-1].split('-').reverse().join('-');
 
-            // fill dataset
-            // y axis and line stylings
-            for (let obj of this.chart.data.general) {
-                var chosenColor = '#' + parseInt(Math.random() * 0xffffff).toString(16);
-                datasets.push(
-                    {
-                        label: obj.label[this.selected_language],
-                        fill: false,
-                        backgroundColor: chosenColor,
-                        borderColor: chosenColor,
-                        borderWidth: 3.5,
-                        data: obj.data,
-                    }
-                )
+            var index= 0;
+            var week=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+            
+            //Week Report
+            for (var x = 0; x < week.length; x++) { 
+                if (week[x] in this.week_stats) {
+                    this.chartData_week.datasets[0].data[index] = this.week_stats[week[x]];                         
+                }
+                else {
+                    this.chartData_week.datasets[0].data[index] = 0;
+                }
+                this.chartData_week.labels[index] = this.translate[week[x]][this.selected_language];
+                index++; 
             }
+
+            //Second Chart
+            for (var x = 0; x < 24; x++) { 
+                if (x in this.second_chart_stats) {
+                    this.chartData2.datasets[0].data[x] = this.second_chart_stats[x]['Total hour visitors'];                         
+                }
+                else {
+                    this.chartData2.datasets[0].data[x] = 0;
+                }   
+            }
+
+            //Main Chart
+            var chosenColor = '#' + parseInt(Math.random() * 0xffffff).toString(16);
+            datasets.push(
+                {
+                    label: this.translate['General'][this.selected_language],
+                    fill: false,
+                    backgroundColor: chosenColor,
+                    borderColor: chosenColor,
+                    borderWidth: 3.5,
+                    data: this.chart.data.general[0].data,
+                }
+            )
+            
             this.chartdata.datasets = datasets;
+            // update chart
+            this.$refs.barChart.updateData();
+            this.$refs.barChart2.updateData();
+            this.$refs.lineChart.updateData();
         },
         /*
         Reactive Properties:
             1. methods
         */
         methods: {
-            fillChartData(cat_name, min_date, max_date) {
+            async getObjects() {
 
-                this.chartdata.datasets = [];
-                
-                var datasets = [];
+                var idToken = store.getters.getToken;
+                console.log(this.getLink, this.$route.params.uuid)
 
-                var min_index = this.chart.data.dates.findIndex(x => x == min_date.split('-').reverse().join('-'))
-
-                var max_index = this.chart.data.dates.findIndex(x => x == max_date.split('-').reverse().join('-'))
-
-                this.chartdata.labels = this.chart.data.dates.slice(min_index, max_index+1);
-
-                // fill dataset
-                for (let obj of this.chart.data[cat_name]) {
-                    var chosenColor = '#' + parseInt(Math.random() * 0xffffff).toString(16);
-                    datasets.push(
-                        {
-                            label: obj.label[this.selected_language],
-                            fill: false,
-                            backgroundColor: chosenColor,
-                            borderColor: chosenColor,
-                            borderWidth: 3.5,
-                            data: obj.data,
+                await axios
+                    .get(this.getLink + this.$route.params.uuid + '/statistics', {
+                            headers: {
+                                'Access-Control-Allow-Origin': '*', 
+                                'Content-type': 'application/json',
+                                authorization: 'Bearer ' + idToken
+                            },
                         }
                     )
-                }
+                    .then((res) => {
+                            console.log('Comeceieiei')
+                            //Week Report
+                            this.total_visitors= res.data[0]['Total_visitors'];
+                            this.busiest_day= res.data[0]['Busiest_day'];
+                            this.most_common_country= res.data[0]['Most_common_country'];
+                            this.most_common_age_range= res.data[0]['Most_common_age_range'];
+                            this.most_common_gender= res.data[0]['Most_common_gender'];
+                            this.redeemed_rewards= res.data[0]['Redeemed_rewards'];
+                            this.week_stats=res.data[0];
 
+                            //Main Chart
+                            this.chart_data= (res.data[1]);
+                            this.dates= Object.keys(this.chart_data['General']);
+                            this.chart.data.dates=this.dates
+                            this.general_data = Object.values(this.chart_data['General']);
+                            this.chart.data.general[0].data=this.general_data
+                            this.min_date_value=this.dates[0]
+                            this.max_date_value=this.dates[this.dates.length - 1 ]
+                            this.countries= Object.keys(this.chart_data['Countries'])
+
+                            //Second Chart
+                            this.second_chart_stats=res.data[2];
+
+                            console.log('Acvavbei')
+                        }
+                        
+                    )
+                    .catch((err) => {
+                            console.error(err)
+                        }
+                    );
+            },
+            fillChartData(cat_name, min_date, max_date) {
+
+                console.log('ahoy')
+
+                this.chartdata.datasets = [];
+                var name='';    
+                var date='';    
+                var datasets = [];
+                var data_values={};
+
+                var min_index = this.chart.data.dates.findIndex(x => x == min_date)
+
+                var max_index = this.chart.data.dates.findIndex(x => x == max_date)
+                
+                         
+                // adjust min_date if selected date has no visitors
+                if (min_index==-1) {
+                    while(min_index==-1){
+                        var nwdate =  new Date(min_date);
+                        nwdate.setDate(nwdate.getDate()+1);
+                        min_date =[nwdate.getFullYear(),nwdate.getMonth()+1,nwdate.getDate()].join('-');
+                        min_index = this.chart.data.dates.findIndex(x => x == min_date)
+                    }
+                } 
+                // adjust max_date if selected date has no visitors
+                 if (max_index==-1) {
+                    while(max_index==-1){
+                        var nwdate =  new Date(max_date);
+                        nwdate.setDate(nwdate.getDate()-1);
+                        max_date =[nwdate.getFullYear(),nwdate.getMonth()+1,nwdate.getDate()].join('-');
+                        max_index = this.chart.data.dates.findIndex(x => x == max_date);
+                    }
+                } 
+                
+                this.chartdata.labels = this.chart.data.dates.slice(min_index, max_index+1);
+
+                //create an array of data for each category
+                for (var index = 0; index < cat_name.length; index++) { 
+                    name=cat_name[index]; 
+                    data_values[name]=[];
+                } 
+
+                // fill array of data for each category
+                for (var index = 0; index < this.chartdata.labels.length; index++) { 
+                    date=this.chartdata.labels[index];
+                    for (var x = 0; x < cat_name.length; x++) { 
+                        name=cat_name[x];  
+                        if (name in this.chart_data)
+                            if (date in this.chart_data[name]) data_values[name][index]=this.chart_data[name][date]
+                            else data_values[name][index]=0
+                        else cat_name.splice(x,1)
+                    } 
+                } 
+
+                // fill dataset
+                for (var index = 0; index < cat_name.length; index++) { 
+                    name=cat_name[index]; 
+                    var chosenColor = '#' + parseInt(Math.random() * 0xffffff).toString(16);
+                    if(JSON.stringify(this.chart_data[name])!=JSON.stringify({})){ 
+                        datasets.push(
+                            {
+                                label: this.translate[name][this.selected_language],
+                                fill: false,
+                                backgroundColor: chosenColor,
+                                borderColor: chosenColor,
+                                borderWidth: 3.5,
+                                data: data_values[name],
+                            }
+                        )
+                    }
+                }
                 this.chartdata.datasets = datasets;
 
                 // update chart
                 this.$refs.lineChart.updateData();
 
             },
-            convertDigitIn(str){
-                return str.split('-').reverse().join('-');
+            fillChartData2(min_date, max_date) {   
+                var date='';    
+                var visitors;
+
+                //second chart
+                for (var x = 0; x < 24; x++) { 
+                        if (x in this.second_chart_stats) {
+                            visitors=0;
+                            for (var index = 0; index < this.chartdata.labels.length; index++) { 
+                                date=this.chartdata.labels[index]; 
+                                if (date in this.second_chart_stats[x]) visitors+=this.second_chart_stats[x][date];       
+                            }           
+                            this.chartData2.datasets[0].data[x] = visitors;
+                        }
+                        else {
+                            this.chartData2.datasets[0].data[x] = 0;
+                        }   
+                }   
+                
+
+
+                // update chart
+                this.$refs.barChart2.updateData();
+
             },
             updateChart(e) {
                 console.log('range: ', e.target.id, e.target.value);
@@ -505,14 +799,8 @@
                     this.max_date_value = e.target.value;
                 }
                 this.fillChartData(this.cat_name, this.min_date_value, this.max_date_value);
+                this.fillChartData2(this.min_date_value, this.max_date_value);
             },
-            addToSelected(e) {
-                this.collection.badges.push(this.all_badges.splice(this.all_badges.findIndex(x => x.id == e), 1)[0]);
-                this.searchQuery = null;
-            },
-            removeFromSelected(e) {
-                this.all_badges.push(this.collection.badges.splice(this.collection.badges.findIndex(x => x.id == e), 1)[0]);
-            }
         },
         /*
             Rendering:
