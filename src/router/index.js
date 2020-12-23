@@ -438,7 +438,7 @@ const routes = [
                     en: 'Total Nº of Visitors',
                     pt: 'Nº Total de Visitantes',
                 },
-                visitors: {
+                nvisitors: {
                     en: 'Nº of Visitors',
                     pt: 'Nº de Visitantes',
                 },
