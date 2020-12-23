@@ -592,6 +592,7 @@
                         }
                     )
                     .then((res) => {
+                            console.log(res.data);
                             /*
                                 General Attributes    
                             */
@@ -731,6 +732,8 @@
                                 }
                             );
 
+                        
+
                         if (this.reward_uuid != null) this.object.reward = this.all_rewards.splice(this.all_rewards.indexOf(x => x.uuid == this.reward_uuid), 1)[0];
 
                         /*
@@ -751,11 +754,19 @@
 
                                     // go through every badge associated to the collection
                                     this.badges_uuid.forEach(x => {
+                                        console.log('Badge x: ', x);
                                         // go through every available badge and then add them to the associated array
-                                        var selBadge = this.all_badges.splice(this.all_badges.indexOf(b => b.uuid == x.uuid), 1)[0];
-                                        this.object.badges.push(
-                                            selBadge
-                                        );
+                                        console.log('this.all_bagdges: ', this.all_badges);
+                                        var b_uuid = this.all_badges.indexOf(b => b.uuid == x.uuid);
+                                        if (b_uuid > -1) {
+                                            console.log('b_uuid: ', b_uuid);
+                                            var spliced_badges = this.all_badges.splice(b_uuid, 1);
+                                            console.log('Spliced Badges: ', spliced_badges);
+                                            var selBadge = spliced_badges[0];
+                                            this.object.badges.push(
+                                                selBadge
+                                            );
+                                        }
                                     })
                                 }
                             )
