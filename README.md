@@ -27,7 +27,7 @@ This project was carried out in the first semester of the fifth year of informat
 | /locations                 |   &#x2611;    |       -       |       -       |       -       |       -       |
 | /newlocation               |       -       |   &#x2611;    |       -       |       -       |       -       |
 | /locations/:id             |   &#x2611;    |       -       |   &#x2611;    |       -       |    &#x2611;   |
-| /locations/:id/statistics  |   &#x2612;    |       -       |       -       |       -       |       -       |
+| /locations/:id/statistics  |   &#x2611;    |       -       |       -       |       -       |       -       |
 | /badges                    |   &#x2611;    |       -       |       -       |       -       |       -       |
 | /newbadge                  |   &#x2612;    |   &#x2611;    |       -       |       -       |       -       |
 | /badges/:id                |   &#x2611;    |       -       |   &#x2611;    |       -       |    &#x2611;   |
