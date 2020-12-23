@@ -25,9 +25,11 @@
                     {{languageProp.customerProfile.text[this.selected_language]}}
                 </h3>
                 <h4>
+
                     {{this.most_common_age_range}} -
                     {{this.most_common_gender}} -   
                     {{this.most_common_country}}
+
                     
                 </h4>
             </div>
@@ -46,7 +48,9 @@
                     {{languageProp.busiestDay.text[this.selected_language]}}
                 </h3>
                 <h4>
+
                     {{this.busiest_day}} 
+
                 </h4>
             </div>
             <div
@@ -394,7 +398,6 @@
                         en: 'Germany',
                         pt: 'Alemanha'
                     },
-
                 },
                 cat_name: '',
                 total_visitors: '',
@@ -595,7 +598,6 @@
         async created() {
             await this.getObjects();
 
-
                 this.create_week_report();
                 this.create_main_chart();
                 this.create_second_chart();
@@ -604,7 +606,7 @@
                 this.$refs.barChart.updateData();
                 this.$refs.barChart2.updateData();
                 this.$refs.lineChart.updateData();
-  
+
         },
         /*
         Reactive Properties:
@@ -639,6 +641,7 @@
                                 this.week_stats=res.data[0];
                             }
 
+
                             //Main Chart
                             this.chart_data= (res.data[1]);
                             this.dates= Object.keys(this.chart_data['General']);
@@ -651,7 +654,7 @@
 
                             //Second Chart
                             this.second_chart_stats=res.data[2];
-                            
+
                         }
                         
                     )
@@ -742,6 +745,7 @@
 
                 //second chart
                 for (var x = 0; x < 24; x++) { 
+
                     var hour=this.pad(x);
                     if (hour in this.second_chart_stats) {
                         visitors=0;
@@ -759,9 +763,7 @@
                     }   
                 }   
 
-                console.log(this.chartData2.datasets[0].data['02'] );
-                console.log(this.chartData2.datasets[0].data['03'] );
-                console.log(this.chartData2.datasets[0] );
+
                 // update chart
                 this.$refs.barChart2.updateData();
 
@@ -829,6 +831,7 @@
                     }   
                 }              
             },
+
         },
         /*
             Rendering:
