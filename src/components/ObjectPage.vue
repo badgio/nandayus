@@ -238,7 +238,7 @@
                         v-for="(item, index) in this.object.badges"
                         :key="index"
                     >
-                        {{index}}. {{item.name}}
+                        {{index + 1}}. {{item.name}}
                     </h6>
                 </div>
                 <br>
@@ -592,7 +592,6 @@
                         }
                     )
                     .then((res) => {
-                            console.log(res.data);
                             /*
                                 General Attributes    
                             */
@@ -754,14 +753,12 @@
 
                                     // go through every badge associated to the collection
                                     this.badges_uuid.forEach(x => {
-                                        console.log('Badge x: ', x);
                                         // go through every available badge and then add them to the associated array
-                                        console.log('this.all_bagdges: ', this.all_badges);
-                                        var b_uuid = this.all_badges.indexOf(b => b.uuid == x.uuid);
+                                        var b_uuid = this.all_badges.map(b => {
+                                            return b.uuid;
+                                        }).indexOf(x);
                                         if (b_uuid > -1) {
-                                            console.log('b_uuid: ', b_uuid);
                                             var spliced_badges = this.all_badges.splice(b_uuid, 1);
-                                            console.log('Spliced Badges: ', spliced_badges);
                                             var selBadge = spliced_badges[0];
                                             this.object.badges.push(
                                                 selBadge

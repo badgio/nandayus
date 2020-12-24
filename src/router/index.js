@@ -118,6 +118,7 @@ const routes = [
                 en: 'Submit Badge',
                 pt: 'Submeter Badge'
             },
+            path: '/badges',
             http_request: {
                 getLocations: 'http://localhost:8001/v0/locations/',
                 getCollections: 'http://localhost:8001/v0/collections/',
@@ -290,6 +291,7 @@ const routes = [
                 en: 'Submit Reward',
                 pt: 'Submeter Recompensa'
             },
+            path: '/rewards',
             http_request: {
                 getLocations: 'http://localhost:8001/v0/locations/',
                 getCollections: 'http://localhost:8001/v0/collections/',
@@ -384,6 +386,7 @@ const routes = [
                 en: 'Submit Location',
                 pt: 'Submeter Local'
             },
+            path: '/locations',
             postLink: 'http://localhost:8001/v0/locations/'
         }
     },
@@ -625,6 +628,7 @@ const routes = [
                 en: 'Submit Collection',
                 pt: 'Submeter Coleção'
             },
+            path: '/locations',
             http_request: {
                 getLocations: 'http://localhost:8001/v0/locations/',
                 getBadges: 'http://localhost:8001/v0/badges/'

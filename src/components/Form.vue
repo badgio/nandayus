@@ -561,6 +561,10 @@
                 type: Object,
                 required: true,
             },
+            path: {
+                type: String,
+                required: true,
+            },
             http_request: {
                 type: Object,
                 required: false,
@@ -1024,6 +1028,7 @@
                         console.log('response', response)
                         if (response.status == 201) {
                             this.success_banner = true;
+                            this.$router.push({ path: this.path + '/' + response.data.uuid })
                         }
                         else {
                             this.error_banner = true;
