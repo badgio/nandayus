@@ -474,6 +474,11 @@ const routes = [
                     en: 'Total Nº of Visitors',
                     pt: 'Nº Total de Visitantes',
                 },
+                nvisitors: {
+
+                    en: 'Nº of Visitors',
+                    pt: 'Nº de Visitantes',
+                },
                 busiestDay: {
                     text: {
                         en: 'Day of the week with more visitors',
@@ -512,6 +517,14 @@ const routes = [
                     en: 'Nationality',
                     pt: 'Nacionalidade'
                 },
+                starting_date: {
+                    en: 'Starting Date:',
+                    pt: 'Data Início:'
+                },
+                finishing_date: {
+                    en: 'Finishing Date:',
+                    pt: 'Data Fim:'
+                },
                 table: {
                     en: 'Table',
                     pt: 'Tabela',
@@ -525,10 +538,11 @@ const routes = [
                     },
                 },
             },
+            getLink: 'http://localhost:8001/v0/locations/',
             twoCards: true,
             showTable: false,
         }
-    },
+    },    
     /*
         Collections
     */

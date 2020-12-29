@@ -1,3 +1,4 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/09652f3e-9252-4d95-80cf-130881b12a7c/deploy-status)](https://app.netlify.com/sites/nandayus-badgio/deploys)
 # Badgio - Web App
 
 Web App for Badgio
@@ -5,6 +6,8 @@ Web App for Badgio
 This project was created using Vue.js.
 
 This project was carried out in the first semester of the fifth year of informatics engineering course at University of Minho. [2020-2021]
+
+Link for the dev branch deployment: [Nandayus Dashboards](https://dashboard.badgio.pt)
 
 ## Contributors
 | <a href="https://github.com/andregclvs" target="_blank">**André Gonçalves**</a> | <a href="https://github.com/franciscoreinolds" target="_blank">**Francisco Reinolds**</a> |
@@ -27,7 +30,7 @@ This project was carried out in the first semester of the fifth year of informat
 | /locations                 |   &#x2611;    |       -       |       -       |       -       |       -       |
 | /newlocation               |       -       |   &#x2611;    |       -       |       -       |       -       |
 | /locations/:id             |   &#x2611;    |       -       |   &#x2611;    |       -       |    &#x2611;   |
-| /locations/:id/statistics  |   &#x2612;    |       -       |       -       |       -       |       -       |
+| /locations/:id/statistics  |   &#x2611;    |       -       |       -       |       -       |       -       |
 | /badges                    |   &#x2611;    |       -       |       -       |       -       |       -       |
 | /newbadge                  |   &#x2612;    |   &#x2611;    |       -       |       -       |       -       |
 | /badges/:id                |   &#x2611;    |       -       |   &#x2611;    |       -       |    &#x2611;   |
