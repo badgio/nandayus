@@ -628,7 +628,7 @@ const routes = [
                 en: 'Submit Collection',
                 pt: 'Submeter Coleção'
             },
-            path: '/locations',
+            path: '/collections',
             http_request: {
                 getLocations: 'http://localhost:8001/v0/locations/',
                 getBadges: 'http://localhost:8001/v0/badges/'

@@ -733,7 +733,16 @@
 
                         
 
-                        if (this.reward_uuid != null) this.object.reward = this.all_rewards.splice(this.all_rewards.indexOf(x => x.uuid == this.reward_uuid), 1)[0];
+                        if (this.reward_uuid != null) {
+                            console.log('All Rewards: ', this.all_rewards)
+                            var rew_uuid = this.all_rewards.map(b => {
+                                return b.uuid;
+                            }).indexOf(this.reward_uuid);
+                            console.log('Rew UUID: ', rew_uuid)
+                            this.object.reward = this.all_rewards[rew_uuid];
+                        }
+
+                        else console.log('this.reward_uuid is null!');
 
                         /*
                             Get every badge
@@ -765,6 +774,8 @@
                                             );
                                         }
                                     })
+
+                                    console.log(this.all_badges);
                                 }
                             )
                             .catch((err) => {
@@ -857,6 +868,8 @@
                     },
                 };
                 
+                console.log('toSend: ', toSend)
+
                 await axios
                     .patch(
                         this.getLink + this.$route.params.uuid, 
