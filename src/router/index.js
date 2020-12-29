@@ -78,6 +78,12 @@ const routes = [
                 en: 'Badge',
                 pt: 'o Badge',
             },
+            http_requests: {
+                getBadges: 'http://localhost:8001/v0/badges/',
+                getCollections: 'http://localhost:8001/v0/collections/',
+                getLocations: 'http://localhost:8001/v0/locations/',
+                getRewards: 'http://localhost:8001/v0/rewards/',
+            },
             getLink: 'http://localhost:8001/v0/badges/',
         },
         meta: {
@@ -99,17 +105,23 @@ const routes = [
             show_map: false,
             show_image: true,
             show_duration: true,
+            get_badges: false,
+            obligatory_badge: false,
+            get_collections: false,
+            obligatory_collection: false,
+            get_locations: true,
+            obligatory_location: true,
+            multiple_locations: false,
             show_location_attributes: false,
-            show_multiple_collections: true,
-            show_multiple_badges: false,
             social_networks: false,
             submit_object: {
                 en: 'Submit Badge',
                 pt: 'Submeter Badge'
             },
+            path: '/badges',
             http_request: {
                 getLocations: 'http://localhost:8001/v0/locations/',
-                getCollections: '',
+                getCollections: 'http://localhost:8001/v0/collections/',
             },
             postLink: 'http://localhost:8001/v0/badges/'
         }
@@ -242,6 +254,12 @@ const routes = [
                 en: 'Reward',
                 pt: 'a Recompensa',
             },
+            http_requests: {
+                getBadges: 'http://localhost:8001/v0/badges/',
+                getCollections: 'http://localhost:8001/v0/collections/',
+                getLocations: 'http://localhost:8001/v0/locations/',
+                getRewards: 'http://localhost:8001/v0/rewards/',
+            },
             getLink: 'http://localhost:8001/v0/rewards/',
         },
         meta: {
@@ -258,19 +276,25 @@ const routes = [
                 pt: 'Nova Recompensa',
             },
             show_map: false,
-            show_image: false,
+            show_image: true,
             show_duration: true,
+            get_badges: false,
+            obligatory_badge: false,
+            get_collections: false,
+            obligatory_collection: false,
+            get_locations: true,
+            obligatory_location: true,
+            multiple_locations: false,
             show_location_attributes: false,
-            show_multiple_collections: true,
-            show_multiple_badges: false,
             social_networks: false,
             submit_object: {
                 en: 'Submit Reward',
                 pt: 'Submeter Recompensa'
             },
+            path: '/rewards',
             http_request: {
                 getLocations: 'http://localhost:8001/v0/locations/',
-                getCollections: '',
+                getCollections: 'http://localhost:8001/v0/collections/',
             },
             postLink: 'http://localhost:8001/v0/rewards/'
         }
@@ -348,15 +372,21 @@ const routes = [
             },
             show_map: true,
             show_image: true,
-            show_duration: false,
+            show_duration: false,   
+            get_badges: false,
+            obligatory_badge: false,
+            get_collections: false,
+            obligatory_collection: false,
+            get_locations: false,
+            obligatory_location: false,
+            multiple_locations: false,
             show_location_attributes: true,
-            show_multiple_collections: false,
-            show_multiple_badges: false,
             social_networks: true,
             submit_object: {
                 en: 'Submit Location',
                 pt: 'Submeter Local'
             },
+            path: '/locations',
             postLink: 'http://localhost:8001/v0/locations/'
         }
     },
@@ -414,6 +444,12 @@ const routes = [
                 path: '/locations',
                 en: 'Location',
                 pt: 'o Local',
+            },
+            http_requests: {
+                getBadges: 'http://localhost:8001/v0/badges/',
+                getCollections: 'http://localhost:8001/v0/collections/',
+                getLocations: 'http://localhost:8001/v0/locations/',
+                getRewards: 'http://localhost:8001/v0/rewards/',
             },
             getLink: 'http://localhost:8001/v0/locations/',
         },
@@ -506,7 +542,7 @@ const routes = [
             twoCards: true,
             showTable: false,
         }
-    },
+    },    
     /*
         Collections
     */
@@ -532,16 +568,51 @@ const routes = [
                     pt: 'Criar Nova Coleção',
                 },
             },
+            type: 'collections',
             toLink: '/newcollection',
+            getLink: 'http://localhost:8001/v0/collections/',
+            
         }
     },
     {
-        path: '/collection',
-        name: 'collection',
-        component: () => import('../components/Collection.vue'),
+        path: '/collections/:uuid',
+        name: 'collections',
+        component: () => import('../components/ObjectPage.vue'),
+        props: {
+            delete_text: {
+                en: 'Delete Collection',
+                pt: 'Apagar Coleção',
+            },
+            modal_text: {
+                certainty:  {
+                    en: 'Are you sure that you want to delete this Collection?',
+                    pt: 'Tem a certeza que pretende apagar esta Coleção?',
+                },
+                yes: {
+                    en: 'Yes, I\'m sure.',
+                    pt: 'Sim, tenho a certeza.',
+                },
+                no: {
+                    en: 'No, please take me back.',
+                    pt: 'Não, por favor recuar.',
+                },
+            },
+            type: {
+                path: '/collections',
+                en: 'Collection',
+                pt: 'a Coleção',
+            },
+            http_requests: {
+                getBadges: 'http://localhost:8001/v0/badges/',
+                getCollections: 'http://localhost:8001/v0/collections/',
+                getLocations: 'http://localhost:8001/v0/locations/',
+                getRewards: 'http://localhost:8001/v0/rewards/',
+            },
+            getLink: 'http://localhost:8001/v0/collections/',
+        },
         meta: {
             requiresAuth: true,
-        },
+        }
     },
     {
         path: '/newcollection',
@@ -558,18 +629,25 @@ const routes = [
             show_map: false,
             show_image: true,
             show_duration: true,
+            get_badges: true,
+            obligatory_badge: true,
+            get_collections: false,
+            obligatory_collection: false,
+            get_locations: false,
+            multiple_locations: false,
+            obligatory_location: false,
             show_location_attributes: false,
-            show_multiple_collections: false,
-            show_multiple_badges: true,
             social_networks: true,
             submit_object: {
                 en: 'Submit Collection',
                 pt: 'Submeter Coleção'
             },
+            path: '/collections',
             http_request: {
                 getLocations: 'http://localhost:8001/v0/locations/',
-                getCollections: '',
+                getBadges: 'http://localhost:8001/v0/badges/'
             },
+            postLink: 'http://localhost:8001/v0/collections/'
         }
     },
     {
@@ -593,10 +671,6 @@ const routes = [
                     text: {
                         en: 'Day of the week with more visitors',
                         pt: 'Dia da semana com mais visitantes',
-                    },
-                    Wednesday:{
-                        en: 'Wednesday',
-                        pt: 'Quarta-feira',
                     },
                 },
                 customerProfile: {

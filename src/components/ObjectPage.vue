@@ -133,6 +133,182 @@
                 </div>
             </div>
             <div
+                v-if="this.type.en == 'Location'"
+            >
+                <h4>
+                    Badges:
+                </h4>
+                <div
+                    v-if="this.object.badges.length > 0"
+                >
+                    <h5
+                        
+                        v-for="(item, index) in this.object.badges"
+                        :key="index"
+                    >
+                        {{index + 1}}. {{item.name}} 
+                    </h5>
+                </div>
+                <h5
+                    v-else
+                >
+                    Not associated to any badges.
+                </h5>
+                <br>
+            </div>
+            <div
+                v-if="this.type.en == 'Badge' || this.type.en == 'Location' || this.type.en == 'Reward'"
+            >
+                <h4>
+                    Collections:
+                </h4>
+                <div
+                    v-if="this.object.collections.length > 0"
+                >
+                    <h5
+                        
+                        v-for="(item, index) in this.object.collections"
+                        :key="index"
+                    >
+                        {{index + 1}}. {{item.name}} 
+                    </h5>
+                </div>
+                <h5
+                    v-else
+                >
+                    Not associated to any collections.
+                </h5>
+                <br>
+            </div>
+            <div
+                v-if="this.type.en == 'Badge' || this.type.en == 'Reward'"
+            >
+                <h4>
+                    Location:
+                </h4>
+                <div
+                    v-if="this.object.location"
+                >   
+                    <h5>
+                        ID: {{this.object.location.uuid}}
+                    </h5>
+                    <h5>
+                        Name: {{this.object.location.name}}
+                    </h5>
+                </div>
+                <br>
+            </div>
+            <div
+                v-if="this.type.en == 'Location'"
+            >
+                <h4>
+                    Rewards:
+                </h4>
+                <div
+                    v-if="this.object.rewards.length > 0"
+                >
+                    <h5
+                        
+                        v-for="(item, index) in this.object.rewards"
+                        :key="index"
+                    >
+                        {{index + 1}}. {{item.name}} 
+                    </h5>
+                </div>
+                <h5
+                    v-else
+                >
+                    Not associated to any rewards.
+                </h5>
+                <br>
+            </div>
+            <div
+                v-if="this.type.en=='Collection'"
+            >
+                <h4>
+                    Badges:
+                </h4>
+                <h5>
+                    Associated Badges:
+                </h5>
+                <div
+                    v-if="this.object.badges.length > 0"
+                >
+                    <h6
+                        v-for="(item, index) in this.object.badges"
+                        :key="index"
+                    >
+                        {{index + 1}}. {{item.name}}
+                    </h6>
+                </div>
+                <br>
+                <h5>
+                    Available Badges:
+                </h5>
+                <multiselect
+                    class="multi_select"
+                    v-model="object.badges"
+                    label="name"
+                    track-by="uuid" 
+                    :options="all_badges"
+                    :close-on-select="true"
+                    :clear-on-select="true"
+                    :preserve-search="true"
+                    :multiple="true"
+                    placeholder="Select Option(s)"
+                    style="width: 95%; margin: 5px 0px 5px 15px;"
+                >
+                        <template 
+                            slot="selection"
+                            slot-scope="{ values, isOpen }"
+                        >
+                            <span
+                                class="multiselect__single"
+                                v-if="values.length &amp;&amp; !isOpen"
+                                style="color: grey;"
+                            >
+                                {{ values.length }} options selected
+                            </span>
+                        </template>
+                </multiselect>
+                <br>
+                <h4>
+                    Reward:
+                </h4>
+                <h5>
+                    Associated Reward:
+                </h5>
+                <h6
+                    v-if="this.associated_reward"
+                >
+                    {{this.associated_reward.name}}
+                </h6>
+                <h6
+                    v-else
+                >
+                    No Reward associated! Search for one and add it!
+                </h6>
+                <br>
+                <h5>
+                    Available Rewards:
+                </h5>
+                <multiselect
+                    class="multi_select"
+                    v-model="object.reward"
+                    label="name"
+                    track-by="uuid" 
+                    :options="all_rewards"
+                    :close-on-select="true"
+                    :clear-on-select="true"
+                    :preserve-search="true"
+                    :multiple="false"
+                    placeholder="Select Option(s)"
+                    style="width: 95%; margin: 5px 0px 5px 15px;"
+                >
+                </multiselect>
+                <br>
+            </div>
+            <div
                 class="row"
             >
                 <div
@@ -156,72 +332,10 @@
                         </div>
                     </div>
                 </div>
+                <hr
+                    style="width: 95%; margin: 5px 0px 5px 15px; color: #999;"
+                >
             </div>
-            <br>
-            <div
-                class="card collection_card"
-                v-if="this.type.en == 'Badge' || this.type.en == 'Reward'"
-            >
-                <h6>
-                    {{language.associated_collections[this.selected_language]}}
-                </h6>
-                <div
-                    class="input_icons"
-                >
-                    <i
-                        class="mdi mdi-magnify icon"
-                    > 
-                    </i>
-                    <input
-                        type="text"
-                        class="search_bar"
-                        :placeholder="language.search_collections[this.selected_language]"
-                        v-model="searchQuery"
-                    >
-                </div>
-                <div
-                    class="collection_results"
-                    v-if="this.searchQuery"
-                >
-                    <div
-                        class="queried_collection"
-                        v-for="(collection, index) in result_collections"
-                        :key="index"
-                    >
-                        <input
-                            class="collection_button"
-                            type="button"
-                            value="+"
-                            v-on:click="addToSelected(collection.id)"
-                        >
-                        <b>
-                            Collection: {{collection.name}}
-                        </b>
-                    </div>
-                </div>
-                <hr>
-                <div
-                    v-if="object.collections.length > 0"
-                >
-                    <CollectionCard
-                        v-for="collection in object.collections"
-                        :key="collection.index"
-                        :id="collection.id"
-                        :name="collection.name"
-                        :description="collection.description"
-                        :imageURL="collection.image"
-                        v-on:eventRemoveCollection="removeFromSelected"
-                    />
-                </div>
-                <div
-                    v-else
-                >
-                    <h6>
-                        {{language.no_collections[this.selected_language]}}
-                    </h6>
-                </div>
-            </div>
-            <br>
             <div
                 class="row"
             >
@@ -251,6 +365,7 @@
 
     /* Components */
     import CollectionCard from './CollectionCard.vue';
+    import Multiselect from 'vue-multiselect';
 
     export default {
         /*
@@ -269,6 +384,7 @@
         */
         components: {
             CollectionCard,
+            Multiselect,
         },
         /*
             Composition:
@@ -294,6 +410,10 @@
             type: {
                 type: Object,
                 required: true,
+            },
+            http_requests: {
+                type: Object,
+                rqeuired: true,
             },
             getLink: {
                 type: String,
@@ -346,9 +466,15 @@
                     paragraphs: [],
                     website: '',
                     social_networks: [],
+                    badges: [],
                     collections: [],
+                    location: null,
                     locations: [],
+                    reward: null,
+                    rewards: [],
                 },
+                all_badges: [],
+                badges_uuid: [],
                 all_collections: [
                     {
                         id: '1',
@@ -392,7 +518,11 @@
                         description: 'Description Description Description Description Description Description Description Description Description Description #3',
                         image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
                     },
-                ]
+                ],
+                all_locations: [],
+                location_uuid: null,
+                all_rewards: [],
+                reward_uuid: null,
             }
         },
         computed: {
@@ -408,6 +538,12 @@
                 else {
                     return this.all_collections;
                 }
+            },
+            associated_badge() {
+                return this.object.badge;
+            },
+            associated_reward() {
+                return this.object.reward;
             }
         },
         /*
@@ -446,8 +582,6 @@
 
                 var idToken = store.getters.getToken;
 
-                console.log(this.getLink, this.$route.params.uuid)
-
                 await axios
                     .get(this.getLink + this.$route.params.uuid, {
                             headers: {
@@ -458,7 +592,6 @@
                         }
                     )
                     .then((res) => {
-                            console.log(res);
                             /*
                                 General Attributes    
                             */
@@ -489,11 +622,18 @@
                                         text: res.data.duration,
                                     },
                                 )
+                                this.location_uuid = res.data.location;   
                             }
 
                             /*
                                 Collection's Attributes
                             */
+
+                            if (this.type.en == 'Collection') {
+                                this.badges_uuid = res.data.badges;
+                                this.reward_uuid = res.data.reward;
+                            }
+
                             /*
                                 Location's Attributes
                             */
@@ -525,14 +665,12 @@
                                 )
                             }
 
-                            console.log(this.object.social_networks)
-
                             /*
                                 Reward's Attributes
                             */
 
                             if (this.type.en == 'Reward') {
-
+                                this.location_uuid = res.data.location;
                             }
                         }
                     )
@@ -540,6 +678,145 @@
                             console.error(err)
                         }
                     );
+
+                    /*
+                        Get Requests to receive remaining Badge data
+                    */
+
+                    if (this.type.en == 'Badge') {
+                        if (this.location_uuid) {
+                            await axios
+                                .get(this.http_requests.getLocations + this.location_uuid, {
+                                        headers: {
+                                            'Access-Control-Allow-Origin': '*',
+                                            'Content-type': 'application/json',
+                                            authorization: 'Bearer ' + idToken
+                                        },
+                                    }
+                                )
+                                .then((res) => {
+                                        this.object.location = res.data;
+                                    }
+                                )
+                                .catch((err) => {
+                                        console.error(err)
+                                    }
+                                );
+                        }
+                    }
+                    
+                    /*
+                        Get Requests to receive remaining Collection data
+                    */
+
+                    if (this.type.en == 'Collection') {
+                        /*
+                            Get every reward
+                        */
+                        await axios
+                            .get(this.http_requests.getRewards, {
+                                    headers: {
+                                        'Access-Control-Allow-Origin': '*',
+                                        'Content-type': 'application/json',
+                                        authorization: 'Bearer ' + idToken
+                                    },
+                                }
+                            )
+                            .then((res) => {
+                                    this.all_rewards = res.data;
+                                }
+                            )
+                            .catch((err) => {
+                                    console.error(err)
+                                }
+                            );
+
+                        
+
+                        if (this.reward_uuid != null) {
+                            console.log('All Rewards: ', this.all_rewards)
+                            var rew_uuid = this.all_rewards.map(b => {
+                                return b.uuid;
+                            }).indexOf(this.reward_uuid);
+                            console.log('Rew UUID: ', rew_uuid)
+                            this.object.reward = this.all_rewards[rew_uuid];
+                        }
+
+                        else console.log('this.reward_uuid is null!');
+
+                        /*
+                            Get every badge
+                        */
+
+                        await axios
+                            .get(this.http_requests.getBadges, {
+                                    headers: {
+                                        'Access-Control-Allow-Origin': '*',
+                                        'Content-type': 'application/json',
+                                        authorization: 'Bearer ' + idToken
+                                    },
+                                }
+                            )
+                            .then((res) => {
+                                    this.all_badges = res.data;
+
+                                    // go through every badge associated to the collection
+                                    this.badges_uuid.forEach(x => {
+                                        // go through every available badge and then add them to the associated array
+                                        var b_uuid = this.all_badges.map(b => {
+                                            return b.uuid;
+                                        }).indexOf(x);
+                                        if (b_uuid > -1) {
+                                            var spliced_badges = this.all_badges.splice(b_uuid, 1);
+                                            var selBadge = spliced_badges[0];
+                                            this.object.badges.push(
+                                                selBadge
+                                            );
+                                        }
+                                    })
+
+                                    console.log(this.all_badges);
+                                }
+                            )
+                            .catch((err) => {
+                                    console.error(err)
+                                }
+                            );
+                    }
+
+                    /*
+                        Get Requests to receive remaining Location data
+                    */
+
+                    if (this.type.en == 'Location') {
+
+                    }
+
+                    /*
+                        Get Requests to receive remaining Reward data
+                    */
+
+                    if (this.type.en == 'Reward') {
+                        if (this.location_uuid) {
+                            await axios
+                                .get(this.http_requests.getLocations + this.location_uuid, {
+                                        headers: {
+                                            'Access-Control-Allow-Origin': '*',
+                                            'Content-type': 'application/json',
+                                            authorization: 'Bearer ' + idToken
+                                        },
+                                    }
+                                )
+                                .then((res) => {
+                                        this.object.location = res.data;
+                                    }
+                                )
+                                .catch((err) => {
+                                        console.error(err)
+                                    }
+                                );
+                        }
+                    }
             },
             async submitForm(e) {
 
@@ -560,6 +837,19 @@
                 }
 
                 /*
+                    Collection's Attributes
+                */
+
+                if (this.type.en == 'Collection') {
+                    if (this.object.reward) toSend.reward = this.object.reward.uuid;
+                    else toSend.reward = '';
+                    toSend.badges = []
+                    this.object.badges.forEach(x => {
+                        toSend.badges.push(x.uuid);
+                    })
+                }
+
+                /*
                     Location's Attributes
                 */
 
@@ -577,20 +867,21 @@
                         authorization: 'Bearer ' + idToken
                     },
                 };
+                
+                console.log('toSend: ', toSend)
 
-                await axios.patch(
+                await axios
+                    .patch(
                         this.getLink + this.$route.params.uuid, 
                         toSend, 
                         config,
                     )
                     .then((res) => {
-                        console.log(res);
                         this.$router.push({ path: this.type.path })
                     })  
                     .catch((err) => {
                         console.error(err)
                     })
-
 
             },
             onFileChange(e) {
@@ -620,7 +911,6 @@
                 }
             },
             inputFunc(value, element) {
-                console.log(element, value)
                 element = value;
             },
             addToSelected(e) {
@@ -653,7 +943,7 @@ p {
     font-size: 12px;
 }
 
-h3, h6, p {
+h3, h4, h5, h6, p {
     margin: 5px 0px 5px 15px;
     color: #047;
 }
@@ -698,7 +988,7 @@ input[type=text] {
     padding: 5px;
     border-radius: 8px;
     border: 1px solid #c8c8c8;
-    background-color: #ececec;
+    background-color: white;
 }
 
 input[type='file'] {
@@ -711,7 +1001,7 @@ textarea {
     padding: 5px;
     border-radius: 8px;
     border: 1px solid #c8c8c8;
-    background-color: #ececec;
+    background-color: white;
 }
 
 .submit_button {
@@ -977,3 +1267,71 @@ img {
 }
 
 </style>
+
+<style>
+
+/* Multi-select */
+
+/* fix multiselect weird height when using a placeholder */
+.multiselect__placeholder {
+  display: inline-block !important;
+  margin-bottom: 0px !important;
+  padding-top: 0px !important;
+}
+
+/* error class on multiselect */
+.multiselect.invalid .multiselect__tags {
+  border: 1px solid #f86c6b !important;
+}
+
+/* override default multiselect styles */
+.multiselect__option--highlight {
+  background: #ececec !important;
+  color: #333 !important;
+}
+
+.multiselect__option--highlight:after {
+  background: #ececec !important;
+}
+
+.multiselect__tags {
+  padding: 5px !important;
+  min-height: 10px;
+}
+
+.multiselect__placeholder{
+  margin-left: 10px;
+  margin-top: 2px;
+}
+
+.multiselect__tag {
+  background: #ececec !important;
+  border: 1px solid rgba(60, 60, 60, 0.26) !important;
+  color: #333 !important;
+  margin-bottom: 0px !important;
+  margin-right: 5px !important;
+}
+
+.multiselect__tag-icon:after {
+  color: rgba(60, 60, 60, 0.5) !important;
+}
+
+.multiselect__tag-icon:focus,
+.multiselect__tag-icon:hover {
+  background: #ececec !important;
+}
+
+.multiselect__tag-icon:focus:after,
+.multiselect__tag-icon:hover:after {
+  color: red !important;
+}
+
+.multiselect.invalid .multiselect__tags,
+.multiselect.invalid .multiselect__tags span,
+.multiselect.invalid .multiselect__tags input {
+  background:red;
+}
+
+</style>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

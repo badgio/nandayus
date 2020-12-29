@@ -606,7 +606,6 @@
                 this.$refs.barChart.updateData();
                 this.$refs.barChart2.updateData();
                 this.$refs.lineChart.updateData();
-
         },
         /*
         Reactive Properties:
