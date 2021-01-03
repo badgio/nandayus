@@ -25,11 +25,9 @@
                     {{languageProp.customerProfile.text[this.selected_language]}}
                 </h3>
                 <h4>
-
                     {{this.most_common_age_range}} -
                     {{this.most_common_gender}} -   
                     {{this.most_common_country}}
-
                     
                 </h4>
             </div>
@@ -48,9 +46,7 @@
                     {{languageProp.busiestDay.text[this.selected_language]}}
                 </h3>
                 <h4>
-
                     {{this.busiest_day}} 
-
                 </h4>
             </div>
             <div
@@ -64,6 +60,7 @@
                     
                
             </div>
+            
         </div>
         <hr>
         <h3>
@@ -154,36 +151,6 @@
                 {{languageProp.nationality[this.selected_language]}}
             </label>
         </div>
-        <div
-            v-if="showTable"
-        >
-            <br>
-            <hr>
-            <h3>
-                {{languageProp.table[this.selected_language]}}
-            </h3>
-            <table>
-                <tr>
-                    <th>
-                        {{languageProp.table.location_name[this.selected_language]}}
-                    </th>
-                    <th>
-                        {{languageProp.table.n_of_visitors[this.selected_language]}}
-                    </th>
-                </tr>
-                <tr
-                    v-for="item in this.tabledata"
-                    :key="item.index"
-                >
-                    <td>
-                        {{item.name}}
-                    </td>
-                    <td>
-                        {{item.visitors}}
-                    </td>
-                </tr>
-            </table>
-        </div>
         <br>
         <hr>    
         <div
@@ -195,6 +162,37 @@
                     :options="options2"
             />
         </div>
+
+        <div
+                v-if="showTable"
+            >
+            <br>
+            <hr>
+            <h3>
+                {{languageProp.table[this.selected_language]}}
+            </h3>
+                <table>
+                    <tr>
+                        <th>
+                            {{languageProp.table.location_name[this.selected_language]}}
+                        </th>
+                        <th>
+                            {{languageProp.table.n_of_visitors[this.selected_language]}}
+                        </th>
+                    </tr>
+                    <tr
+                        v-for="item in table_locations"
+                        :key="item"
+                    >
+                        <td>
+                            {{item}}
+                        </td>
+                        <td>
+                            {{table_data[item]}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
     </div>
 </template>
 
@@ -285,7 +283,7 @@
                             {
                                 scaleLabel: {
                                     display: true,
-                                    labelString: 'Nº of Visitors',
+                                    labelString: '',
                                 }
                             }
                         ],
@@ -293,7 +291,7 @@
                             {
                                 scaleLabel: {
                                     display: true,
-                                    labelString: 'Date'
+                                    labelString: '  '
                                 }
                             }
                         ]
@@ -398,6 +396,18 @@
                         en: 'Germany',
                         pt: 'Alemanha'
                     },
+                    nvisitors: {
+                        en: 'Nº of Visitors',
+                        pt: 'Nº de Visitantes',
+                    },
+                    nRedeemedRewards: {
+                        en: 'Nº of Redeemed Rewards',
+                        pt: 'Nº de Recompensas Redimidas',
+                    },
+                    date: {
+                        en: 'Date',
+                        pt: 'Data',
+                    },
                 },
                 cat_name: '',
                 total_visitors: '',
@@ -411,7 +421,7 @@
                 chartData_week: {
                     labels: [],
                     datasets: [{
-                        label: 'Nº of Visitors',
+                        label: '',
                         borderWidth: 1,
                         backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
@@ -440,42 +450,15 @@
                 dates:'',
                 countries:[],
                 general_data:'',
-                tabledata: [
-                    {
-                        name: 'Location #1',
-                        visitors: 15,
-                    },
-                    {
-                        name: 'Location #2',
-                        visitors: 20,
-                    },
-                    {
-                        name: 'Location #3',
-                        visitors: 25,
-                    },
-                    {
-                        name: 'Location #4',
-                        visitors: 30,
-                    },
-                    {
-                        name: 'Location #5',
-                        visitors: 25,
-                    },
-                    {
-                        name: 'Location #6',
-                        visitors: 20,
-                    },
-                    {
-                        name: 'Location #7',
-                        visitors: 15,
-                    },
-                ],
+                table_data:[],   
+                table_locations:[],
+                table_values:[],
                 chartData2: {
                     labels: ["0h-1h","1h-2h","2h-3h","3h-4h","4h-5h","5h-6h","6h-7h","7h-8h","8h-9h", "9h-10h", "10h-11h", "11h-12h", "12h-13h", "13h-14h", "14h-15h", "15h-16h", "16h-17h",
                         "17h-18h", "18h-19h", "19h-20h","20h-21h", "21h-22h", "22h-23h","23h-24h"
                     ],
                     datasets: [{
-                        label: 'Nº of Visitors',
+                        label: '',
                         borderWidth: 1,
                         backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
@@ -598,6 +581,7 @@
         async created() {
             await this.getObjects();
 
+
                 this.create_week_report();
                 this.create_main_chart();
                 this.create_second_chart();
@@ -606,6 +590,7 @@
                 this.$refs.barChart.updateData();
                 this.$refs.barChart2.updateData();
                 this.$refs.lineChart.updateData();
+  
         },
         /*
         Reactive Properties:
@@ -630,15 +615,37 @@
                             
                             //Week Report
                             this.total_visitors= res.data[0]['Total_visitors'];
+                            this.redeemed_rewards= res.data[0]['Redeemed_rewards'];
                             
-                            if (this.total_visitors>0){ 
+                             if (this.total_visitors>0 || this.redeemed_rewards>0 ){ 
                                 this.busiest_day= this.translate[res.data[0]['Busiest_day']][this.selected_language];
                                 this.most_common_country= this.translate[res.data[0]['Most_common_country']][this.selected_language];
                                 this.most_common_age_range= this.translate[res.data[0]['Most_common_age_range']][this.selected_language];                
                                 this.most_common_gender= this.translate[res.data[0]['Most_common_gender']][this.selected_language];
-                                this.redeemed_rewards= res.data[0]['Redeemed_rewards'];
                                 this.week_stats=res.data[0];
                             }
+
+                            //chart labels
+                            var arrayOfStrings = this.getLink.split('/');
+                            var type=arrayOfStrings[4];
+
+                            if(type=='rewards'){
+                                this.chartData2.datasets[0].label= this.translate.nRedeemedRewards[this.selected_language];
+                                this.chartData_week.datasets[0].label= this.translate.nRedeemedRewards[this.selected_language];
+                                this.options.scales.yAxes[0].scaleLabel.labelString=this.translate.nRedeemedRewards[this.selected_language];
+                                this.options.scales.xAxes[0].scaleLabel.labelString=this.translate.date[this.selected_language];
+                                this.total_visitors=null;
+                            }
+                            else{
+                                this.chartData2.datasets[0].label= this.translate.nvisitors[this.selected_language];
+                                this.chartData_week.datasets[0].label= this.translate.nvisitors[this.selected_language];
+                                this.options.scales.yAxes[0].scaleLabel.labelString=this.translate.nvisitors[this.selected_language];
+                                this.options.scales.xAxes[0].scaleLabel.labelString=this.translate.date[this.selected_language];
+                                if(type=='badges'){
+                                    this.redeemed_rewards=null;    
+                                }
+                            }
+
 
 
                             //Main Chart
@@ -654,6 +661,12 @@
                             //Second Chart
                             this.second_chart_stats=res.data[2];
 
+                            //Table Data
+                            if(this.showTable){ 
+                            this.table_data=res.data[3];
+     
+                            this.table_locations=Object.keys(res.data[3]);
+                            }
                         }
                         
                     )
@@ -744,7 +757,6 @@
 
                 //second chart
                 for (var x = 0; x < 24; x++) { 
-
                     var hour=this.pad(x);
                     if (hour in this.second_chart_stats) {
                         visitors=0;
@@ -762,7 +774,9 @@
                     }   
                 }   
 
-
+                console.log(this.chartData2.datasets[0].data['02'] );
+                console.log(this.chartData2.datasets[0].data['03'] );
+                console.log(this.chartData2.datasets[0] );
                 // update chart
                 this.$refs.barChart2.updateData();
 
@@ -830,7 +844,6 @@
                     }   
                 }              
             },
-
         },
         /*
             Rendering:
@@ -945,7 +958,7 @@ hr {
 */
 
 table {
-  table-layout: fixed;
+  
   width: 100%;
   border-collapse: collapse;
 }
@@ -983,7 +996,7 @@ tr:hover {
 th {
     padding-top: 12px;
     padding-bottom: 12px;
-    background-color: #4CAF50;
+    background-color: #0a4870;
     color: white;
 }
 

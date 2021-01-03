@@ -41,6 +41,18 @@
         >
           {{language.pageTitle[selected_language]}}
         </button>
+        </div>
+            <div
+          class="alert failure"
+          v-if="error_banner"
+          v-on:click="error_banner=false;"
+      >
+          <strong>
+              {{language.failure_form.title[this.selected_language]}}
+          </strong>
+          {{language.failure_form.text[this.selected_language]}}
+          <br>
+          {{language.form_dismissal[this.selected_language]}}
       </div>
     </form>
   </div>
@@ -88,7 +100,21 @@ export default {
   */
   data() {
     return {
-      language: {
+      language: {               
+        failure_form: {
+            title: {
+                en: 'Failure',
+                pt: 'Erro',
+            },
+            text: {
+                en: 'Incorrect email or password! Please try again!',
+                pt: 'Email ou palavra-passe incorretos! Por favor tente de novo!',
+            },
+        },
+        form_dismissal: {
+            en: 'Click anywhere on the warning to dismiss it.',
+            pt: 'Clique no aviso para o remover.'
+        },
         pageTitle: {
           en: 'Login',
           pt: 'Iniciar Sessão',
@@ -106,6 +132,7 @@ export default {
         email: "",
         password: ""
       },
+      error_banner: false,
       error: null
     };
   },
@@ -156,11 +183,15 @@ export default {
             this.$router.replace({ name: "home" });
           })
           .catch(err1 => {
+            console.error('1111');
             console.error(err1);
+            this.error_banner= true;
           });
         })
         .catch(err2 => {
+          console.error('22222');
           console.error(err2);
+          this.error_banner= true;
         });
     }
   }
@@ -242,5 +273,35 @@ html {
     cursor: pointer;
     text-align: center;
 }
+.alert {    
+    padding: 10px 5px;
+    margin: 0px auto;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333333;
+}
 
+
+.failure {
+    border: 1px solid #cb4444;
+    background-color: #d47575;
+}
+
+.failure:hover {
+    background-color: #b04c4c;
+    transition: 0.3s;
+}
+.submit_button {
+    border: 1px solid #0a4870;
+    border-radius: 5px;
+    background-color: #F0F8FF;
+    color: #0a4870;
+    text-decoration: none;
+    font-size: 16px;
+    width: 175px;
+    height: 50px;
+    margin: 10px auto 20px;
+    cursor: pointer;
+    text-align: center;
+}
 </style>
