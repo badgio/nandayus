@@ -140,12 +140,17 @@ const routes = [
         props: {
             languageProp: {
                 pageTitle: {
-                    en: 'Statistics - Badge',
-                    pt: 'Estatísticas - Badge',
+                    en: 'Statistics - Badge ',
+                    pt: 'Estatísticas - Badge ',
                 },
                 totalVisitors: {
                     en: 'Total Nº of Visitors',
                     pt: 'Nº Total de Visitantes',
+                },
+                nvisitors: {
+
+                    en: 'Nº of Visitors',
+                    pt: 'Nº de Visitantes',
                 },
                 busiestDay: {
                     text: {
@@ -185,6 +190,14 @@ const routes = [
                     en: 'Nationality',
                     pt: 'Nacionalidade'
                 },
+                starting_date: {
+                    en: 'Starting Date:',
+                    pt: 'Data Início:'
+                },
+                finishing_date: {
+                    en: 'Finishing Date:',
+                    pt: 'Data Fim:'
+                },
                 table: {
                     en: 'Table',
                     pt: 'Tabela',
@@ -198,10 +211,11 @@ const routes = [
                     },
                 },
             },
+            getLink: 'http://localhost:8001/v0/badges/',
             twoCards: true,
             showTable: false,
         }
-    },
+    },    
     /*
         Rewards
     */
@@ -320,55 +334,89 @@ const routes = [
             requiresAuth: true,
             permission: 'promoter',
         },
-        props: {
-            languageProp: {
-                pageTitle: {
-                    en: 'Statistics - Reward',
-                    pt: 'Estatísticas - Recompensa',
-                },
-                nRedeemedRewards: {
-                    text: {
-                        en: 'Nº of Redeemed Rewards',
-                        pt: 'Nº de Recompensas Redimidas',
+            props: {
+                languageProp: {
+                    pageTitle: {
+                        en: 'Statistics - Location ',
+                        pt: 'Estatísticas - Local ',
                     },
-                },
-                chart: {
-                    en: 'Chart',
-                    pt: 'Gráfico',
-                },
-                general: {
-                    en: 'General',
-                    pt: 'Geral'
-                },
-                age: {
-                    en: 'Age Range',
-                    pt: 'Faixa Etária'
-                },
-                gender: {
-                    en: 'Gender',
-                    pt: 'Género'
-                },
-                nationality: {
-                    en: 'Nationality',
-                    pt: 'Nacionalidade'
-                },
-                table: {
-                    en: 'Table',
-                    pt: 'Tabela',
-                    location_name: {
-                        en: 'Location',
-                        pt: 'Local',
-                    },
-                    n_of_visitors: {
+                    totalVisitors: {
                         en: 'Total Nº of Visitors',
                         pt: 'Nº Total de Visitantes',
                     },
+                    nvisitors: {
+    
+                        en: 'Nº of Visitors',
+                        pt: 'Nº de Visitantes',
+                    },
+                    nRedeemedRewards: {
+                        text: {
+                            en: 'Nº of Redeemed Rewards',
+                            pt: 'Nº de Recompensas Redimidas',
+                        },
+                    },
+                    date: {
+                        en: 'Date',
+                        pt: 'Data'
+                    },
+                    busiestDay: {
+                        text: {
+                            en: 'Day of the week with more rewards',
+                            pt: 'Dia da semana com mais recompensas',
+                        },
+                    },
+                    customerProfile: {
+                        text: {
+                            en: 'General customer profile',
+                            pt: 'Perfil geral do cliente',
+                        },
+                    },
+                    chart: {
+                        en: 'Chart',
+                        pt: 'Gráfico',
+                    },
+                    general: {
+                        en: 'General',
+                        pt: 'Geral'
+                    },
+                    age: {
+                        en: 'Age Range',
+                        pt: 'Faixa Etária'
+                    },
+                    gender: {
+                        en: 'Gender',
+                        pt: 'Género'
+                    },
+                    nationality: {
+                        en: 'Nationality',
+                        pt: 'Nacionalidade'
+                    },
+                    starting_date: {
+                        en: 'Starting Date:',
+                        pt: 'Data Início:'
+                    },
+                    finishing_date: {
+                        en: 'Finishing Date:',
+                        pt: 'Data Fim:'
+                    },
+                    table: {
+                        en: 'Table',
+                        pt: 'Tabela',
+                        location_name: {
+                            en: 'Location',
+                            pt: 'Local',
+                        },
+                        n_of_visitors: {
+                            en: 'Total Nº of Visitors',
+                            pt: 'Nº Total de Visitantes',
+                        },
+                    },
                 },
-            },
-            twoCards: false,
-            showTable: false,
-        }
-    },
+                getLink: 'http://localhost:8001/v0/rewards/',
+                twoCards: true,
+                showTable: false,
+            }
+        },    
     /*
         Locations
     */
@@ -672,7 +720,7 @@ const routes = [
         }
     },
     {
-        path: '/statistics/collection',
+        path: '/collections/:uuid/statistics',
         name: 'collectionsstatistics',
         component: () => import('../components/Statistics.vue'),
         meta: {
@@ -682,12 +730,17 @@ const routes = [
         props: {
             languageProp: {
                 pageTitle: {
-                    en: 'Statistics - Collection',
-                    pt: 'Estatísticas - Coleção',
+                    en: 'Statistics - Collection ',
+                    pt: 'Estatísticas - Coleção ',
                 },
                 totalVisitors: {
                     en: 'Total Nº of Visitors',
                     pt: 'Nº Total de Visitantes',
+                },
+                nvisitors: {
+
+                    en: 'Nº of Visitors',
+                    pt: 'Nº de Visitantes',
                 },
                 busiestDay: {
                     text: {
@@ -727,6 +780,14 @@ const routes = [
                     en: 'Nationality',
                     pt: 'Nacionalidade'
                 },
+                starting_date: {
+                    en: 'Starting Date:',
+                    pt: 'Data Início:'
+                },
+                finishing_date: {
+                    en: 'Finishing Date:',
+                    pt: 'Data Fim:'
+                },
                 table: {
                     en: 'Table',
                     pt: 'Tabela',
@@ -740,10 +801,11 @@ const routes = [
                     },
                 },
             },
+            getLink: 'http://localhost:8001/v0/collections/',
             twoCards: true,
             showTable: true,
         }
-    },
+    },    
     {
         path: '/redeem',
         name: 'redeemreward',
