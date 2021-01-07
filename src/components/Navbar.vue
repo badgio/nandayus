@@ -178,6 +178,13 @@ export default {
               },
               link : "/locations"
             },
+            {
+              title: {
+                en: "Redeem Reward",
+                pt: 'Redimir Recompensa',
+              },
+              link : "/redeem"
+            },
         ],
         menu_promoter : [
             {

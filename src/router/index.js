@@ -809,6 +809,9 @@ router.beforeEach(async (to, from, next) => {
                         path: '/badges'
                     });
                     break;
+                case 'promoter and manager':
+                    next();
+                    break;
             }
         }
         else {

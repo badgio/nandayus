@@ -58,6 +58,18 @@
             <br>
             {{language.form_dismissal[this.selected_language]}}
         </div>
+        <div
+            class="alert failure"
+            v-if="general_error_banner"
+            v-on:click="general_error_banner=false;"
+        >
+            <strong>
+                {{language.general_error_form.title[this.selected_language]}}
+            </strong>
+            {{language.general_error_form.text[this.selected_language]}}
+            <br>
+            {{language.form_dismissal[this.selected_language]}}
+        </div>
         <br>
         <br>
         <div
@@ -151,8 +163,8 @@
                             pt: 'Aviso',
                         },
                         text: {
-                            en: 'Not all the required fields are filled in. These are signaled with an asterisk (*). Please make sure you fill them before resubmitting the data.',
-                            pt: 'Existem campos obrigatórios sem dados. Estes estão assinalados com um asterisco (*). Por favor certifique-se que os preencheu antes da resubmissão dos dados.',
+                            en: 'Reward is already redeemed.',
+                            pt: 'Recompensa já redimida.',
                         },
                     },
                     failure_form: {
@@ -164,6 +176,16 @@
                             en: 'There is no existing reward with that redeem code. Please check that the code is correctly written.',
                             pt: 'Não existe nenhuma recompensa com esse código de redenção. Por favor verifique que o código se encontra corretamente escrito.',
                         },
+                    },
+                    general_error_form: {
+                        title: {
+                            en: 'General Error',
+                            pt: 'Erro Geral',
+                        },
+                        text: {
+                            en: 'An error has occurred. If it persists please contact contact@badgio.pt, and explain the situation there.',
+                            pt: 'Ocorreu um erro. Se persistir por favor contacte contact@badgio.pt, e explique a situação.'
+                        }
                     },
                     form_dismissal: {
                         en: 'Click anywhere on the warning to dismiss it.',
@@ -178,6 +200,7 @@
                 success_banner: false,
                 warning_banner: false,
                 error_banner: false,
+                general_error_banner: false,
                 showMessage: false,
             }
         ),
@@ -234,7 +257,7 @@
                 };
 
                 await axios.post(
-                    'http://localhost:8001/v0/rewards/redeem', 
+                    'http://localhost:8001/v0/rewards/redeem',
                     data,
                     config
                 ).then(
@@ -247,28 +270,28 @@
                                 this.reward.image = response.data.image;
                                 this.showMessage = true;
                                 break;
-                            case 401:
-                                // No badge with that name
-                                this.error_banner = true;
-                                break;
-                            case 410:
-                                // The badge is already redeemed
-                                this.error_banner = true;
-                                break;
-                            case 500:
-                                // Error
-                                this.error_banner = true;
-                                break;
                             default:
                                 // General error
-                                this.error_banner = true;
+                                this.general_error_banner = true;
                                 break;
                         }
                     }
                 ).catch(
                     error => {
-                        console.log(error);
-                        this.error_banner = true;
+                        switch(error.response.status) {
+                            case 401:
+                                // No badge with that name
+                                this.error_banner = true;
+                                break;
+                            case 404:
+                                // No badge with that name
+                                this.error_banner = true;
+                                break;
+                            case 410:
+                                // The badge is already redeemed
+                                this.warning_banner = true;
+                                break;
+                        }
                     }
                 )
             }

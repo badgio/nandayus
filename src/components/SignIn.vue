@@ -164,17 +164,20 @@ export default {
                           }
                       )
                       .then((res) => {
-                              if (res.data.manager_info) {
-                                // user is a manager
-                                store.dispatch('setRole', 'manager');
-                              }
-                              else if(res.data.promoter_info) {
-                                // user is a promoter
-                                store.dispatch('setRole', 'promoter');
-                              }
+                              if (res.data.manager_info && res.data.promoter_info) store.dispatch('setRole', 'promoter and manager');
                               else {
-                                // user is an admin
-                                store.dispatch('setRole', 'admin');
+                                if (res.data.manager_info) {
+                                  // user is a manager
+                                  store.dispatch('setRole', 'manager');
+                                }
+                                else if(res.data.promoter_info) {
+                                  // user is a promoter
+                                  store.dispatch('setRole', 'promoter');
+                                }
+                                else {
+                                  // user is an admin
+                                  store.dispatch('setRole', 'admin');
+                                }
                               }
                           }
                       )
