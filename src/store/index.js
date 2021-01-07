@@ -13,7 +13,8 @@ export default new Vuex.Store({
       idToken: '',
       idTokenCreation: '',
       idTokenValidity: '',
-    }
+      role: '',
+    },
   },
   getters: {
     getLanguage(state) {
@@ -24,7 +25,10 @@ export default new Vuex.Store({
     },
     getToken(state) {
       return state.user.idToken;
-    }
+    },
+    getRole(state) {
+      return state.user.role;
+    } 
   },
   mutations: {
     changeLanguageMutation:(state, language) =>  {
@@ -48,6 +52,9 @@ export default new Vuex.Store({
         state.user.idTokenCreation = null;
         state.user.idTokenValidity = null;
       }
+    },
+    SET_ROLE(state, value) {
+      state.user.role = value;
     }
   },
   actions: {
@@ -72,6 +79,9 @@ export default new Vuex.Store({
     },
     setToken({commit}, value) {
       commit('SET_TOKEN', value);
+    },
+    setRole({commit}, value) {
+      commit('SET_ROLE', value);
     }
   }
 });

@@ -47,6 +47,8 @@
 </template>
 
 <script>
+
+import axios from 'axios';
 import firebase from "firebase";
 import store from '../store/index.js';
 
@@ -140,21 +142,49 @@ export default {
       1. methods
   */
   methods: {
-    submit() {
+    async submit() {
       firebase
         .auth()
         .signInWithEmailAndPassword(this.form.email, this.form.password)
         .then(data => {
-          console.log("Refresh Token", data.user.refreshToken);
           firebase
           .auth()
           .currentUser
           .getIdToken(true)
-          .then(idToken => {
-            console.log("Id Token", idToken);
-            store.dispatch('setToken', idToken);
-            this.$router.replace({ name: "home" });
-          })
+          .then(async (idToken) => {
+              console.log("Id Token", idToken);
+              store.dispatch('setToken', idToken);
+              await axios
+                      .get('http://localhost:8001/v0/users/profile', {
+                              headers: {
+                                  'Access-Control-Allow-Origin': '*',
+                                  'Content-type': 'application/json',
+                                  authorization: 'Bearer ' + idToken
+                              },
+                          }
+                      )
+                      .then((res) => {
+                              if (res.data.manager_info) {
+                                // user is a manager
+                                store.dispatch('setRole', 'manager');
+                              }
+                              else if(res.data.promoter_info) {
+                                // user is a promoter
+                                store.dispatch('setRole', 'promoter');
+                              }
+                              else {
+                                // user is an admin
+                                store.dispatch('setRole', 'admin');
+                              }
+                          }
+                      )
+                      .catch((err) => {
+                              console.error(err)
+                          }
+                      );
+              this.$router.replace({ name: "home" });
+            }
+          )
           .catch(err1 => {
             console.error(err1);
           });
