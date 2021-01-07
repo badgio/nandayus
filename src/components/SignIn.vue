@@ -1,58 +1,43 @@
 <template>
-  <div 
-    class="login-box"
-  >
+  <div class="login-box">
     <h2>
-      {{language.pageTitle[selected_language]}}
+      {{ language.pageTitle[selected_language] }}
     </h2>
 
-    <form
-      @submit.prevent="submit"
-    >
-      <div
-        class="user-box"
-      >
-        <input
-          type="text"
-          name="email"
-          required=""
-          v-model="form.email"
-        >
+    <form @submit.prevent="submit">
+      <div class="user-box">
+        <input type="text" name="email" required="" v-model="form.email" />
         <label>
-          {{language.email[selected_language]}}
+          {{ language.email[selected_language] }}
         </label>
       </div>
-      <div
-        class="user-box"
-      >
+      <div class="user-box">
         <input
           type="password"
           name="password"
           required=""
           v-model="form.password"
-        >
+        />
         <label>
-          {{language.password[selected_language]}}
+          {{ language.password[selected_language] }}
         </label>
       </div>
       <div>
-        <button
-          class="submit_button"
-        >
-          {{language.pageTitle[selected_language]}}
+        <button class="submit_button">
+          {{ language.pageTitle[selected_language] }}
         </button>
-        </div>
-            <div
-          class="alert failure"
-          v-if="error_banner"
-          v-on:click="error_banner=false;"
+      </div>
+      <div
+        class="alert failure"
+        v-if="error_banner"
+        v-on:click="error_banner = false"
       >
-          <strong>
-              {{language.failure_form.title[this.selected_language]}}
-          </strong>
-          {{language.failure_form.text[this.selected_language]}}
-          <br>
-          {{language.form_dismissal[this.selected_language]}}
+        <strong>
+          {{ language.failure_form.title[this.selected_language] }}
+        </strong>
+        {{ language.failure_form.text[this.selected_language] }}
+        <br />
+        {{ language.form_dismissal[this.selected_language] }}
       </div>
     </form>
   </div>
@@ -60,14 +45,15 @@
 
 <script>
 import firebase from "firebase";
-import store from '../store/index.js';
+import axios from "axios";
+import store from "../store/index.js";
 
 export default {
   /*
       Global Awareness:
           1. name
   */
-  name: 'signin',
+  name: "signin",
   /*
       Template Modifiers:
           1. delimiters
@@ -100,40 +86,40 @@ export default {
   */
   data() {
     return {
-      language: {               
+      language: {
         failure_form: {
-            title: {
-                en: 'Failure',
-                pt: 'Erro',
-            },
-            text: {
-                en: 'Incorrect email or password! Please try again!',
-                pt: 'Email ou palavra-passe incorretos! Por favor tente de novo!',
-            },
+          title: {
+            en: "Failure",
+            pt: "Erro",
+          },
+          text: {
+            en: "Incorrect email or password! Please try again!",
+            pt: "Email ou palavra-passe incorretos! Por favor tente de novo!",
+          },
         },
         form_dismissal: {
-            en: 'Click anywhere on the warning to dismiss it.',
-            pt: 'Clique no aviso para o remover.'
+          en: "Click anywhere on the warning to dismiss it.",
+          pt: "Clique no aviso para o remover.",
         },
         pageTitle: {
-          en: 'Login',
-          pt: 'Iniciar Sessão',
+          en: "Login",
+          pt: "Iniciar Sessão",
         },
         email: {
-          en: 'Email Address',
-          pt: 'Endereço de Email',
+          en: "Email Address",
+          pt: "Endereço de Email",
         },
         password: {
-          en: 'Password',
-          pt: 'Palavra-Passe',
+          en: "Password",
+          pt: "Palavra-Passe",
         },
       },
       form: {
         email: "",
-        password: ""
+        password: "",
       },
       error_banner: false,
-      error: null
+      error: null,
     };
   },
   computed: {
@@ -167,34 +153,51 @@ export default {
       1. methods
   */
   methods: {
-    submit() {
-      firebase
+    async submit() {
+      await firebase
         .auth()
         .signInWithEmailAndPassword(this.form.email, this.form.password)
-        .then(data => {
+        .then((data) => {
           console.log("Refresh Token", data.user.refreshToken);
           firebase
-          .auth()
-          .currentUser
-          .getIdToken(true)
-          .then(idToken => {
-            console.log("Id Token", idToken);
-            store.dispatch('setToken', idToken);
-            this.$router.replace({ name: "home" });
-          })
-          .catch(err1 => {
-            console.error('1111');
-            console.error(err1);
-            this.error_banner= true;
-          });
+            .auth()
+            .currentUser.getIdToken(true)
+            .then((idToken) => {
+              console.log("Id Token", idToken);
+              store.dispatch("setToken", idToken);
+              axios
+                .get("http://localhost:8001/v0/users/profile", {
+                  headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Content-type": "application/json",
+                    authorization: "Bearer " + idToken,
+                  },
+                })
+                .then((res) => {
+                  console.log(res.data);
+                  if (typeof res.data["manager_info"] != "undefined") {
+                    this.$router.replace({ name: "locations" });
+                  } else if (typeof res.data["promoter_info"] != "undefined") {
+                    this.$router.replace({ name: "badges" });
+                  } else {
+                    this.$router.replace({ name: "home" });
+                  }
+                })
+                .catch((err) => {
+                  console.error(err);
+                });
+            })
+            .catch((err1) => {
+              console.error(err1);
+              this.error_banner = true;
+            });
         })
-        .catch(err2 => {
-          console.error('22222');
+        .catch((err2) => {
           console.error(err2);
-          this.error_banner= true;
+          this.error_banner = true;
         });
-    }
-  }
+    },
+  },
   /*
       Rendering:
           1. template / render
@@ -242,13 +245,13 @@ html {
 }
 .login-box .user-box label {
   position: absolute;
-  top:0;
+  top: 0;
   left: 0;
   padding: 10px 0;
   font-size: 16px;
   color: #0a4870;
   pointer-events: none;
-  transition: .5s;
+  transition: 0.5s;
 }
 
 .login-box .user-box input:focus ~ label,
@@ -259,49 +262,47 @@ html {
   font-size: 12px;
 }
 
-
 .submit_button {
-    border: 1px solid #0a4870;
-    border-radius: 5px;
-    background-color: #F0F8FF;
-    color: #0a4870;
-    text-decoration: none;
-    font-size: 16px;
-    width: 175px;
-    height: 50px;
-    margin: 10px auto 20px;
-    cursor: pointer;
-    text-align: center;
+  border: 1px solid #0a4870;
+  border-radius: 5px;
+  background-color: #f0f8ff;
+  color: #0a4870;
+  text-decoration: none;
+  font-size: 16px;
+  width: 175px;
+  height: 50px;
+  margin: 10px auto 20px;
+  cursor: pointer;
+  text-align: center;
 }
-.alert {    
-    padding: 10px 5px;
-    margin: 0px auto;
-    border-radius: 8px;
-    font-size: 14px;
-    color: #333333;
+.alert {
+  padding: 10px 5px;
+  margin: 0px auto;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333333;
 }
-
 
 .failure {
-    border: 1px solid #cb4444;
-    background-color: #d47575;
+  border: 1px solid #cb4444;
+  background-color: #d47575;
 }
 
 .failure:hover {
-    background-color: #b04c4c;
-    transition: 0.3s;
+  background-color: #b04c4c;
+  transition: 0.3s;
 }
 .submit_button {
-    border: 1px solid #0a4870;
-    border-radius: 5px;
-    background-color: #F0F8FF;
-    color: #0a4870;
-    text-decoration: none;
-    font-size: 16px;
-    width: 175px;
-    height: 50px;
-    margin: 10px auto 20px;
-    cursor: pointer;
-    text-align: center;
+  border: 1px solid #0a4870;
+  border-radius: 5px;
+  background-color: #f0f8ff;
+  color: #0a4870;
+  text-decoration: none;
+  font-size: 16px;
+  width: 175px;
+  height: 50px;
+  margin: 10px auto 20px;
+  cursor: pointer;
+  text-align: center;
 }
 </style>
