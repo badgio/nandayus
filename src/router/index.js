@@ -745,6 +745,15 @@ const routes = [
         }
     },
     {
+        path: '/redeem',
+        name: 'redeemreward',
+        component: () => import('../components/RedeemReward.vue'),
+        meta: {
+            requiresAuth: true,
+            permission: 'manager',
+        }
+    },
+    {
         path: '/profile',
         name: 'profile',
         component: () => import('../components/Profile.vue'),

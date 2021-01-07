@@ -889,7 +889,7 @@
                                 );
                         }
 
-                        // Get Collections associated with the location
+                        // Get Collections associated with the reward
                         
                         await axios
                             .get(this.http_requests.getCollections + '?reward__uuid=\'' + this.object.uuid + '\'', {
