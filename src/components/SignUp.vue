@@ -50,6 +50,18 @@
         <br />
         {{ language.form_dismissal[this.selected_language] }}
       </div>
+      <div 
+            class="alert success"
+            v-if="success_banner"
+            v-on:click="success_banner=false;"
+        >
+            <strong>
+                {{language.success_form.title[this.selected_language]}}
+            </strong>
+            {{language.success_form.text[this.selected_language]}}
+            <br>
+            {{language.form_dismissal[this.selected_language]}}
+        </div>
     </form>
   </div>
 </template>
@@ -104,7 +116,7 @@ export default {
           },
           text: {
             en: "The information has been successfully submitted!",
-            pt: "A informação foi submetida com sucesso!",
+            pt: "O registo foi feito com sucesso! Por favor inicie sessão ",
           },
         },
         failure_form: {
@@ -197,34 +209,6 @@ export default {
           console.log("response", response);
           if (response.status == 201) {
             this.success_banner = true;
-            firebase
-              .auth()
-              .signInWithEmailAndPassword(this.form.email, this.form.password)
-              .then((data) => {
-                console.log("Refresh Token", data.user.refreshToken);
-                firebase
-                  .auth()
-                  .currentUser.getIdToken(true)
-                  .then((idToken) => {
-                    console.log("Id Token", idToken);
-                    store.dispatch("setToken", idToken);
-
-                    if (this.form.user_type == "manager") {
-                      this.$router.replace({ name: "locations" });
-                    }
-                    if (this.form.user_type == "promoter") {
-                      this.$router.replace({ name: "badges" });
-                    }
-                  })
-                  .catch((err1) => {
-                    console.error(err1);
-                    this.error_banner = true;
-                  });
-              })
-              .catch((err2) => {
-                console.error(err2);
-                this.error_banner = true;
-              });
           }
         })
         .catch((error) => {
@@ -300,12 +284,22 @@ html {
   font-size: 12px;
 }
 
-.alert {
-  padding: 10px 5px;
-  margin: 0px auto;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #333333;
+.alert {    
+    padding: 10px 5px;
+    margin: 0px auto;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333333;
+}
+
+.success {
+    border: 1px solid #3f682f;
+    background-color: #589D6D;
+}
+
+.success:hover {
+    background-color: #487E58;
+    transition: 0.3s;
 }
 
 .failure {

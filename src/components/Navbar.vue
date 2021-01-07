@@ -57,7 +57,7 @@
           </a>
         </div>
         <div
-          v-else-if="user.role == 'admin'"
+          v-else-if="user.role == 'admin' || user.role == 'promoter and manager'"
         >
           <router-link
             class="router_link"
@@ -168,6 +168,13 @@ export default {
                 pt: 'Recompensas',
               },
               link : "/rewards"
+            },
+            {
+              title: {
+                en: "Redeem Reward",
+                pt: 'Redimir Recompensa',
+              },
+              link : "/redeem"
             },
         ],
         menu_manager : [
