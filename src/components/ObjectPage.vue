@@ -460,6 +460,7 @@
                 displayModal: false,
                 searchQuery: null,
                 object: {
+                    uuid: '',
                     name: '',
                     description: '',
                     image: '',
@@ -595,6 +596,7 @@
                             /*
                                 General Attributes    
                             */
+                            this.object.uuid = res.data.uuid;
                             this.object.name = res.data.name;
                             this.object.description = res.data.description;
                             this.object.image = res.data.image;
@@ -703,6 +705,29 @@
                                     }
                                 );
                         }
+
+                        /*
+                        // Get associated collections
+                        console.log('uuid: ', this.object.uuid)
+                        console.log('url: ', this.http_requests.getCollections + '?badge__uuid=\'' + this.object.uuid + '\'')
+                        await axios
+                                .get(this.http_requests.getCollections + '/?badge__uuid=\'' + this.object.uuid + '\'', {
+                                        headers: {
+                                            'Access-Control-Allow-Origin': '*',
+                                            'Content-type': 'application/json',
+                                            authorization: 'Bearer ' + idToken
+                                        },
+                                    }
+                                )
+                                .then((res) => {
+                                        console.log('Collections GET res: ', res);
+                                    }
+                                )
+                                .catch((err) => {
+                                        console.error(err)
+                                    }
+                                );
+                        */
                     }
                     
                     /*
@@ -790,6 +815,53 @@
 
                     if (this.type.en == 'Location') {
 
+                        // Get Badges associated with the location
+                        
+                        await axios
+                            .get(this.http_requests.getBadges + '?location__uuid=\'' + this.object.uuid + '\'', {
+                                    headers: {
+                                        'Access-Control-Allow-Origin': '*',
+                                        'Content-type': 'application/json',
+                                        authorization: 'Bearer ' + idToken
+                                    },
+                                }
+                            )
+                            .then((res) => {
+                                    res.data.forEach(x => {
+                                        this.object.badges.push({
+                                           name:  x.name
+                                        })
+                                    })
+                                }
+                            )
+                            .catch((err) => {
+                                    console.error(err)
+                                }
+                            );
+
+                        // Get Rewards associated with the location
+                        
+                        await axios
+                            .get(this.http_requests.getRewards + '?location__uuid=\'' + this.object.uuid + '\'', {
+                                    headers: {
+                                        'Access-Control-Allow-Origin': '*',
+                                        'Content-type': 'application/json',
+                                        authorization: 'Bearer ' + idToken
+                                    },
+                                }
+                            )
+                            .then((res) => {
+                                    res.data.forEach(x => {
+                                        this.object.rewards.push({
+                                           name:  x.name
+                                        })
+                                    })
+                                }
+                            )
+                            .catch((err) => {
+                                    console.error(err)
+                                }
+                            );
                     }
 
                     /*
@@ -816,6 +888,31 @@
                                     }
                                 );
                         }
+
+                        // Get Collections associated with the reward
+                        
+                        await axios
+                            .get(this.http_requests.getCollections + '?reward__uuid=\'' + this.object.uuid + '\'', {
+                                    headers: {
+                                        'Access-Control-Allow-Origin': '*',
+                                        'Content-type': 'application/json',
+                                        authorization: 'Bearer ' + idToken
+                                    },
+                                }
+                            )
+                            .then((res) => {
+                                    res.data.forEach(x => {
+                                        this.object.collections.push({
+                                           name:  x.name
+                                        })
+                                    })
+                                }
+                            )
+                            .catch((err) => {
+                                    console.error(err)
+                                }
+                            );
+
                     }
             },
             async submitForm(e) {

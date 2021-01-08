@@ -44,8 +44,9 @@
 </template>
 
 <script>
+
+import axios from 'axios';
 import firebase from "firebase";
-import axios from "axios";
 import store from "../store/index.js";
 
 export default {
@@ -154,43 +155,59 @@ export default {
   */
   methods: {
     async submit() {
-      await firebase
+      firebase
         .auth()
         .signInWithEmailAndPassword(this.form.email, this.form.password)
-        .then((data) => {
-          console.log("Refresh Token", data.user.refreshToken);
+        .then(data => {
           firebase
-            .auth()
-            .currentUser.getIdToken(true)
-            .then((idToken) => {
+          .auth()
+          .currentUser
+          .getIdToken(true)
+          .then(async (idToken) => {
               console.log("Id Token", idToken);
-              store.dispatch("setToken", idToken);
-              axios
-                .get("http://localhost:8001/v0/users/profile", {
-                  headers: {
-                    "Access-Control-Allow-Origin": "*",
-                    "Content-type": "application/json",
-                    authorization: "Bearer " + idToken,
-                  },
-                })
-                .then((res) => {
-                  console.log(res.data);
-                  if (typeof res.data["manager_info"] != "undefined") {
-                    this.$router.replace({ name: "locations" });
-                  } else if (typeof res.data["promoter_info"] != "undefined") {
-                    this.$router.replace({ name: "badges" });
-                  } else {
-                    this.$router.replace({ name: "home" });
-                  }
-                })
-                .catch((err) => {
-                  console.error(err);
-                });
-            })
-            .catch((err1) => {
-              console.error(err1);
-              this.error_banner = true;
-            });
+              store.dispatch('setToken', idToken);
+              await axios
+                      .get('http://localhost:8001/v0/users/profile', {
+                              headers: {
+                                  'Access-Control-Allow-Origin': '*',
+                                  'Content-type': 'application/json',
+                                  authorization: 'Bearer ' + idToken
+                              },
+                          }
+                      )
+                      .then((res) => {
+                              if (res.data.manager_info && res.data.promoter_info) {
+                                store.dispatch('setRole', 'promoter and manager');
+                                this.$router.replace({ name: "badges" });
+                              }
+                              else {
+                                if (res.data.manager_info) {
+                                  // user is a manager
+                                  store.dispatch('setRole', 'manager');
+                                  this.$router.replace({ name: "locations" });
+                                }
+                                else if(res.data.promoter_info) {
+                                  // user is a promoter
+                                  store.dispatch('setRole', 'promoter');
+                                  this.$router.replace({ name: "badges" });
+                                }
+                                else {
+                                  // user is an admin
+                                  store.dispatch('setRole', 'admin');
+                                  this.$router.replace({ name: "badges" });
+                                }
+                              }
+                          }
+                      )
+                      .catch((err) => {
+                              console.error(err)
+                          }
+                      );
+            }
+          )
+          .catch(err1 => {
+            console.error(err1);
+          });
         })
         .catch((err2) => {
           console.error(err2);

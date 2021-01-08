@@ -29,6 +29,7 @@ const routes = [
         component: () => import('../components/Templates.vue'),
         meta: {
             requiresAuth: true,
+            permission: 'promoter'
         },
         props: {
             language: {
@@ -54,6 +55,10 @@ const routes = [
         path: '/badges/:uuid',
         name: 'badges',
         component: () => import('../components/ObjectPage.vue'),
+        meta: {
+            requiresAuth: true,
+            permission: 'promoter'
+        },
         props: {
             delete_text: {
                 en: 'Delete Badge',
@@ -86,9 +91,6 @@ const routes = [
             },
             getLink: 'http://localhost:8001/v0/badges/',
         },
-        meta: {
-            requiresAuth: true,
-        }
     },
     {
         path: '/newbadge',
@@ -96,6 +98,7 @@ const routes = [
         component: () => import('../components/Form.vue'),
         meta: {
             requiresAuth: true,
+            permission: 'promoter'
         },
         props: {
             pageTitle: {
@@ -132,6 +135,7 @@ const routes = [
         component: () => import('../components/Statistics.vue'),
         meta: {
             requiresAuth: true,
+            permission: 'promoter',
         },
         props: {
             languageProp: {
@@ -219,6 +223,10 @@ const routes = [
         path: '/rewards',
         name: 'rewards',
         component: () => import('../components/Templates.vue'),
+        meta: {
+            requiresAuth: true,
+            permission: 'promoter',
+        },
         props: {
             language: {
                 pageTitle: {
@@ -244,6 +252,10 @@ const routes = [
         path: '/rewards/:uuid',
         name: 'rewards',
         component: () => import('../components/ObjectPage.vue'),
+        meta: {
+            requiresAuth: true,
+            permission: 'promoter',
+        },
         props: {
             delete_text: {
                 en: 'Delete Reward',
@@ -276,14 +288,15 @@ const routes = [
             },
             getLink: 'http://localhost:8001/v0/rewards/',
         },
-        meta: {
-            requiresAuth: true,
-        }
     },
     {
         path: '/newreward',
         name: 'newreward',
         component: () => import('../components/Form.vue'),
+        meta: {
+            requiresAuth: true,
+            permission: 'promoter'
+        },
         props: {
             pageTitle: {
                 en: 'New Reward',
@@ -319,6 +332,7 @@ const routes = [
         component: () => import('../components/Statistics.vue'),
         meta: {
             requiresAuth: true,
+            permission: 'promoter',
         },
             props: {
                 languageProp: {
@@ -412,6 +426,7 @@ const routes = [
         component: () => import('../components/Form.vue'),
         meta: {
             requiresAuth: true,
+            permission: 'manager'
         },
         props: {
             pageTitle: {
@@ -444,6 +459,7 @@ const routes = [
         component: () => import('../components/Templates.vue'),
         meta: {
             requiresAuth: true,
+            permission: 'manager'
         },
         props: {
             language: {
@@ -469,6 +485,10 @@ const routes = [
         path: '/locations/:uuid',
         name: 'locations',
         component: () => import('../components/ObjectPage.vue'),
+        meta: {
+            requiresAuth: true,
+            permission: 'manager'
+        },
         props: {
             delete_text: {
                 en: 'Delete Location',
@@ -501,9 +521,6 @@ const routes = [
             },
             getLink: 'http://localhost:8001/v0/locations/',
         },
-        meta: {
-            requiresAuth: true,
-        }
     },
     {
         path: '/locations/:uuid/statistics',
@@ -511,6 +528,7 @@ const routes = [
         component: () => import('../components/Statistics.vue'),
         meta: {
             requiresAuth: true,
+            permission: 'manager'
         },
         props: {
             languageProp: {
@@ -600,6 +618,7 @@ const routes = [
         component: () => import('../components/Templates.vue'),
         meta: {
             requiresAuth: true,
+            permission: 'promoter'
         },
         props: {
             language: {
@@ -626,6 +645,10 @@ const routes = [
         path: '/collections/:uuid',
         name: 'collections',
         component: () => import('../components/ObjectPage.vue'),
+        meta: {
+            requiresAuth: true,
+            permission: 'promoter'
+        },
         props: {
             delete_text: {
                 en: 'Delete Collection',
@@ -658,9 +681,6 @@ const routes = [
             },
             getLink: 'http://localhost:8001/v0/collections/',
         },
-        meta: {
-            requiresAuth: true,
-        }
     },
     {
         path: '/newcollection',
@@ -668,6 +688,7 @@ const routes = [
         component: () => import('../components/Form.vue'),
         meta: {
             requiresAuth: true,
+            permission: 'promoter'
         },
         props: {
             pageTitle: {
@@ -704,6 +725,7 @@ const routes = [
         component: () => import('../components/Statistics.vue'),
         meta: {
             requiresAuth: true,
+            permission: 'promoter'
         },
         props: {
             languageProp: {
@@ -785,6 +807,15 @@ const routes = [
         }
     },    
     {
+        path: '/redeem',
+        name: 'redeemreward',
+        component: () => import('../components/RedeemReward.vue'),
+        meta: {
+            requiresAuth: true,
+            permission: 'manager',
+        }
+    },
+    {
         path: '/profile',
         name: 'profile',
         component: () => import('../components/Profile.vue'),
@@ -819,7 +850,31 @@ router.beforeEach(async (to, from, next) => {
 
         if (idToken && currTime < storedUser.idTokenValidity) {
             // if idToken exists and token is still valid, then proceed to the desired page
-            next();
+            var permission = to.meta.permission;
+            var role = store.getters.getRole;
+
+            switch(role) {
+                case 'admin':
+                    next();
+                    break;
+                
+                case 'manager':
+                    if (permission == 'manager') next();
+                    else next({
+                        path: '/locations'
+                    });
+                    break;
+
+                case 'promoter':
+                    if (permission == 'promoter') next();
+                    else next({
+                        path: '/badges'
+                    });
+                    break;
+                case 'promoter and manager':
+                    next();
+                    break;
+            }
         }
         else {
             var user = await firebase.auth().currentUser;

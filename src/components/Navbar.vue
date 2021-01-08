@@ -22,31 +22,71 @@
         </label>
       </div>
       <div v-if="user.loggedIn" class="nav-links">
-        <router-link
-          class="router_link"
-          :to=item.link
-          v-for="item in menu_admin"
-          :key="item.index"
+        <div
+          v-if="user.role == 'manager'"
         >
-          <a>
-            {{item.title[selected_language]}}
-          </a>
-        </router-link>
-           <a href="" @click="signOut()">
+          <router-link
+            class="router_link"
+            :to=item.link
+            v-for="item in menu_manager"
+            :key="item.index"
+          >
+            <a>
+              {{item.title[selected_language]}}
+            </a>
+          </router-link>
+          <a href="" @click="signOut()">
             {{language.sign_out[selected_language]}}
           </a>
+        </div>
+        <div
+          v-else-if="user.role == 'promoter'"
+        >
+          <router-link
+            class="router_link"
+            :to=item.link
+            v-for="item in menu_promoter"
+            :key="item.index"
+          >
+            <a>
+              {{item.title[selected_language]}}
+            </a>
+          </router-link>
+          <a href="" @click="signOut()">
+            {{language.sign_out[selected_language]}}
+          </a>
+        </div>
+        <div
+          v-else-if="user.role == 'admin' || user.role == 'promoter and manager'"
+        >
+          <router-link
+            class="router_link"
+            :to=item.link
+            v-for="item in menu_admin"
+            :key="item.index"
+          >
+            <a>
+              {{item.title[selected_language]}}
+            </a>
+          </router-link>
+          <a href="" @click="signOut()">
+            {{language.sign_out[selected_language]}}
+          </a>
+        </div>
       </div>
       <div v-else class="nav-links">
-        <router-link
-          class="router_link"
-          :to=item.link
-          v-for="item in menu_front_page"
-          :key="item.index"
-        >
-          <a>
-            {{item.title[selected_language]}}
-          </a>
-        </router-link>
+        <div>
+          <router-link
+            class="router_link"
+            :to=item.link
+            v-for="item in menu_front_page"
+            :key="item.index"
+          >
+            <a>
+              {{item.title[selected_language]}}
+            </a>
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -129,6 +169,13 @@ export default {
               },
               link : "/rewards"
             },
+            {
+              title: {
+                en: "Redeem Reward",
+                pt: 'Redimir Recompensa',
+              },
+              link : "/redeem"
+            },
         ],
         menu_manager : [
             {
@@ -137,6 +184,13 @@ export default {
                 pt: 'Locais',
               },
               link : "/locations"
+            },
+            {
+              title: {
+                en: "Redeem Reward",
+                pt: 'Redimir Recompensa',
+              },
+              link : "/redeem"
             },
         ],
         menu_promoter : [
@@ -220,7 +274,8 @@ export default {
         .signOut()
         .then(() => {
           //sessionStorage.clear();
-          store.dispatch('setToken', ''); 
+          store.dispatch('setToken', '');
+          store.dispatch('setRole', '');
           this.$router.replace({
             name: "Home"
           });
@@ -270,7 +325,7 @@ export default {
   font-size: 18px;
 }
 
-.nav > .nav-links > a {
+.nav > .nav-links > div > a {
   display: inline-block;
   padding: 13px 10px 13px 10px;
   height: 50px;
@@ -279,7 +334,7 @@ export default {
   cursor: pointer;
 }
 
-.nav > .nav-links > a:hover {
+.nav > .nav-links > div > a:hover {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
@@ -333,8 +388,8 @@ export default {
     top: 50px;
     left: 0px;
   }
-  .nav > .nav-links > a,
-  .nav > .nav-links > a > .router_link {
+  .nav > .nav-links > div > a,
+  .nav > .nav-links > div > a > .router_link {
     display: block;
     width: 100%;
   }
