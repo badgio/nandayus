@@ -818,7 +818,7 @@
                         // Get Badges associated with the location
                         
                         await axios
-                            .get(this.http_requests.getBadges + '?location__uuid=\'' + this.object.uuid + '\'', {
+                            .get(this.http_requests.getBadges + '?location__uuid=' + this.object.uuid, {
                                     headers: {
                                         'Access-Control-Allow-Origin': '*',
                                         'Content-type': 'application/json',
@@ -842,7 +842,7 @@
                         // Get Rewards associated with the location
                         
                         await axios
-                            .get(this.http_requests.getRewards + '?location__uuid=\'' + this.object.uuid + '\'', {
+                            .get(this.http_requests.getRewards + '?location__uuid=' + this.object.uuid, {
                                     headers: {
                                         'Access-Control-Allow-Origin': '*',
                                         'Content-type': 'application/json',
@@ -892,11 +892,14 @@
                         // Get Collections associated with the reward
                         
                         await axios
-                            .get(this.http_requests.getCollections + '?reward__uuid=\'' + this.object.uuid + '\'', {
+                            .get(this.http_requests.getCollections , {
                                     headers: {
                                         'Access-Control-Allow-Origin': '*',
                                         'Content-type': 'application/json',
                                         authorization: 'Bearer ' + idToken
+                                    },
+                                    params: {
+                                        reward__uuid: this.object.uuid,
                                     },
                                 }
                             )

@@ -257,7 +257,7 @@
                 };
 
                 await axios.post(
-                    'http://localhost:8001/v0/rewards/redeem',
+                    'https://api-dev.badgio.pt/v0/rewards/redeem',
                     data,
                     config
                 ).then(

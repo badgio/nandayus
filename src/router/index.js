@@ -48,7 +48,7 @@ const routes = [
             },
             type: 'badges',
             toLink: '/newbadge',
-            getLink: 'http://localhost:8001/v0/badges/',
+            getLink: 'https://api-dev.badgio.pt/v0/badges/',
         }
     },
     {
@@ -84,12 +84,12 @@ const routes = [
                 pt: 'o Badge',
             },
             http_requests: {
-                getBadges: 'http://localhost:8001/v0/badges/',
-                getCollections: 'http://localhost:8001/v0/collections/',
-                getLocations: 'http://localhost:8001/v0/locations/',
-                getRewards: 'http://localhost:8001/v0/rewards/',
+                getBadges: 'https://api-dev.badgio.pt/v0/badges/',
+                getCollections: 'https://api-dev.badgio.pt/v0/collections/',
+                getLocations: 'https://api-dev.badgio.pt/v0/locations/',
+                getRewards: 'https://api-dev.badgio.pt/v0/rewards/',
             },
-            getLink: 'http://localhost:8001/v0/badges/',
+            getLink: 'https://api-dev.badgio.pt/v0/badges/',
         },
     },
     {
@@ -123,10 +123,10 @@ const routes = [
             },
             path: '/badges',
             http_request: {
-                getLocations: 'http://localhost:8001/v0/locations/',
-                getCollections: 'http://localhost:8001/v0/collections/',
+                getLocations: 'https://api-dev.badgio.pt/v0/locations/',
+                getCollections: 'https://api-dev.badgio.pt/v0/collections/',
             },
-            postLink: 'http://localhost:8001/v0/badges/'
+            postLink: 'https://api-dev.badgio.pt/v0/badges/'
         }
     },
     {
@@ -211,7 +211,7 @@ const routes = [
                     },
                 },
             },
-            getLink: 'http://localhost:8001/v0/badges/',
+            getLink: 'https://api-dev.badgio.pt/v0/badges/',
             twoCards: true,
             showTable: false,
         }
@@ -244,7 +244,7 @@ const routes = [
             },
             toLink: '/newreward',
             type: 'rewards',
-            getLink: 'http://localhost:8001/v0/rewards/',
+            getLink: 'https://api-dev.badgio.pt/v0/rewards/',
 
         }
     },
@@ -281,12 +281,12 @@ const routes = [
                 pt: 'a Recompensa',
             },
             http_requests: {
-                getBadges: 'http://localhost:8001/v0/badges/',
-                getCollections: 'http://localhost:8001/v0/collections/',
-                getLocations: 'http://localhost:8001/v0/locations/',
-                getRewards: 'http://localhost:8001/v0/rewards/',
+                getBadges: 'https://api-dev.badgio.pt/v0/badges/',
+                getCollections: 'https://api-dev.badgio.pt/v0/collections/',
+                getLocations: 'https://api-dev.badgio.pt/v0/locations/',
+                getRewards: 'https://api-dev.badgio.pt/v0/rewards/',
             },
-            getLink: 'http://localhost:8001/v0/rewards/',
+            getLink: 'https://api-dev.badgio.pt/v0/rewards/',
         },
     },
     {
@@ -320,10 +320,10 @@ const routes = [
             },
             path: '/rewards',
             http_request: {
-                getLocations: 'http://localhost:8001/v0/locations/',
-                getCollections: 'http://localhost:8001/v0/collections/',
+                getLocations: 'https://api-dev.badgio.pt/v0/locations/',
+                getCollections: 'https://api-dev.badgio.pt/v0/collections/',
             },
-            postLink: 'http://localhost:8001/v0/rewards/'
+            postLink: 'https://api-dev.badgio.pt/v0/rewards/'
         }
     },
     {
@@ -412,7 +412,7 @@ const routes = [
                         },
                     },
                 },
-                getLink: 'http://localhost:8001/v0/rewards/',
+                getLink: 'https://api-dev.badgio.pt/v0/rewards/',
                 twoCards: true,
                 showTable: false,
             }
@@ -450,7 +450,7 @@ const routes = [
                 pt: 'Submeter Local'
             },
             path: '/locations',
-            postLink: 'http://localhost:8001/v0/locations/'
+            postLink: 'https://api-dev.badgio.pt/v0/locations/'
         }
     },
     {
@@ -478,7 +478,7 @@ const routes = [
             },
             type: 'locations',
             toLink: '/newlocation',
-            getLink: 'http://localhost:8001/v0/locations/',
+            getLink: 'https://api-dev.badgio.pt/v0/locations/',
         },
     },
     {
@@ -514,12 +514,12 @@ const routes = [
                 pt: 'o Local',
             },
             http_requests: {
-                getBadges: 'http://localhost:8001/v0/badges/',
-                getCollections: 'http://localhost:8001/v0/collections/',
-                getLocations: 'http://localhost:8001/v0/locations/',
-                getRewards: 'http://localhost:8001/v0/rewards/',
+                getBadges: 'https://api-dev.badgio.pt/v0/badges/',
+                getCollections: 'https://api-dev.badgio.pt/v0/collections/',
+                getLocations: 'https://api-dev.badgio.pt/v0/locations/',
+                getRewards: 'https://api-dev.badgio.pt/v0/rewards/',
             },
-            getLink: 'http://localhost:8001/v0/locations/',
+            getLink: 'https://api-dev.badgio.pt/v0/locations/',
         },
     },
     {
@@ -604,7 +604,7 @@ const routes = [
                     },
                 },
             },
-            getLink: 'http://localhost:8001/v0/locations/',
+            getLink: 'https://api-dev.badgio.pt/v0/locations/',
             twoCards: true,
             showTable: false,
         }
@@ -637,7 +637,7 @@ const routes = [
             },
             type: 'collections',
             toLink: '/newcollection',
-            getLink: 'http://localhost:8001/v0/collections/',
+            getLink: 'https://api-dev.badgio.pt/v0/collections/',
             
         }
     },
@@ -674,12 +674,12 @@ const routes = [
                 pt: 'a Coleção',
             },
             http_requests: {
-                getBadges: 'http://localhost:8001/v0/badges/',
-                getCollections: 'http://localhost:8001/v0/collections/',
-                getLocations: 'http://localhost:8001/v0/locations/',
-                getRewards: 'http://localhost:8001/v0/rewards/',
+                getBadges: 'https://api-dev.badgio.pt/v0/badges/',
+                getCollections: 'https://api-dev.badgio.pt/v0/collections/',
+                getLocations: 'https://api-dev.badgio.pt/v0/locations/',
+                getRewards: 'https://api-dev.badgio.pt/v0/rewards/',
             },
-            getLink: 'http://localhost:8001/v0/collections/',
+            getLink: 'https://api-dev.badgio.pt/v0/collections/',
         },
     },
     {
@@ -713,10 +713,10 @@ const routes = [
             },
             path: '/collections',
             http_request: {
-                getLocations: 'http://localhost:8001/v0/locations/',
-                getBadges: 'http://localhost:8001/v0/badges/'
+                getLocations: 'https://api-dev.badgio.pt/v0/locations/',
+                getBadges: 'https://api-dev.badgio.pt/v0/badges/'
             },
-            postLink: 'http://localhost:8001/v0/collections/'
+            postLink: 'https://api-dev.badgio.pt/v0/collections/'
         }
     },
     {
@@ -801,7 +801,7 @@ const routes = [
                     },
                 },
             },
-            getLink: 'http://localhost:8001/v0/collections/',
+            getLink: 'https://api-dev.badgio.pt/v0/collections/',
             twoCards: true,
             showTable: true,
         }
