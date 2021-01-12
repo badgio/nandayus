@@ -198,10 +198,10 @@ export default {
       console.log(data);
 
       if (this.form.user_type == "manager") {
-        postLink = "http://localhost:8001/v0/users/managers";
+        postLink = "https://api-dev.badgio.pt/v0/users/managers";
       }
       if (this.form.user_type == "promoter") {
-        postLink = "http://localhost:8001/v0/users/promoters";
+        postLink = "https://api-dev.badgio.pt/v0/users/promoters";
       }
       await axios
         .post(postLink, data)

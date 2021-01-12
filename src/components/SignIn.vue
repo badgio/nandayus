@@ -167,7 +167,7 @@ export default {
               console.log("Id Token", idToken);
               store.dispatch('setToken', idToken);
               await axios
-                      .get('http://localhost:8001/v0/users/profile', {
+                      .get('https://api-dev.badgio.pt/v0/users/profile', {
                               headers: {
                                   'Access-Control-Allow-Origin': '*',
                                   'Content-type': 'application/json',

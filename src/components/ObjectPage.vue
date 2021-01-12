@@ -818,11 +818,14 @@
                         // Get Badges associated with the location
                         
                         await axios
-                            .get(this.http_requests.getBadges + '?location__uuid=\'' + this.object.uuid + '\'', {
+                            .get(this.http_requests.getBadges, {
                                     headers: {
                                         'Access-Control-Allow-Origin': '*',
                                         'Content-type': 'application/json',
                                         authorization: 'Bearer ' + idToken
+                                    },
+                                    params: {
+                                        location__uuid: this.object.uuid,
                                     },
                                 }
                             )
@@ -842,11 +845,14 @@
                         // Get Rewards associated with the location
                         
                         await axios
-                            .get(this.http_requests.getRewards + '?location__uuid=\'' + this.object.uuid + '\'', {
+                            .get(this.http_requests.getRewards , {
                                     headers: {
                                         'Access-Control-Allow-Origin': '*',
                                         'Content-type': 'application/json',
                                         authorization: 'Bearer ' + idToken
+                                    },
+                                    params: {
+                                        location__uuid: this.object.uuid,
                                     },
                                 }
                             )
@@ -892,11 +898,14 @@
                         // Get Collections associated with the reward
                         
                         await axios
-                            .get(this.http_requests.getCollections + '?reward__uuid=\'' + this.object.uuid + '\'', {
+                            .get(this.http_requests.getCollections , {
                                     headers: {
                                         'Access-Control-Allow-Origin': '*',
                                         'Content-type': 'application/json',
                                         authorization: 'Bearer ' + idToken
+                                    },
+                                    params: {
+                                        reward__uuid: this.object.uuid,
                                     },
                                 }
                             )
