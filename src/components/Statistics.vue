@@ -684,19 +684,22 @@
                 var datasets = [];
                 var data_values={};
 
-                var min_index = this.chart.data.dates.findIndex(x => x == min_date)
+                var min_index = this.chart.data.dates.findIndex(x => x == min_date);
 
-                var max_index = this.chart.data.dates.findIndex(x => x == max_date)
+                var max_index = this.chart.data.dates.findIndex(x => x == max_date);
                 
-                         
+                var size = this.chart.data.dates.length;   
+                var counter=0;  
                 // adjust min_date if selected date has no visitors
-                if (min_index==-1) {
-                    while(min_index==-1){
+                if (min_index==-1 ) {
+                    while(min_index==-1 && counter<size){
                         var nwdate =  new Date(min_date);
                         nwdate.setDate(nwdate.getDate()+1);
                         min_date =[nwdate.getFullYear(),nwdate.getMonth()+1,nwdate.getDate()].join('-');
-                        min_index = this.chart.data.dates.findIndex(x => x == min_date)
+                        min_index = this.chart.data.dates.findIndex(x => x == min_date);
+                        counter+=1;
                     }
+                    counter=0;
                 } 
                 // adjust max_date if selected date has no visitors
                  if (max_index==-1) {
@@ -705,7 +708,9 @@
                         nwdate.setDate(nwdate.getDate()-1);
                         max_date =[nwdate.getFullYear(),nwdate.getMonth()+1,nwdate.getDate()].join('-');
                         max_index = this.chart.data.dates.findIndex(x => x == max_date);
+                        counter+=1;
                     }
+                    counter=0;
                 } 
                 
                 this.chartdata.labels = this.chart.data.dates.slice(min_index, max_index+1);
