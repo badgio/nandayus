@@ -597,11 +597,11 @@
                             this.total_visitors= res.data[0]['Total_visitors'];
                             this.redeemed_rewards= res.data[0]['Redeemed_rewards'];
                             
-                             if (this.total_visitors>0 || this.redeemed_rewards>0 ){ 
+                            if (this.total_visitors>0 || this.redeemed_rewards>0 ){ 
                                 this.busiest_day= this.translate[res.data[0]['Busiest_day']][this.selected_language];
-                                this.most_common_country= res.data[0]['Most_common_country'];
-                                this.most_common_age_range= this.translate[res.data[0]['Most_common_age_range']][this.selected_language];                
-                                this.most_common_gender= this.translate[res.data[0]['Most_common_gender']][this.selected_language];
+                                if (res.data[0]['Most_common_country']) this.most_common_country= res.data[0]['Most_common_country'];
+                                if (res.data[0]['Most_common_age_range']) this.most_common_age_range= this.translate[res.data[0]['Most_common_age_range']][this.selected_language];                
+                                if (res.data[0]['Most_common_gender']) this.most_common_gender= this.translate[res.data[0]['Most_common_gender']][this.selected_language];
                                 this.week_stats=res.data[0];
                             }
 
