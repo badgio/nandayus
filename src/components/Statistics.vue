@@ -376,26 +376,6 @@
                         en: 'Sunday',
                         pt: 'Domingo'
                     },
-                    Portugal: {
-                        en: 'Portugal',
-                        pt: 'Portugal'
-                    },
-                    Spain: {
-                        en: 'Spain',
-                        pt: 'Espanha'
-                    },
-                    France: {
-                        en: 'France',
-                        pt: 'França'
-                    },
-                    Italy: {
-                        en: 'Italy',
-                        pt: 'Itália'
-                    },
-                    Germany: {
-                        en: 'Germany',
-                        pt: 'Alemanha'
-                    },
                     nvisitors: {
                         en: 'Nº of Visitors',
                         pt: 'Nº de Visitantes',
@@ -619,7 +599,7 @@
                             
                              if (this.total_visitors>0 || this.redeemed_rewards>0 ){ 
                                 this.busiest_day= this.translate[res.data[0]['Busiest_day']][this.selected_language];
-                                this.most_common_country= this.translate[res.data[0]['Most_common_country']][this.selected_language];
+                                this.most_common_country= res.data[0]['Most_common_country'];
                                 this.most_common_age_range= this.translate[res.data[0]['Most_common_age_range']][this.selected_language];                
                                 this.most_common_gender= this.translate[res.data[0]['Most_common_gender']][this.selected_language];
                                 this.week_stats=res.data[0];
