@@ -160,8 +160,12 @@
             async getObjects() {
                 var idToken = store.getters.getToken;
 
+                var user = store.getters.user;
+
+                var encodedEmail = encodeURIComponent(user.data.email)
+
                 await axios
-                    .get(this.getLink, {
+                    .get(this.getLink + '?created_by=' + encodedEmail, {
                             headers: {
                                 'Access-Control-Allow-Origin': '*',
                                 'Content-type': 'application/json',
