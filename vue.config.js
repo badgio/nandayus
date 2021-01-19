@@ -28,7 +28,7 @@ module.exports = {
     },
     proxy : {
       '/v0' : {
-        target: 'http:localhost:8001'
+        target: 'https://deploy-preview-101--nandayus-badgio.netlify.app'
       }
     }
   }
