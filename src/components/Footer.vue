@@ -162,7 +162,6 @@ export default {
     methods: {
         changeLanguage() {
             this.display_language = this.selected_language;
-            console.log('stored_language: ', this.$store.getters.getLanguage);
         }
     }
     /*

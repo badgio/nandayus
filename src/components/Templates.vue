@@ -199,7 +199,6 @@
                                     }
                                 );
                             }
-                            console.log(this.objects)
                         }
                     )
                     .catch((err) => {

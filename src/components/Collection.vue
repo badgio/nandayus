@@ -364,7 +364,6 @@
         */
         methods: {
             submitForm(e) {
-                console.log('All gucci')
             },
             onFileChange(e) {
                 const file = e.target.files[0];

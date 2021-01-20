@@ -303,8 +303,6 @@
             async deleteObject(e) {
                 var idToken = store.getters.getToken;
 
-                console.log(this.delete_link)
-
                 const res = await axios.delete(this.delete_link, {
                     headers: {
                         'Access-Control-Allow-Origin': '*',
@@ -317,7 +315,6 @@
                     this.delete_link.lastIndexOf("/") + 1, 
                     this.delete_link.lastIndexOf("/")
                 );
-                console.log(mySubString)
 
                 if (res.status == 200) {
                     this.$router.push({ path: this.redirect_link })
@@ -327,7 +324,6 @@
                 }
             },
             submitForm(e) {
-                console.log('hello')
             },
         },
         /*
