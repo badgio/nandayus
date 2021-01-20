@@ -580,7 +580,6 @@
             async getObjects() {
 
                 var idToken = store.getters.getToken;
-                console.log(this.getLink, this.$route.params.uuid)
 
                 await axios
                     .get(this.getLink + this.$route.params.uuid + '/statistics', {
@@ -745,13 +744,10 @@
                     var hour=this.pad(x);
                     if (hour in this.second_chart_stats) {
                         visitors=0;
-                        console.log(hour);
                         for (var index = 0; index < this.chartdata.labels.length; index++) { 
-                            date=this.chartdata.labels[index]; 
-                            console.log(date);
+                            date=this.chartdata.labels[index];
                             if (date in this.second_chart_stats[hour]) visitors+=this.second_chart_stats[hour][date];       
-                        }
-                        console.log(visitors);           
+                        }        
                         this.chartData2.datasets[0].data[x] = visitors;
                     }
                     else {
@@ -759,15 +755,11 @@
                     }   
                 }   
 
-                console.log(this.chartData2.datasets[0].data['02'] );
-                console.log(this.chartData2.datasets[0].data['03'] );
-                console.log(this.chartData2.datasets[0] );
                 // update chart
                 this.$refs.barChart2.updateData();
 
             },
             updateChart(e) {
-                console.log('range: ', e.target.id, e.target.value);
                 if (e.target.id == 'min_date') {
                     // min_date
                     this.min_date_value = e.target.value;

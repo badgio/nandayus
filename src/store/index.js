@@ -70,7 +70,6 @@ export default new Vuex.Store({
           email: user.email,
         });
       } else {
-        console.log('user is not true')
         commit("SET_USER", {
           loggedIn: false,
           email: '',

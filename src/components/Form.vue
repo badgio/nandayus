@@ -844,8 +844,6 @@
                                 console.log(err);
                             }
                         )
-
-                console.log('this.locations: ', this.locations)
             }
             if (this.get_badges) {
                 // get jwt
@@ -878,8 +876,6 @@
                                 console.log(err);
                             }
                         )
-
-                console.log('this.badges: ', this.badges)
             }
             if(this.get_collections) {
                 // get jwt
@@ -912,8 +908,6 @@
                                 console.log(err);
                             }
                         )
-
-                console.log('this.collections: ' ,this.collections)
             }
         },
         /*
@@ -960,11 +954,9 @@
 
                 if (this.show_image) {
                     data.image = this.object.image;
-                    console.log(this.object.image);
                 }
 
                 if (this.get_badges) {
-                    //console.log('this.object.badges: ', this.object.badges);
                     if (this.object.badges.length && this.obligatory_badge) {
                         data.badges = []
                         this.object.badges.forEach(x => 
@@ -974,7 +966,6 @@
                         );
                     }
                     else {
-                        //console.log('Badge error')
                         this.warning_banner = true;
                         window.scrollTo(0,0);
                         return;
@@ -991,7 +982,6 @@
                         );
                     }
                     else {
-                        //console.log('Collection error')
                         this.warning_banner = true;
                         window.scrollTo(0,0);
                         return;
@@ -1003,7 +993,6 @@
                         data.location = this.object.locations.uuid;
                     }
                     else {
-                        //console.log('Location error')
                         this.warning_banner = true;
                         window.scrollTo(0,0);
                         return;
@@ -1017,15 +1006,12 @@
                     data.instagram = this.object.instagram;
                 }
 
-                console.log(data)
-
                 await axios.post(
                     this.postLink, 
                     data,
                     config
                 ).then(
                     response => {
-                        console.log('response', response)
                         if (response.status == 201) {
                             this.success_banner = true;
                             this.$router.push({ path: this.path + '/' + response.data.uuid })

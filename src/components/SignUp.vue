@@ -195,7 +195,6 @@ export default {
     async submitForm(e) {
       var data = this.form;
       var postLink = "";
-      console.log(data);
 
       if (this.form.user_type == "manager") {
         postLink = "https://api-dev.badgio.pt/v0/users/managers";
@@ -206,7 +205,6 @@ export default {
       await axios
         .post(postLink, data)
         .then((response) => {
-          console.log("response", response);
           if (response.status == 201) {
             this.success_banner = true;
           }

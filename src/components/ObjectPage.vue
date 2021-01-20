@@ -583,6 +583,10 @@
 
                 var idToken = store.getters.getToken;
 
+                var user = store.getters.user;
+
+                var userEmail = user.data.email;
+
                 await axios
                     .get(this.getLink + this.$route.params.uuid, {
                             headers: {
@@ -593,6 +597,15 @@
                         }
                     )
                     .then((res) => {
+                            if (this.type.en == 'Badge' || this.type.en == 'Collection' || this.type.en == 'Reward') {
+                                // creator is a promoter
+                                if (userEmail != res.data.promoter) this.$router.push({ path: '/badges' })
+                            }
+                            else {
+                                // creator is a manager
+                                if (userEmail != res.data.manager) this.$router.push({ path: '/locations' })
+                            }
+
                             /*
                                 General Attributes    
                             */
@@ -705,29 +718,6 @@
                                     }
                                 );
                         }
-
-                        /*
-                        // Get associated collections
-                        console.log('uuid: ', this.object.uuid)
-                        console.log('url: ', this.http_requests.getCollections + '?badge__uuid=\'' + this.object.uuid + '\'')
-                        await axios
-                                .get(this.http_requests.getCollections + '/?badge__uuid=\'' + this.object.uuid + '\'', {
-                                        headers: {
-                                            'Access-Control-Allow-Origin': '*',
-                                            'Content-type': 'application/json',
-                                            authorization: 'Bearer ' + idToken
-                                        },
-                                    }
-                                )
-                                .then((res) => {
-                                        console.log('Collections GET res: ', res);
-                                    }
-                                )
-                                .catch((err) => {
-                                        console.error(err)
-                                    }
-                                );
-                        */
                     }
                     
                     /*
@@ -759,15 +749,11 @@
                         
 
                         if (this.reward_uuid != null) {
-                            console.log('All Rewards: ', this.all_rewards)
                             var rew_uuid = this.all_rewards.map(b => {
                                 return b.uuid;
                             }).indexOf(this.reward_uuid);
-                            console.log('Rew UUID: ', rew_uuid)
                             this.object.reward = this.all_rewards[rew_uuid];
                         }
-
-                        else console.log('this.reward_uuid is null!');
 
                         /*
                             Get every badge
@@ -799,8 +785,6 @@
                                             );
                                         }
                                     })
-
-                                    console.log(this.all_badges);
                                 }
                             )
                             .catch((err) => {
@@ -973,8 +957,6 @@
                         authorization: 'Bearer ' + idToken
                     },
                 };
-                
-                console.log('toSend: ', toSend)
 
                 await axios
                     .patch(
