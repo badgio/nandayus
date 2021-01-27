@@ -587,6 +587,8 @@
 
                 var userEmail = user.data.email;
 
+                console.log(user.role)
+
                 await axios
                     .get(this.getLink + this.$route.params.uuid, {
                             headers: {
@@ -599,11 +601,11 @@
                     .then((res) => {
                             if (this.type.en == 'Badge' || this.type.en == 'Collection' || this.type.en == 'Reward') {
                                 // creator is a promoter
-                                if (userEmail != res.data.promoter) this.$router.push({ path: '/badges' })
+                                if ((userEmail != res.data.promoter) && (user.role != 'admin')) this.$router.push({ path: '/badges' })
                             }
                             else {
                                 // creator is a manager
-                                if (userEmail != res.data.manager) this.$router.push({ path: '/locations' })
+                                if ((userEmail != res.data.manager) && (user.role != 'admin')) this.$router.push({ path: '/locations' })
                             }
 
                             /*

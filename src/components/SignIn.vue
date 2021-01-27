@@ -194,6 +194,7 @@ export default {
                                 else {
                                   // user is an admin
                                   store.dispatch('setRole', 'admin');
+                                  console.log('dispatched role');
                                   this.$router.replace({ name: "badges" });
                                 }
                               }
