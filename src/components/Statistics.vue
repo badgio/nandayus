@@ -134,7 +134,7 @@
                 <input 
                     type="radio"
                     name="gender_checkbox"
-                    v-on:click="fillChartData(['Male','Female'], min_date_value, max_date_value)"
+                    v-on:click="fillChartData(['Male','Female','Other'], min_date_value, max_date_value)"
                     value="gender"
                     v-model="chart.pickedCheckbox"
                 >
