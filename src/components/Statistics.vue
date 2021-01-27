@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>
-            {{languageProp.pageTitle[this.selected_language]}} {{$route.params.uuid}}
+            {{languageProp.pageTitle[this.selected_language]}} - {{this.page_name}}
         </h2>
         <h3>
             {{this.translate['Week_report'][this.selected_language]}} 
@@ -202,7 +202,6 @@
     import store from '../store/index.js';
     import LineChart from './LineChart.vue';
     import BarChart from './BarChart.vue';
-
     export default {
         /*
             Global Awareness:
@@ -390,6 +389,7 @@
                     },
                 },
                 cat_name: '',
+                page_name: '',
                 total_visitors: '',
                 busiest_day: '',
                 most_common_age_range: '',
@@ -542,7 +542,6 @@
                 1. watch
             
             &
-
             Lifecycle Events ( by the order in which they are called ):
                 1. beforeCreate
                 2. created
@@ -560,12 +559,9 @@
         */
         async created() {
             await this.getObjects();
-
-
                 this.create_week_report();
                 this.create_main_chart();
                 this.create_second_chart();
-
                 // update chart
                 this.$refs.barChart.updateData();
                 this.$refs.barChart2.updateData();
@@ -578,9 +574,7 @@
         */
         methods: {
             async getObjects() {
-
                 var idToken = store.getters.getToken;
-
                 await axios
                     .get(this.getLink + this.$route.params.uuid + '/statistics', {
                             headers: {
@@ -592,22 +586,24 @@
                     )
                     .then((res) => {
                             
+                            //name
+                            this.page_name = res.data[0];
+                            console.log(res.data);
+
                             //Week Report
-                            this.total_visitors= res.data[0]['Total_visitors'];
-                            this.redeemed_rewards= res.data[0]['Redeemed_rewards'];
+                            this.total_visitors= res.data[1]['Total_visitors'];
+                            this.redeemed_rewards= res.data[1]['Redeemed_rewards'];
                             
                             if (this.total_visitors>0 || this.redeemed_rewards>0 ){ 
-                                this.busiest_day= this.translate[res.data[0]['Busiest_day']][this.selected_language];
-                                if (res.data[0]['Most_common_country']) this.most_common_country= res.data[0]['Most_common_country'];
-                                if (res.data[0]['Most_common_age_range']) this.most_common_age_range= this.translate[res.data[0]['Most_common_age_range']][this.selected_language];                
-                                if (res.data[0]['Most_common_gender']) this.most_common_gender= this.translate[res.data[0]['Most_common_gender']][this.selected_language];
+                                this.busiest_day= this.translate[res.data[1]['Busiest_day']][this.selected_language];
+                                if (res.data[1]['Most_common_country']) this.most_common_country= res.data[1]['Most_common_country'];
+                                if (res.data[1]['Most_common_age_range']) this.most_common_age_range= this.translate[res.data[1]['Most_common_age_range']][this.selected_language];                
+                                if (res.data[1]['Most_common_gender']) this.most_common_gender= this.translate[res.data[1]['Most_common_gender']][this.selected_language];
                                 this.week_stats=res.data[0];
                             }
-
                             //chart labels
                             var arrayOfStrings = this.getLink.split('/');
                             var type=arrayOfStrings[4];
-
                             if(type=='rewards'){
                                 this.chartData2.datasets[0].label= this.translate.nRedeemedRewards[this.selected_language];
                                 this.chartData_week.datasets[0].label= this.translate.nRedeemedRewards[this.selected_language];
@@ -624,28 +620,25 @@
                                     this.redeemed_rewards=null;    
                                 }
                             }
-
-
-
                             //Main Chart
-                            this.chart_data= (res.data[1]);
+                            this.chart_data= (res.data[2]);
                             this.dates= Object.keys(this.chart_data['General']);
                             this.chart.data.dates=this.dates
                             this.general_data = Object.values(this.chart_data['General']);
                             this.chart.data.general[0].data=this.general_data
-                            this.min_date_value=this.dates[0]
+                            this.min_date_value=this.dates[1]
                             this.max_date_value=this.dates[this.dates.length - 1 ]
                             this.countries= Object.keys(this.chart_data['Countries'])
-
                             //Second Chart
-                            this.second_chart_stats=res.data[2];
-
+                            this.second_chart_stats=res.data[3];
                             //Table Data
                             if(this.showTable){ 
-                            this.table_data=res.data[3];
+                            this.table_data=res.data[4];
      
-                            this.table_locations=Object.keys(res.data[3]);
+                            this.table_locations=Object.keys(res.data[4]);
                             }
+
+                            
                         }
                         
                     )
@@ -655,90 +648,86 @@
                     );
             },
             fillChartData(cat_name, min_date, max_date) {
-
-
                 this.chartdata.datasets = [];
                 var name='';    
                 var date='';    
                 var datasets = [];
                 var data_values={};
-
                 var min_index = this.chart.data.dates.findIndex(x => x == min_date);
-
                 var max_index = this.chart.data.dates.findIndex(x => x == max_date);
                 
-                var size = this.chart.data.dates.length;   
-                var counter=0;  
-                // adjust min_date if selected date has no visitors
-                if (min_index==-1 ) {
-                    while(min_index==-1 && counter<size){
-                        var nwdate =  new Date(min_date);
-                        nwdate.setDate(nwdate.getDate()+1);
-                        min_date =[nwdate.getFullYear(),nwdate.getMonth()+1,nwdate.getDate()].join('-');
-                        min_index = this.chart.data.dates.findIndex(x => x == min_date);
-                        counter+=1;
-                    }
-                    counter=0;
-                } 
-                // adjust max_date if selected date has no visitors
-                 if (max_index==-1) {
-                    while(max_index==-1){
-                        var nwdate =  new Date(max_date);
-                        nwdate.setDate(nwdate.getDate()-1);
-                        max_date =[nwdate.getFullYear(),nwdate.getMonth()+1,nwdate.getDate()].join('-');
-                        max_index = this.chart.data.dates.findIndex(x => x == max_date);
-                        counter+=1;
-                    }
-                    counter=0;
-                } 
+                var size = this.chart.data.dates.length;  
+                console.log(size) ;
+                var counter=0; 
                 
-                this.chartdata.labels = this.chart.data.dates.slice(min_index, max_index+1);
-
-                //create an array of data for each category
-                for (var index = 0; index < cat_name.length; index++) { 
-                    name=cat_name[index]; 
-                    data_values[name]=[];
-                } 
-
-                // fill array of data for each category
-                for (var index = 0; index < this.chartdata.labels.length; index++) { 
-                    date=this.chartdata.labels[index];
-                    for (var x = 0; x < cat_name.length; x++) { 
-                        name=cat_name[x];  
-                        if (name in this.chart_data)
-                            if (date in this.chart_data[name]) data_values[name][index]=this.chart_data[name][date]
-                            else data_values[name][index]=0
-                        else cat_name.splice(x,1)
+                if(size > 0){
+                    // adjust min_date if selected date has no visitors
+                    if (min_index==-1 ) {
+                        while(min_index==-1 && counter<size){
+                            var nwdate =  new Date(min_date);
+                            nwdate.setDate(nwdate.getDate()+1);
+                            min_date =[nwdate.getFullYear(),nwdate.getMonth()+1,nwdate.getDate()].join('-');
+                            min_index = this.chart.data.dates.findIndex(x => x == min_date);
+                            counter+=1;
+                        }
+                        counter=0;
                     } 
-                } 
+                    // adjust max_date if selected date has no visitors
+                    if (max_index==-1) {
+                        while(max_index==-1){
+                            var nwdate =  new Date(max_date);
+                            nwdate.setDate(nwdate.getDate()-1);
+                            max_date =[nwdate.getFullYear(),nwdate.getMonth()+1,nwdate.getDate()].join('-');
+                            max_index = this.chart.data.dates.findIndex(x => x == max_date);
+                            counter+=1;
+                        }
+                        counter=0;
+                    } 
 
-                // fill dataset
-                for (var index = 0; index < cat_name.length; index++) { 
-                    name=cat_name[index]; 
-                    var chosenColor = '#' + parseInt(Math.random() * 0xffffff).toString(16);
-                    if(JSON.stringify(this.chart_data[name])!=JSON.stringify({})){ 
-                        datasets.push(
-                            {
-                                label: this.translate[name][this.selected_language],
-                                fill: false,
-                                backgroundColor: chosenColor,
-                                borderColor: chosenColor,
-                                borderWidth: 3.5,
-                                data: data_values[name],
-                            }
-                        )
+                    console
+                    
+                    this.chartdata.labels = this.chart.data.dates.slice(min_index, max_index+1);
+                    //create an array of data for each category
+                    for (var index = 0; index < cat_name.length; index++) { 
+                        name=cat_name[index]; 
+                        data_values[name]=[];
+                    } 
+                    // fill array of data for each category
+                    for (var index = 0; index < this.chartdata.labels.length; index++) { 
+                        date=this.chartdata.labels[index];
+                        for (var x = 0; x < cat_name.length; x++) { 
+                            name=cat_name[x];  
+                            if (name in this.chart_data)
+                                if (date in this.chart_data[name]) data_values[name][index]=this.chart_data[name][date]
+                                else data_values[name][index]=0
+                            else cat_name.splice(x,1)
+                        } 
+                    } 
+                    // fill dataset
+                    for (var index = 0; index < cat_name.length; index++) { 
+                        name=cat_name[index]; 
+                        var chosenColor = '#' + parseInt(Math.random() * 0xffffff).toString(16);
+                        if(JSON.stringify(this.chart_data[name])!=JSON.stringify({})){ 
+                            datasets.push(
+                                {
+                                    label: this.translate[name][this.selected_language],
+                                    fill: false,
+                                    backgroundColor: chosenColor,
+                                    borderColor: chosenColor,
+                                    borderWidth: 3.5,
+                                    data: data_values[name],
+                                }
+                            )
+                        }
                     }
-                }
-                this.chartdata.datasets = datasets;
-
-                // update chart
-                this.$refs.lineChart.updateData();
-
+                    this.chartdata.datasets = datasets;
+                    // update chart
+                    this.$refs.lineChart.updateData();
+                    }
             },
             fillChartData2(min_date, max_date) {   
                 var date='';    
                 var visitors;
-
                 //second chart
                 for (var x = 0; x < 24; x++) { 
                     var hour=this.pad(x);
@@ -754,10 +743,8 @@
                         this.chartData2.datasets[0].data[x] = 0;
                     }   
                 }   
-
                 // update chart
                 this.$refs.barChart2.updateData();
-
             },
             updateChart(e) {
                 if (e.target.id == 'min_date') {
@@ -791,10 +778,8 @@
                 }    
             },
             create_main_chart(){
-
                 this.chartdata.labels = this.chart.data.dates;
                 var datasets = [];
-
                 //Main Chart
                 var chosenColor = '#' + parseInt(Math.random() * 0xffffff).toString(16);
                 datasets.push(
@@ -826,28 +811,23 @@
             Rendering:
                 1. template / render
         */
-
     }
 </script>
 
 <style scoped>
-
 h2 {
     padding: 25px 0px 0px 25px;
     color: #0a4870;
     font-weight: bold;
 }
-
 h3 {
     margin: 10px 25px 10px;
     color: #0a4870;
     font-weight: bold;
 }
-
 hr {
     margin: 25px 0px 25px 0px;
 }
-
 .card_container {
     width: 95%;
     margin: 0 auto 15px;
@@ -855,7 +835,6 @@ hr {
     flex-wrap: wrap;
     justify-content: space-evenly;
 }
-
 .card {
     width: 30%;
     min-width: 250px;
@@ -867,7 +846,6 @@ hr {
     margin: 10px auto 15px;
     text-align: center;
 }
-
 .card2 {
     width: 350px;
     min-width: 250px;
@@ -880,19 +858,16 @@ hr {
     text-align: center;
     vertical-align: middle;
 }
-
 .chart_container {
     width: 75%;
     min-height: 250px;
     margin: 10px auto 10px;
 }
-
 .chart_container2 {
     width: 500px;
     margin: 25px auto 25px;
     
 }
-
 .buttons_container1 {
     width: 75%;
     margin: 0 auto 15px;
@@ -900,7 +875,6 @@ hr {
     flex-wrap: wrap;
     justify-content: space-evenly;
 }
-
 .buttons_container2 {
     width: 45%;
     margin: 5px  auto 0px;
@@ -908,7 +882,6 @@ hr {
     flex-wrap: wrap;
     justify-content: space-evenly;
 }
-
 .controller_button {
     border: 1px solid #999;
     border-radius: 5px;
@@ -925,76 +898,60 @@ hr {
     margin: 10px auto 10px;
     cursor: pointer;
 }
-
 /*
     Table Styling
 */
-
 /*
     Spacing
 */
-
 table {
   
   width: 100%;
   border-collapse: collapse;
 }
-
 thead th:nth-child(1) {
   width: 30%;
 }
-
 thead th:nth-child(2) {
   width: 20%;
 }
-
 thead th:nth-child(3) {
   width: 15%;
 }
-
 thead th:nth-child(4) {
   width: 35%;
 }
-
 th, td {
   border: 1px solid #ddd;
   text-align: center;
   padding: 8px;
 }
-
 /*
     Graphics and colors
 */
-
 tr:hover {
     background-color: #ddd;
 } 
-
 th {
     padding-top: 12px;
     padding-bottom: 12px;
     background-color: #0a4870;
     color: white;
 }
-
 * {
     color: #444444;
 }
-
 h1 {
   padding : 25px;
   margin : auto;
   text-align : center;
 }
-
 p {
     font-size: 11px;
 }
-
 @media (max-width: 1030px) {
     input[type=date] {
         margin: 15px 5px 15px 5px;
     }
 }
-
 </style>
