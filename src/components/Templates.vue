@@ -162,10 +162,13 @@
 
                 var user = store.getters.user;
 
+                console.log(user.role);
+
                 var encodedEmail = encodeURIComponent(user.data.email)
 
-                await axios
-                    .get(this.getLink + '?created_by=' + encodedEmail, {
+                if (user.role == 'admin') {
+                    await axios
+                    .get(this.getLink, {
                             headers: {
                                 'Access-Control-Allow-Origin': '*',
                                 'Content-type': 'application/json',
@@ -205,6 +208,50 @@
                             console.error(err)
                         }
                     );
+                }
+                else {
+                    await axios
+                        .get(this.getLink + '?created_by=' + encodedEmail, {
+                                headers: {
+                                    'Access-Control-Allow-Origin': '*',
+                                    'Content-type': 'application/json',
+                                    authorization: 'Bearer ' + idToken
+                                },
+                            }
+                        )
+                        .then((res) => {
+                                for (let obj of res.data) {
+                                    this.objects.push(
+                                        {
+                                            id: obj.uuid,
+                                            name: obj.name,
+                                            description: obj.description,
+                                            statistics: {
+                                                url: '/' + this.type + '/' + obj.uuid + '/statistics/',
+                                                text: {
+                                                    en: 'Statistics',
+                                                    pt: 'Estatísticas'
+                                                }
+                                            },
+                                            management: {
+                                                url: '/' + this.type + '/' + obj.uuid,
+                                                text: {
+                                                    en: 'Management',
+                                                    pt: 'Gestão'
+                                                }
+                                            },
+                                            url: '/' + this.type + '/' + obj.uuid,
+                                            image_link: obj.image,
+                                        }
+                                    );
+                                }
+                            }
+                        )
+                        .catch((err) => {
+                                console.error(err)
+                            }
+                        );
+                }
             },
         },
         /*

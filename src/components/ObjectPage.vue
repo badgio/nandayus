@@ -587,6 +587,8 @@
 
                 var userEmail = user.data.email;
 
+                console.log(user.role)
+
                 await axios
                     .get(this.getLink + this.$route.params.uuid, {
                             headers: {
@@ -599,11 +601,11 @@
                     .then((res) => {
                             if (this.type.en == 'Badge' || this.type.en == 'Collection' || this.type.en == 'Reward') {
                                 // creator is a promoter
-                                if (userEmail != res.data.promoter) this.$router.push({ path: '/badges' })
+                                if ((userEmail != res.data.promoter) && (user.role != 'admin')) this.$router.push({ path: '/badges' })
                             }
                             else {
                                 // creator is a manager
-                                if (userEmail != res.data.manager) this.$router.push({ path: '/locations' })
+                                if ((userEmail != res.data.manager) && (user.role != 'admin')) this.$router.push({ path: '/locations' })
                             }
 
                             /*
@@ -711,6 +713,30 @@
                                 )
                                 .then((res) => {
                                         this.object.location = res.data;
+                                    }
+                                )
+                                .catch((err) => {
+                                        console.error(err)
+                                    }
+                                );
+
+                            await axios
+                                .get(this.http_requests.getCollections + '?badge=' + this.$route.params.uuid, {
+                                        headers: {
+                                            'Access-Control-Allow-Origin': '*',
+                                            'Content-type': 'application/json',
+                                            authorization: 'Bearer ' + idToken
+                                        },
+                                    }
+                                )
+                                .then((res) => {
+                                        res.data.forEach(x => {
+                                            this.object.collections.push(
+                                                {
+                                                    name: x.name
+                                                }
+                                            );
+                                        })
                                     }
                                 )
                                 .catch((err) => {
@@ -825,6 +851,32 @@
                                     console.error(err)
                                 }
                             );
+
+                        // Get collection associated with the location
+
+                            await axios
+                                .get(this.http_requests.getCollections + '?location=' + this.$route.params.uuid, {
+                                        headers: {
+                                            'Access-Control-Allow-Origin': '*',
+                                            'Content-type': 'application/json',
+                                            authorization: 'Bearer ' + idToken
+                                        },
+                                    }
+                                )
+                                .then((res) => {
+                                        res.data.forEach(x => {
+                                            this.object.collections.push(
+                                                {
+                                                    name: x.name
+                                                }
+                                            );
+                                        })
+                                    }
+                                )
+                                .catch((err) => {
+                                        console.error(err)
+                                    }
+                                );
 
                         // Get Rewards associated with the location
                         
