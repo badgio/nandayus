@@ -707,10 +707,10 @@
                     for (var index = 0; index < cat_name.length; index++) { 
                         name=cat_name[index]; 
                         var chosenColor = '#' + parseInt(Math.random() * 0xffffff).toString(16);
-                        if(JSON.stringify(this.chart_data[name])!=JSON.stringify({})){ 
+                        if(this.chart_data[name]){ 
                             datasets.push(
                                 {
-                                    label: this.translate[name][this.selected_language],
+                                    label: name,
                                     fill: false,
                                     backgroundColor: chosenColor,
                                     borderColor: chosenColor,
