@@ -51,17 +51,17 @@
         {{ language.form_dismissal[this.selected_language] }}
       </div>
       <div 
-            class="alert success"
-            v-if="success_banner"
-            v-on:click="success_banner=false;"
-        >
-            <strong>
-                {{language.success_form.title[this.selected_language]}}
-            </strong>
-            {{language.success_form.text[this.selected_language]}}
-            <br>
-            {{language.form_dismissal[this.selected_language]}}
-        </div>
+          class="alert success"
+          v-if="success_banner"
+          v-on:click="success_banner=false;"
+      >
+          <strong>
+              {{language.success_form.title[this.selected_language]}}
+          </strong>
+          {{language.success_form.text[this.selected_language]}}
+          <br>
+          {{language.form_dismissal[this.selected_language]}}
+      </div>
     </form>
   </div>
 </template>
@@ -157,6 +157,7 @@ export default {
         password: "",
         user_type: "",
       },
+      success_banner: false,
       error_banner: false,
       error: null,
     };
