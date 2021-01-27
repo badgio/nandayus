@@ -337,8 +337,8 @@ const routes = [
             props: {
                 languageProp: {
                     pageTitle: {
-                        en: 'Statistics - Location ',
-                        pt: 'Estatísticas - Local ',
+                        en: 'Statistics - Reward ',
+                        pt: 'Estatísticas - Recompensa ',
                     },
                     totalVisitors: {
                         en: 'Total Nº of Visitors',
