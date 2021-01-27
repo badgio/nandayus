@@ -343,6 +343,10 @@
                         en: 'Female',
                         pt: 'Feminino'
                     },
+                    Other: {
+                        en: 'Other',
+                        pt: 'Outro'
+                    },
                     General: {
                         en: 'General',
                         pt: 'Geral'
