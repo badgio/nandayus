@@ -717,6 +717,30 @@
                                         console.error(err)
                                     }
                                 );
+
+                            await axios
+                                .get(this.http_requests.getCollections + '?badge=' + this.$route.params.uuid, {
+                                        headers: {
+                                            'Access-Control-Allow-Origin': '*',
+                                            'Content-type': 'application/json',
+                                            authorization: 'Bearer ' + idToken
+                                        },
+                                    }
+                                )
+                                .then((res) => {
+                                        res.data.forEach(x => {
+                                            this.object.collections.push(
+                                                {
+                                                    name: x.name
+                                                }
+                                            );
+                                        })
+                                    }
+                                )
+                                .catch((err) => {
+                                        console.error(err)
+                                    }
+                                );
                         }
                     }
                     
@@ -825,6 +849,32 @@
                                     console.error(err)
                                 }
                             );
+
+                        // Get collection associated with the location
+
+                            await axios
+                                .get(this.http_requests.getCollections + '?location=' + this.$route.params.uuid, {
+                                        headers: {
+                                            'Access-Control-Allow-Origin': '*',
+                                            'Content-type': 'application/json',
+                                            authorization: 'Bearer ' + idToken
+                                        },
+                                    }
+                                )
+                                .then((res) => {
+                                        res.data.forEach(x => {
+                                            this.object.collections.push(
+                                                {
+                                                    name: x.name
+                                                }
+                                            );
+                                        })
+                                    }
+                                )
+                                .catch((err) => {
+                                        console.error(err)
+                                    }
+                                );
 
                         // Get Rewards associated with the location
                         
