@@ -1002,7 +1002,7 @@
                 if (this.social_networks) {
                     data.website = this.object.website;
                     data.facebook = this.object.facebook;
-                    data.twitter = this.object.facebook;
+                    data.twitter = this.object.twitter;
                     data.instagram = this.object.instagram;
                 }
 
