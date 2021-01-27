@@ -476,50 +476,6 @@
                 },
                 all_badges: [],
                 badges_uuid: [],
-                all_collections: [
-                    {
-                        id: '1',
-                        name: 'André Gonçalves',
-                        description: 'Description Description Description Description Description Description Description Description Description Description #1',
-                        image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
-                    },
-                    {
-                        id: '2',
-                        name: 'Diogo Gonçalves',
-                        description: 'Description Description Description Description Description Description Description Description Description Description #2',
-                        image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
-                    },
-                    {
-                        id: '3',
-                        name: 'Francisco Francisco Francisco Reinolds',
-                        description: 'Description Description Description Description Description Description Description Description Description Description #3',
-                        image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
-                    },
-                    {
-                        id: '4',
-                        name: 'José Costa',
-                        description: 'Description Description Description Description Description Description Description Description Description Description #1',
-                        image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
-                    },
-                    {
-                        id: '5',
-                        name: 'Luís Alves',
-                        description: 'Description Description Description Description Description Description Description Description Description Description #2',
-                        image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
-                    },
-                    {
-                        id: '6',
-                        name: 'Miguel Carvalho',
-                        description: 'Description Description Description Description Description Description Description Description Description Description #3',
-                        image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
-                    },
-                    {
-                        id: '7',
-                        name: 'Rafaela Rodrigues',
-                        description: 'Description Description Description Description Description Description Description Description Description Description #3',
-                        image: 'https://media.istockphoto.com/photos/staff-working-behind-counter-in-busy-coffee-shop-picture-id900816038'
-                    },
-                ],
                 all_locations: [],
                 location_uuid: null,
                 all_rewards: [],
