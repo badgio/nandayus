@@ -599,7 +599,7 @@
                                 if (res.data[1]['Most_common_country']) this.most_common_country= res.data[1]['Most_common_country'];
                                 if (res.data[1]['Most_common_age_range']) this.most_common_age_range= this.translate[res.data[1]['Most_common_age_range']][this.selected_language];                
                                 if (res.data[1]['Most_common_gender']) this.most_common_gender= this.translate[res.data[1]['Most_common_gender']][this.selected_language];
-                                this.week_stats=res.data[0];
+                                this.week_stats=res.data[1];
                             }
                             //chart labels
                             var arrayOfStrings = this.getLink.split('/');
@@ -623,12 +623,12 @@
                             //Main Chart
                             this.chart_data= (res.data[2]);
                             this.dates= Object.keys(this.chart_data['General']);
-                            this.chart.data.dates=this.dates
+                            this.chart.data.dates=this.dates;
                             this.general_data = Object.values(this.chart_data['General']);
-                            this.chart.data.general[0].data=this.general_data
-                            this.min_date_value=this.dates[1]
-                            this.max_date_value=this.dates[this.dates.length - 1 ]
-                            this.countries= Object.keys(this.chart_data['Countries'])
+                            this.chart.data.general[0].data=this.general_data;
+                            this.min_date_value=this.dates[0];
+                            this.max_date_value=this.dates[this.dates.length - 1 ];
+                            this.countries= Object.keys(this.chart_data['Countries']);
                             //Second Chart
                             this.second_chart_stats=res.data[3];
                             //Table Data
