@@ -623,6 +623,7 @@
                             //Main Chart
                             this.chart_data= (res.data[2]);
                             this.dates= Object.keys(this.chart_data['General']);
+                            console.log(this.dates);
                             this.chart.data.dates=this.dates;
                             this.general_data = Object.values(this.chart_data['General']);
                             this.chart.data.general[0].data=this.general_data;
