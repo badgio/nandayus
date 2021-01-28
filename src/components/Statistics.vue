@@ -134,7 +134,7 @@
                 <input 
                     type="radio"
                     name="gender_checkbox"
-                    v-on:click="fillChartData(['Male','Female'], min_date_value, max_date_value)"
+                    v-on:click="fillChartData(['Male','Female','Other'], min_date_value, max_date_value)"
                     value="gender"
                     v-model="chart.pickedCheckbox"
                 >
@@ -281,10 +281,13 @@
                         yAxes: [
                             {
                                 scaleLabel: {
-                                    display: true,
+                                    display: true,                     
                                     labelString: '',
+                                },
+                                ticks: {
+                                    beginAtZero: true
                                 }
-                            }
+                            },
                         ],
                         xAxes: [
                             {
@@ -342,6 +345,10 @@
                     Female: {
                         en: 'Female',
                         pt: 'Feminino'
+                    },
+                    Other: {
+                        en: 'Other',
+                        pt: 'Outro'
                     },
                     General: {
                         en: 'General',
@@ -429,7 +436,7 @@
                 max_date_value: '',
                 dates:'',
                 countries:[],
-                general_data:'',
+                general_data:[],
                 table_data:[],   
                 table_locations:[],
                 table_values:[],
@@ -588,7 +595,6 @@
                             
                             //name
                             this.page_name = res.data[0];
-                            console.log(res.data);
 
                             //Week Report
                             this.total_visitors= res.data[1]['Total_visitors'];
@@ -623,8 +629,13 @@
                             //Main Chart
                             this.chart_data= (res.data[2]);
                             this.dates= Object.keys(this.chart_data['General']);
+                            this.dates.sort();
+                            var counter=0;
+                            while(counter<this.dates.length){
+                                this.general_data[counter]=(this.chart_data['General'][this.dates[counter]]);
+                                counter+=1;
+                            }
                             this.chart.data.dates=this.dates;
-                            this.general_data = Object.values(this.chart_data['General']);
                             this.chart.data.general[0].data=this.general_data;
                             this.min_date_value=this.dates[0];
                             this.max_date_value=this.dates[this.dates.length - 1 ];
@@ -657,50 +668,37 @@
                 var max_index = this.chart.data.dates.findIndex(x => x == max_date);
                 
                 var size = this.chart.data.dates.length;  
-                console.log(size) ;
-                var counter=0; 
+                var index;
                 
                 if(size > 0){
                     // adjust min_date if selected date has no visitors
                     if (min_index==-1 ) {
-                        while(min_index==-1 && counter<size){
-                            var nwdate =  new Date(min_date);
-                            nwdate.setDate(nwdate.getDate()+1);
-                            min_date =[nwdate.getFullYear(),nwdate.getMonth()+1,nwdate.getDate()].join('-');
-                            min_index = this.chart.data.dates.findIndex(x => x == min_date);
-                            counter+=1;
-                        }
-                        counter=0;
+                        this.chart.data.dates.push(min_date);
+                        this.chart.data.dates.sort();
                     } 
+                    
                     // adjust max_date if selected date has no visitors
                     if (max_index==-1) {
-                        while(max_index==-1){
-                            var nwdate =  new Date(max_date);
-                            nwdate.setDate(nwdate.getDate()-1);
-                            max_date =[nwdate.getFullYear(),nwdate.getMonth()+1,nwdate.getDate()].join('-');
-                            max_index = this.chart.data.dates.findIndex(x => x == max_date);
-                            counter+=1;
-                        }
-                        counter=0;
-                    } 
-
-                    console
-                    
+                        this.chart.data.dates.push(max_date);
+                        this.chart.data.dates.sort();
+                    }        
+                  
                     this.chartdata.labels = this.chart.data.dates.slice(min_index, max_index+1);
                     //create an array of data for each category
                     for (var index = 0; index < cat_name.length; index++) { 
                         name=cat_name[index]; 
                         data_values[name]=[];
                     } 
+
                     // fill array of data for each category
                     for (var index = 0; index < this.chartdata.labels.length; index++) { 
                         date=this.chartdata.labels[index];
+
                         for (var x = 0; x < cat_name.length; x++) { 
                             name=cat_name[x];  
                             if (name in this.chart_data)
                                 if (date in this.chart_data[name]) data_values[name][index]=this.chart_data[name][date]
                                 else data_values[name][index]=0
-                            else cat_name.splice(x,1)
                         } 
                     } 
                     // fill dataset
