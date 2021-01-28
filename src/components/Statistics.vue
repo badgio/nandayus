@@ -592,7 +592,6 @@
                             
                             //name
                             this.page_name = res.data[0];
-                            console.log(res.data);
 
                             //Week Report
                             this.total_visitors= res.data[1]['Total_visitors'];
@@ -666,8 +665,6 @@
                 var max_index = this.chart.data.dates.findIndex(x => x == max_date);
                 
                 var size = this.chart.data.dates.length;  
-                console.log(size) ;
-                var counter=0; 
                 var index;
                 
                 if(size > 0){
@@ -689,15 +686,16 @@
                         name=cat_name[index]; 
                         data_values[name]=[];
                     } 
+
                     // fill array of data for each category
                     for (var index = 0; index < this.chartdata.labels.length; index++) { 
                         date=this.chartdata.labels[index];
+
                         for (var x = 0; x < cat_name.length; x++) { 
                             name=cat_name[x];  
                             if (name in this.chart_data)
                                 if (date in this.chart_data[name]) data_values[name][index]=this.chart_data[name][date]
                                 else data_values[name][index]=0
-                            else cat_name.splice(x,1)
                         } 
                     } 
                     // fill dataset
