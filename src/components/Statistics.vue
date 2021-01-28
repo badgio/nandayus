@@ -281,10 +281,13 @@
                         yAxes: [
                             {
                                 scaleLabel: {
-                                    display: true,
+                                    display: true,                     
                                     labelString: '',
+                                },
+                                ticks: {
+                                    beginAtZero: true
                                 }
-                            }
+                            },
                         ],
                         xAxes: [
                             {
