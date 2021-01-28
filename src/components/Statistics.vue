@@ -285,7 +285,8 @@
                                     labelString: '',
                                 },
                                 ticks: {
-                                    beginAtZero: true
+                                    beginAtZero: true,
+                                    precision: 0,
                                 }
                             },
                         ],
@@ -303,7 +304,8 @@
                     scales: {
                         yAxes: [{
                         ticks: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            precision: 0,
                         },
                         gridLines: {
                             display: true
@@ -327,16 +329,16 @@
                         pt: 'Relatório semanal'
                     },
                     Young: {
-                        en: 'Young',
-                        pt: 'Jovem'
+                        en: 'Young (<18)',
+                        pt: 'Jovem (<18)'
                     },
                     Adult: {
-                        en: 'Adult',
-                        pt: 'Adulto'
+                        en: 'Adult (18-65)',
+                        pt: 'Adulto (18-65)'
                     },
                     Elder: {
-                        en: 'Elder',
-                        pt: 'Idoso'
+                        en: 'Elder (>65)',
+                        pt: 'Idoso (>65)'
                     },
                     Male: {
                         en: 'Male',
@@ -507,7 +509,8 @@
                         scales: {
                             yAxes: [{
                             ticks: {
-                                beginAtZero: true
+                                beginAtZero: true,
+                                precision: 0,
                             },
                             gridLines: {
                                 display: true
@@ -706,17 +709,31 @@
                         name=cat_name[index]; 
                         var chosenColor = '#' + parseInt(Math.random() * 0xffffff).toString(16);
                         if(this.chart_data[name]){ 
-                            datasets.push(
-                                {
-                                    label: name,
-                                    fill: false,
-                                    backgroundColor: chosenColor,
-                                    borderColor: chosenColor,
-                                    borderWidth: 3.5,
-                                    data: data_values[name],
-                                }
-                            )
-                        }
+                            if (name=='General' || name=='Female' || name=='Male' || name=='Other' || name=='Young' || name=='Adult' || name=='Elder'){
+                                datasets.push(
+                                    {
+                                        label: this.translate[name][this.selected_language],
+                                        fill: false,
+                                        backgroundColor: chosenColor,
+                                        borderColor: chosenColor,
+                                        borderWidth: 3.5,
+                                        data: data_values[name],
+                                    }
+                                )
+                            }
+                            else {
+                                datasets.push(
+                                    {
+                                        label: name,
+                                        fill: false,
+                                        backgroundColor: chosenColor,
+                                        borderColor: chosenColor,
+                                        borderWidth: 3.5,
+                                        data: data_values[name],
+                                    }
+                                )
+                            }
+                        }  
                     }
                     this.chartdata.datasets = datasets;
                     // update chart
