@@ -198,7 +198,6 @@
 
 <script>
     import axios from 'axios';
-    import firebase from "firebase";
     import store from '../store/index.js';
     import LineChart from './LineChart.vue';
     import BarChart from './BarChart.vue';
@@ -303,6 +302,10 @@
                 options_week: {
                     scales: {
                         yAxes: [{
+                        scaleLabel: {
+                                display: true,                     
+                                labelString: '',
+                        },
                         ticks: {
                             beginAtZero: true,
                             precision: 0,
@@ -318,7 +321,7 @@
                         }]
                     },
                     legend: {
-                        display: true
+                        display: false
                     },
                     responsive: true,
                     maintainAspectRatio: false
@@ -408,7 +411,6 @@
                 week_stats: {},
                 second_chart_stats: {},
                 chartData_week: {
-                    labels: [],
                     datasets: [{
                         label: '',
                         borderWidth: 1,
@@ -447,7 +449,6 @@
                         "17h-18h", "18h-19h", "19h-20h","20h-21h", "21h-22h", "22h-23h","23h-24h"
                     ],
                     datasets: [{
-                        label: '',
                         borderWidth: 1,
                         backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
@@ -508,6 +509,10 @@
                     options2: {
                         scales: {
                             yAxes: [{
+                            scaleLabel: {
+                                display: true,                     
+                                labelString: '',
+                            },
                             ticks: {
                                 beginAtZero: true,
                                 precision: 0,
@@ -523,7 +528,7 @@
                             }]
                         },
                         legend: {
-                            display: true
+                            display: false
                         },
                         responsive: true,
                         maintainAspectRatio: false
@@ -614,15 +619,15 @@
                             var arrayOfStrings = this.getLink.split('/');
                             var type=arrayOfStrings[4];
                             if(type=='rewards'){
-                                this.chartData2.datasets[0].label= this.translate.nRedeemedRewards[this.selected_language];
-                                this.chartData_week.datasets[0].label= this.translate.nRedeemedRewards[this.selected_language];
+                                this.options2.scales.yAxes[0].scaleLabel.labelString= this.translate.nRedeemedRewards[this.selected_language];
+                                this.options_week.scales.yAxes[0].scaleLabel.labelString= this.translate.nRedeemedRewards[this.selected_language];
                                 this.options.scales.yAxes[0].scaleLabel.labelString=this.translate.nRedeemedRewards[this.selected_language];
                                 this.options.scales.xAxes[0].scaleLabel.labelString=this.translate.date[this.selected_language];
                                 this.total_visitors=null;
                             }
                             else{
-                                this.chartData2.datasets[0].label= this.translate.nvisitors[this.selected_language];
-                                this.chartData_week.datasets[0].label= this.translate.nvisitors[this.selected_language];
+                                this.options2.scales.yAxes[0].scaleLabel.labelString= this.translate.nvisitors[this.selected_language];
+                                this.options_week.scales.yAxes[0].scaleLabel.labelString= this.translate.nvisitors[this.selected_language];
                                 this.options.scales.yAxes[0].scaleLabel.labelString=this.translate.nvisitors[this.selected_language];
                                 this.options.scales.xAxes[0].scaleLabel.labelString=this.translate.date[this.selected_language];
                                 if(type=='badges'){
@@ -673,30 +678,30 @@
                 var size = this.chart.data.dates.length;  
                 var index;
                 
-                if(size > 0){
+                if (cat_name=='') cat_name=['General'];
+
+                if(size > 0){        
                     // adjust min_date if selected date has no visitors
                     if (min_index==-1 ) {
                         this.chart.data.dates.push(min_date);
                         this.chart.data.dates.sort();
-                    } 
-                    
+                        min_index = this.chart.data.dates.findIndex(x => x == min_date);
+                    }                   
                     // adjust max_date if selected date has no visitors
                     if (max_index==-1) {
                         this.chart.data.dates.push(max_date);
                         this.chart.data.dates.sort();
+                        max_index = this.chart.data.dates.findIndex(x => x == max_date);
                     }        
-                  
                     this.chartdata.labels = this.chart.data.dates.slice(min_index, max_index+1);
                     //create an array of data for each category
                     for (var index = 0; index < cat_name.length; index++) { 
                         name=cat_name[index]; 
                         data_values[name]=[];
                     } 
-
                     // fill array of data for each category
                     for (var index = 0; index < this.chartdata.labels.length; index++) { 
                         date=this.chartdata.labels[index];
-
                         for (var x = 0; x < cat_name.length; x++) { 
                             name=cat_name[x];  
                             if (name in this.chart_data)
@@ -740,7 +745,7 @@
                     this.$refs.lineChart.updateData();
                     }
             },
-            fillChartData2(min_date, max_date) {   
+            fillChartData2() {   
                 var date='';    
                 var visitors;
                 //second chart
@@ -771,7 +776,7 @@
                     this.max_date_value = e.target.value;
                 }
                 this.fillChartData(this.cat_name, this.min_date_value, this.max_date_value);
-                this.fillChartData2(this.min_date_value, this.max_date_value);
+                this.fillChartData2();
             },
             pad(d) {
                 return (d < 10) ? '0' + d.toString() : d.toString();
