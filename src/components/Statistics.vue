@@ -704,12 +704,14 @@
                         this.chart.data.dates.push(min_date);
                         this.chart.data.dates.sort();
                         min_index = this.chart.data.dates.findIndex(x => x == min_date);
+                        max_index = this.chart.data.dates.findIndex(x => x == max_date);
                     }                   
                     // adjust max_date if selected date has no visitors
                     if (max_index==-1) {
                         this.chart.data.dates.push(max_date);
                         this.chart.data.dates.sort();
                         max_index = this.chart.data.dates.findIndex(x => x == max_date);
+                        min_index = this.chart.data.dates.findIndex(x => x == min_date);
                     }        
                     this.chartdata.labels = this.chart.data.dates.slice(min_index, max_index+1);
                     //create an array of data for each category
